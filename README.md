@@ -12,3 +12,5 @@ YGOPro1要编译的话还是有点难度的，但是你找到的这个项目编�
 https://unity3d.com/cn/get-unity/download/archive
 3. 双击Assets\main.unity打开项目。
 4. 点击unity界面上方正中央的向右的三角形就可以玩了。（注意一定要是release里面找到的完整包，否则这之后还要复杂的文件配置。）
+
+遵守这四个步骤，绝对能编译成功。
