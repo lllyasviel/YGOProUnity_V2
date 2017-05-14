@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: eb3653d62088d6a4a8e661798eb33737
+timeCreated: 1480605786
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Smile_01
+    21300002: Wink
+    21300004: Bob
+    21300006: Default Sprite Atlas_3
+    21300008: Sad_01
+    21300010: Default Sprite Atlas_2
+    21300012: Wink_01
+    21300014: Whaaat
+    21300016: Default Sprite Atlas_6
+    21300018: Smile_0
+    21300020: Default Sprite Atlas_1
+    21300022: Default Sprite Atlas_4
+    21300024: Default Sprite Atlas_0
+    21300026: Default Sprite Atlas_5
+    21300028: Default Sprite Atlas_7
+    21300030: Default Sprite Atlas_8
+    21300032: Default Sprite Atlas_9
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Default Sprite Atlas_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 902
+        width: 105
+        height: 102
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_1
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 774
+        width: 105
+        height: 105
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_2
+      rect:
+        serializedVersion: 2
+        x: 652
+        y: 774
+        width: 105
+        height: 102
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_3
+      rect:
+        serializedVersion: 2
+        x: 908
+        y: 646
+        width: 105
+        height: 106
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_5
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 390
+        width: 105
+        height: 102
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_6
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 902
+        width: 105
+        height: 102
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_4
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 518
+        width: 105
+        height: 106
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_7
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 262
+        width: 127
+        height: 110
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_8
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 2
+        width: 350
+        height: 120
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Default Sprite Atlas_9
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 262
+        width: 105
+        height: 110
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

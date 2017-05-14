@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: ea873678223187e439f5dcb7373e1e09
+timeCreated: 1480605786
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: all_button_0
+    21300002: all_button_1
+    21300004: all_button_2
+    21300006: all_button_3
+    21300008: all_button_4
+    21300010: all_button_5
+    21300012: all_button_6
+    21300014: all_button_7
+    21300016: all_button_8
+    21300018: all_button_9
+    21300020: all_button_10
+    21300022: all_button_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: all_button_0
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 758
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_1
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 758
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_2
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 758
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_3
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 758
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_4
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 475
+        width: 249
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_5
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 475
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_6
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 479
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_7
+      rect:
+        serializedVersion: 2
+        x: 919
+        y: 475
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_8
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 199
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_9
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 199
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_10
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 199
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: all_button_11
+      rect:
+        serializedVersion: 2
+        x: 921
+        y: 199
+        width: 248
+        height: 248
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: button_ocgcore
+  userData: 
+  assetBundleName: 20170219
+  assetBundleVariant: 0201

@@ -1,0 +1,275 @@
+fileFormatVersion: 2
+guid: 7675202cdfb893546b11f2ba0663a5e3
+timeCreated: 1480605731
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: num2_0
+    21300002: num2_1
+    21300004: num2_2
+    21300006: num2_3
+    21300008: num2_4
+    21300010: num2_5
+    21300012: num2_6
+    21300014: num2_7
+    21300016: num2_8
+    21300018: num2_9
+    21300020: num2_10
+    21300022: num2_11
+    21300024: num2_12
+    21300026: num2_13
+    21300028: num2_14
+    21300030: num2_15
+    21300032: num2_16
+    21300034: num2_17
+    21300036: num2_18
+    21300038: num2_19
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: num2_0
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 557
+        width: 139
+        height: 165
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_1
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 562
+        width: 107
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_2
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 554
+        width: 138
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_3
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 556
+        width: 145
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_4
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 562
+        width: 154
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_5
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 551
+        width: 133
+        height: 178
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_6
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 370
+        width: 134
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_7
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 376
+        width: 143
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_8
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 375
+        width: 137
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_9
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 376
+        width: 133
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_10
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 201
+        width: 139
+        height: 165
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_11
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 206
+        width: 107
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_12
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 198
+        width: 138
+        height: 169
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_13
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 200
+        width: 145
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_14
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 206
+        width: 154
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_15
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 195
+        width: 133
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_16
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 15
+        width: 134
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_17
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 20
+        width: 143
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_18
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 19
+        width: 137
+        height: 172
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num2_19
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 20
+        width: 133
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: num2
+  userData: 
+  assetBundleName: 20170219
+  assetBundleVariant: 0201

@@ -1,0 +1,495 @@
+fileFormatVersion: 2
+guid: 218363161650c7748830a7eb5a54d9dc
+timeCreated: 1470120637
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: num_0
+    21300002: num_1
+    21300004: num_2
+    21300006: num_3
+    21300008: num_4
+    21300010: num_5
+    21300012: num_6
+    21300014: num_7
+    21300016: num_8
+    21300018: num_9
+    21300020: num_10
+    21300022: num_11
+    21300024: num_12
+    21300026: num_13
+    21300028: num_14
+    21300030: num_15
+    21300032: num_16
+    21300034: num_17
+    21300036: num_18
+    21300038: num_19
+    21300040: num_20
+    21300042: num_21
+    21300044: num_22
+    21300046: num_23
+    21300048: num_24
+    21300050: num_25
+    21300052: num_26
+    21300054: num_27
+    21300056: num_28
+    21300058: num_29
+    21300060: num_30
+    21300062: num_31
+    21300064: num_32
+    21300066: num_33
+    21300068: num_34
+    21300070: num_35
+    21300072: num_36
+    21300074: num_37
+    21300076: num_38
+    21300078: num_39
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: num_0
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 1251
+        width: 139
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_1
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 1257
+        width: 107
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_2
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 1249
+        width: 138
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_3
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 1250
+        width: 145
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_4
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 1257
+        width: 154
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_5
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 1245
+        width: 133
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_6
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 1065
+        width: 134
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_7
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 1070
+        width: 143
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_8
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 1070
+        width: 137
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_9
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 1070
+        width: 133
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_10
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 897
+        width: 135
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_11
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 902
+        width: 106
+        height: 155
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_12
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 894
+        width: 134
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_13
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 897
+        width: 143
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_14
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 902
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_15
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 891
+        width: 129
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_16
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 711
+        width: 132
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_17
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 716
+        width: 141
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_18
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 716
+        width: 135
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_19
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 716
+        width: 130
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_20
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 540
+        width: 139
+        height: 166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_21
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 545
+        width: 107
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_22
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 537
+        width: 138
+        height: 169
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_23
+      rect:
+        serializedVersion: 2
+        x: 557
+        y: 539
+        width: 145
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_24
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 545
+        width: 154
+        height: 157
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_25
+      rect:
+        serializedVersion: 2
+        x: 914
+        y: 534
+        width: 133
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_26
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 354
+        width: 134
+        height: 174
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_27
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 359
+        width: 143
+        height: 175
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_28
+      rect:
+        serializedVersion: 2
+        x: 381
+        y: 359
+        width: 137
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_29
+      rect:
+        serializedVersion: 2
+        x: 561
+        y: 359
+        width: 133
+        height: 171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_30
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 186
+        width: 135
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_31
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 191
+        width: 106
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_32
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 183
+        width: 134
+        height: 165
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_33
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 185
+        width: 143
+        height: 163
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_34
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 191
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_35
+      rect:
+        serializedVersion: 2
+        x: 916
+        y: 180
+        width: 129
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_36
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 0
+        width: 132
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_37
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 5
+        width: 141
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_38
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 5
+        width: 135
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: num_39
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 5
+        width: 130
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: ocgcore_numbers
+  userData: 
+  assetBundleName: 20170219
+  assetBundleVariant: 0201

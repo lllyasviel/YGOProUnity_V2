@@ -1,0 +1,162 @@
+fileFormatVersion: 2
+guid: 0cdb85adf33cc8d41a8ba512320e7c3b
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Circle001
+    100004: Circle002
+    100006: Circle004
+    100008: Circle005
+    100010: Dummy001
+    100012: Dummy002
+    100014: Dummy003
+    100016: Dummy004
+    100018: Circle006
+    100020: Circle007
+    100022: Circle008
+    100024: Circle009
+    100026: Circle010
+    100028: Circle011
+    100030: Circle012
+    100032: Dummy005
+    100034: Dummy006
+    100036: Dummy007
+    100038: Dummy008
+    100040: Dummy009
+    100042: Dummy010
+    100044: Dummy011
+    100046: Dummy012
+    400000: //RootNode
+    400002: Circle001
+    400004: Circle002
+    400006: Circle004
+    400008: Circle005
+    400010: Dummy001
+    400012: Dummy002
+    400014: Dummy003
+    400016: Dummy004
+    400018: Circle006
+    400020: Circle007
+    400022: Circle008
+    400024: Circle009
+    400026: Circle010
+    400028: Circle011
+    400030: Circle012
+    400032: Dummy005
+    400034: Dummy006
+    400036: Dummy007
+    400038: Dummy008
+    400040: Dummy009
+    400042: Dummy010
+    400044: Dummy011
+    400046: Dummy012
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Circle001
+        weight: 1
+      - path: Circle002
+        weight: 1
+      - path: Circle004
+        weight: 1
+      - path: Circle005
+        weight: 1
+      - path: Dummy001
+        weight: 1
+      - path: Dummy002
+        weight: 1
+      - path: Dummy003
+        weight: 1
+      - path: Dummy004
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .0299999993
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

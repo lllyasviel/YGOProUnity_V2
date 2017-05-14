@@ -1,0 +1,40 @@
+fileFormatVersion: 2
+guid: 1a1578b9753d2604f98d608cb4239e2f
+labels:
+- Text
+- TextMesh
+- Mesh
+- Glow
+- Shadow
+- Outline
+- Bevel
+- Pro
+- TextMeshPro
+- Kerning
+- Distance
+- Field
+- Signed
+- Font
+- Atlas
+- Creator
+- Advanced
+- Rendering
+- TrueType
+- Dynamic
+- Layout
+- Style
+- Styles
+- Fonts
+- SDF
+- Scene
+- GUI
+timeCreated: 1478780256
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: -101
+  icon: {fileID: 2800000, guid: 8e098d8d28c5182419f7a1c8b91ca722, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
