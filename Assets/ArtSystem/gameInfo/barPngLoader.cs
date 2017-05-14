@@ -62,7 +62,7 @@ public class barPngLoader : MonoBehaviour {
                             api_name.height = int.Parse(mats[1]);
                             break;
                         case "playerNameLable.color":
-                            Color.TryParseHexString(mats[1],out c);
+                            ColorUtility.TryParseHtmlString(mats[1].TrimStart('#'), out c);
                             api_name.color = c;
                             api_name.gradientTop = api_name.color;
                             break;
@@ -107,7 +107,7 @@ public class barPngLoader : MonoBehaviour {
                             api_healthHint.height = int.Parse(mats[1]);
                             break;
                         case "healthLable.color":
-                            Color.TryParseHexString(mats[1], out c);
+                            ColorUtility.TryParseHtmlString(mats[1].TrimStart('#'), out c);
                             api_healthHint.color = c;
                             api_healthHint.gradientTop = api_name.color;
                             break;
@@ -152,7 +152,7 @@ public class barPngLoader : MonoBehaviour {
                             api_timeHint.height = int.Parse(mats[1]);
                             break;
                         case "timeLable.color":
-                            Color.TryParseHexString(mats[1], out c);
+                            ColorUtility.TryParseHtmlString(mats[1].TrimStart('#'), out c);
                             api_timeHint.color = c;
                             api_timeHint.gradientTop = api_name.color;
                             break;

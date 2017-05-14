@@ -370,7 +370,7 @@ public class MegaMeshPage : MonoBehaviour
 			BuildTangents(mesh);
 
 		if ( optimize )
-			mesh.Optimize();
+			;
 
 		mesh.RecalculateBounds();
 	}
@@ -633,7 +633,7 @@ public class MegaMeshPage : MonoBehaviour
 			BuildTangents(mesh);
 
 		if ( optimize )
-			mesh.Optimize();
+			;
 
 		mesh.RecalculateBounds();
 	}

@@ -60,7 +60,7 @@ public class gameInfo : MonoBehaviour
                 child.gameObject.layer = gameObject.layer;
             }
             Color c;
-            UnityEngine.Color.TryParseHexString(Config.Getui("gameChainCheckArea.color"), out c);
+            ColorUtility.TryParseHtmlString(Config.Getui("gameChainCheckArea.fadecolor").TrimStart('#'), out c);
             UIHelper.getByName<UISprite>(UIHelper.getByName<UIToggle>(gameObject, "ignore_").gameObject, "Background").color = c;
             UIHelper.getByName<UISprite>(UIHelper.getByName<UIToggle>(gameObject, "watch_").gameObject, "Background").color = c;
         }

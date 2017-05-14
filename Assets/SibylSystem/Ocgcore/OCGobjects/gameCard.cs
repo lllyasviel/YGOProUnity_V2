@@ -2062,9 +2062,9 @@ public class gameCard : OCGobject
         flash.transform.SetParent(gameObject_face.transform, false);
         flash.transform.localPosition = Vector3.zero;
         Color tcl = Color.yellow;
-        Color.TryParseHexString(color, out tcl);
+        ColorUtility.TryParseHtmlString(color.TrimStart('#'), out tcl);
         flash.flashingStartColor = tcl;
-        Color.TryParseHexString("000000", out tcl);
+        ColorUtility.TryParseHtmlString("000000", out tcl);
         flash.flashingEndColor = tcl;
         return flash;
     }
@@ -2078,9 +2078,9 @@ public class gameCard : OCGobject
             MouseFlash.transform.SetParent(gameObject_face.transform, false);
             MouseFlash.transform.localPosition = Vector3.zero;
             Color tcl = Color.yellow;
-            Color.TryParseHexString("ff8000", out tcl);
+            ColorUtility.TryParseHtmlString("ff8000", out tcl);
             MouseFlash.flashingStartColor = tcl;
-            Color.TryParseHexString("ffffff", out tcl);
+            ColorUtility.TryParseHtmlString("ffffff", out tcl);
             MouseFlash.flashingEndColor = tcl;
         }
         MouseFlash.gameObject.SetActive(true);

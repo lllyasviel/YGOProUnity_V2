@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 // Copyright (C) 2014 Stephan Schaem - All Rights Reserved
 // This code can only be used under the standard Unity Asset Store End User License Agreementoutline
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
@@ -183,7 +185,7 @@ SubShader {
 				float4(input.texcoord0, UnpackUV(input.texcoord1.x)),
 				float4(alphaClip, scale, bias, weight),
 				float4(vert.xy-_MaskCoord.xy, .5/pixelSize.xy),
-				mul((float3x3)_EnvMatrix, _WorldSpaceCameraPos.xyz - mul(_Object2World, vert).xyz),
+				mul((float3x3)_EnvMatrix, _WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, vert).xyz),
 			#if (UNDERLAY_ON || UNDERLAY_INNER)
 				float4(input.texcoord0 + bOffset, bScale, bBias),
         underlayColor,
