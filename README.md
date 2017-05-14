@@ -8,3 +8,5 @@ This is only a temp readme in chinese. Later there will be a fine readme in many
 
 # 猴子都能1000%成功率编译的超级简单的编译指南如下
 YGOPro1要编译的话还是有点难度的，但是你找到的这个项目编译超级简单，成功率超高，猴子都能搞定。
+1. release里面找到全依赖的完整整合版代码包。
+2. 
