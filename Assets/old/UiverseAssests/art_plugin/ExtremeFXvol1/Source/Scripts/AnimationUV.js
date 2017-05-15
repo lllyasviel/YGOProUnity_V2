@@ -4,13 +4,14 @@ public var framesPerSecond = 10.0;
 public var loop:boolean;
 public var play:boolean = true;
 private var index:int; 
-private var offsettime;
+private var offsettime : float;
 public var Hidewhenstopplaying:boolean;
 function Start(){
 	offsettime = Time.time;
 }
 function Update () {
-	index = (Time.time - offsettime) * framesPerSecond;
+    var i  = (Time.time - offsettime) * framesPerSecond;
+	index = i;
 	if(play){
 	index = index % (uvAnimationTileX * uvAnimationTileY);
 	var size = Vector2 (1.0 / uvAnimationTileX, 1.0 / uvAnimationTileY);
@@ -25,7 +26,7 @@ function Update () {
 		if(index >= (uvAnimationTileX * uvAnimationTileY)-1){
 			play = false;
 			if(Hidewhenstopplaying){
-				GetComponent.<Renderer>().active = false;
+				(GetComponent.<Renderer>() as Renderer).enabled = false;
 			}
 		}
 	}

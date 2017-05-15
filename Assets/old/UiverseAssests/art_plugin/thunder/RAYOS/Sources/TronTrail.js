@@ -26,14 +26,15 @@ private var sections = new Array();
 function LateUpdate () {
 	var position = transform.position;
 	var now = Time.time;
-
+	var cur_section : TronTrailSection = sections[sections.length - 1];
 	// Remove old sections
-	while (sections.length > 0 && now > sections[sections.length - 1].time + time) {
+	while (sections.length > 0 && now > (cur_section.time + time)) {
 		sections.Pop();
+		cur_section = sections[sections.length - 1];
 	}
-
+	var section0 : TronTrailSection = sections[0];
 	// Add a new trail section
-	if (sections.length == 0 || (sections[0].point - position).sqrMagnitude > minDistance * minDistance)
+	if (sections.length == 0 || (section0.point - position).sqrMagnitude > minDistance * minDistance)
 	{
 		var section = TronTrailSection ();
 		section.point = position;

@@ -3,7 +3,7 @@ var LifeTime:float = 1;
 var RandomRotation:boolean = false;
 var PositionOffset:Vector3;
 var SpawnEnd:GameObject;
-private var timetemp;
+private var timetemp:float;
 function Start(){
 	timetemp = Time.time;
 	if(RandomRotation){
@@ -14,7 +14,7 @@ function Start(){
 	
 }
 function Update () {
-	if(Time.time > timetemp + LifeTime){
+	if(Time.time > (timetemp + LifeTime)){
 		if(SpawnEnd){
 			var obj = GameObject.Instantiate(SpawnEnd,this.transform.position,this.transform.rotation);
 		}
