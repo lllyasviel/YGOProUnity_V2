@@ -8,7 +8,7 @@ public class overlay_light : MonoBehaviour {
     {
         try
         {
-            l = gameObject.transform.FindChild("light").gameObject;
+            l = gameObject.transform.Find("light").gameObject;
             v = new Vector3(get_rand(), get_rand(), get_rand());
             Vector3 chuizhi = (new Vector3(1, 1, -(v.x + v.y) / v.z)) / Vector3.Distance(Vector3.zero, new Vector3(1, 1, -(v.x + v.y) / v.z));
             l.transform.localPosition = chuizhi * 5;

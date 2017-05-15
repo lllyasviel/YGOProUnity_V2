@@ -14,8 +14,8 @@ public class thunder_locator : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        leftobj_left = gameObject.transform.FindChild("left").gameObject;
-        rightobj_right = gameObject.transform.FindChild("right").gameObject;
+        leftobj_left = gameObject.transform.Find("left").gameObject;
+        rightobj_right = gameObject.transform.Find("right").gameObject;
 	}
 	
 	// Update is called once per frame

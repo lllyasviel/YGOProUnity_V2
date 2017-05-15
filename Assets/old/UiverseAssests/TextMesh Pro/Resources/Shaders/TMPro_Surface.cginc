@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 // Copyright (C) 2014 Stephan Schaem - All Rights Reserved
@@ -21,7 +23,7 @@ void VertShader(inout appdata_full v, out Input data)
 	data.param.y = 1;//v.texcoord1.y;// * _GradientScale * 1.5;
 #else
 	float4 vert = v.vertex;
-	float4 vPosition = mul(UNITY_MATRIX_MVP, vert);
+	float4 vPosition = UnityObjectToClipPos(vert);
 	float2 pixelSize = vPosition.w; // * unity_Scale.w;
 	//pixelSize /= float2(_ScaleX * _ScreenParams.x * UNITY_MATRIX_P[0][0], _ScaleY * _ScreenParams.y * UNITY_MATRIX_P[1][1]);
 	pixelSize /= float2(_ScaleX, _ScaleY) * mul((float2x2)UNITY_MATRIX_P, _ScreenParams.xy);

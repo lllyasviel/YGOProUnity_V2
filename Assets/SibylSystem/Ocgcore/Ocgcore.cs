@@ -4525,8 +4525,8 @@ public class Ocgcore : ServantWithCardDescription
                             if (psum)
                             {
                                 float real = (Program.fieldSize - 1) * 0.9f + 1f;
-                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.FindChild("l").localPosition = new Vector3(-15.2f * real, 0, 0);
-                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.FindChild("r").localPosition = new Vector3(14.65f * real, 0, 0);
+                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.Find("l").localPosition = new Vector3(-15.2f * real, 0, 0);
+                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.Find("r").localPosition = new Vector3(14.65f * real, 0, 0);
                                 MonoBehaviour.Destroy((GameObject)MonoBehaviour.Instantiate(Program.I().mod_ocgcore_ss_p_sum_effect, pvector, Quaternion.identity), 5f);
                             }
                         }
@@ -4599,8 +4599,8 @@ public class Ocgcore : ServantWithCardDescription
                             if (psum)
                             {
                                 float real = (Program.fieldSize - 1) * 0.9f + 1f;
-                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.FindChild("l").localPosition = new Vector3(-15.2f * real, 0, 0);
-                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.FindChild("r").localPosition = new Vector3(14.65f * real, 0, 0);
+                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.Find("l").localPosition = new Vector3(-15.2f * real, 0, 0);
+                                Program.I().mod_ocgcore_ss_p_sum_effect.transform.Find("r").localPosition = new Vector3(14.65f * real, 0, 0);
                                 MonoBehaviour.Destroy((GameObject)MonoBehaviour.Instantiate(Program.I().mod_ocgcore_ss_p_sum_effect, pvector, Quaternion.identity), 5f);
                             }
 

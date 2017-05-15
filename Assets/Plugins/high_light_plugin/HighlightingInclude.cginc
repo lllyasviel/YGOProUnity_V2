@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 #ifndef HIGHLIGHTING_CG_INCLUDED
 #define HIGHLIGHTING_CG_INCLUDED
 
@@ -13,7 +15,7 @@ struct appdata_vert
 
 float4 vert(appdata_vert v) : POSITION
 {
-	return mul(UNITY_MATRIX_MVP, v.vertex);
+	return UnityObjectToClipPos(v.vertex);
 }
 
 fixed4 frag() : COLOR
@@ -41,7 +43,7 @@ struct v2f
 v2f vert_alpha(appdata_vert_tex v)
 {
 	v2f o;
-	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.pos = UnityObjectToClipPos(v.vertex);
 	o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 	return o;
 }

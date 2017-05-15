@@ -448,22 +448,22 @@ public class Program : MonoBehaviour
         if (ui_back_ground_2d == null)
         {
             ui_back_ground_2d = create(mod_ui_2d);
-            camera_back_ground_2d = ui_back_ground_2d.transform.FindChild("Camera").GetComponent<Camera>();
+            camera_back_ground_2d = ui_back_ground_2d.transform.Find("Camera").GetComponent<Camera>();
         }
         camera_back_ground_2d.depth = -2;
         ui_back_ground_2d.layer = 8;
-        ui_back_ground_2d.transform.FindChild("Camera").gameObject.layer = 8;
+        ui_back_ground_2d.transform.Find("Camera").gameObject.layer = 8;
         camera_back_ground_2d.cullingMask = (int)Mathf.Pow(2, 8);
         camera_back_ground_2d.clearFlags = CameraClearFlags.Depth;
 
         if (ui_container_3d == null)
         {
             ui_container_3d = create(mod_ui_3d);
-            camera_container_3d = ui_container_3d.transform.FindChild("Camera").GetComponent<Camera>();
+            camera_container_3d = ui_container_3d.transform.Find("Camera").GetComponent<Camera>();
         }
         camera_container_3d.depth = -1;
         ui_container_3d.layer = 9;
-        ui_container_3d.transform.FindChild("Camera").gameObject.layer = 9;
+        ui_container_3d.transform.Find("Camera").gameObject.layer = 9;
         camera_container_3d.cullingMask = (int)Mathf.Pow(2, 9);
         camera_container_3d.fieldOfView = 75;
         camera_container_3d.rect = camera_game_main.rect;
@@ -478,11 +478,11 @@ public class Program : MonoBehaviour
         if (ui_main_2d == null)
         {
             ui_main_2d = create(mod_ui_2d);
-            camera_main_2d = ui_main_2d.transform.FindChild("Camera").GetComponent<Camera>();
+            camera_main_2d = ui_main_2d.transform.Find("Camera").GetComponent<Camera>();
         }
         camera_main_2d.depth = 3;
         ui_main_2d.layer = 11;
-        ui_main_2d.transform.FindChild("Camera").gameObject.layer = 11;
+        ui_main_2d.transform.Find("Camera").gameObject.layer = 11;
         camera_main_2d.cullingMask = (int)Mathf.Pow(2, 11);
         camera_main_2d.clearFlags = CameraClearFlags.Depth;
 
@@ -490,11 +490,11 @@ public class Program : MonoBehaviour
         if (ui_windows_2d == null)
         {
             ui_windows_2d = create(mod_ui_2d);
-            camera_windows_2d = ui_windows_2d.transform.FindChild("Camera").GetComponent<Camera>();
+            camera_windows_2d = ui_windows_2d.transform.Find("Camera").GetComponent<Camera>();
         }
         camera_windows_2d.depth = 2;
         ui_windows_2d.layer = 19;
-        ui_windows_2d.transform.FindChild("Camera").gameObject.layer = 19;
+        ui_windows_2d.transform.Find("Camera").gameObject.layer = 19;
         camera_windows_2d.cullingMask = (int)Mathf.Pow(2, 19);
         camera_windows_2d.clearFlags = CameraClearFlags.Depth;
 
@@ -502,11 +502,11 @@ public class Program : MonoBehaviour
         if (ui_main_3d == null)
         {
             ui_main_3d = create(mod_ui_3d);
-            camera_main_3d = ui_main_3d.transform.FindChild("Camera").GetComponent<Camera>();
+            camera_main_3d = ui_main_3d.transform.Find("Camera").GetComponent<Camera>();
         }
         camera_main_3d.depth = 1;
         ui_main_3d.layer = 10;
-        ui_main_3d.transform.FindChild("Camera").gameObject.layer = 10;
+        ui_main_3d.transform.Find("Camera").gameObject.layer = 10;
         camera_main_3d.cullingMask = (int)Mathf.Pow(2, 10);
         camera_main_3d.fieldOfView = 75;
         camera_main_3d.rect = new Rect(0, 0, 1, 1);
