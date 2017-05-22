@@ -103,14 +103,7 @@ public class Menu : WindowServantSP
 
     void onClickAI()
     {
-        if (true)
-        {
-            RMSshow_none("AI is not open sourced");
-        }
-        else
-        {
-            Program.I().shiftToServant(Program.I().aiRoom);
-        }
+        //Program.I().shiftToServant(Program.I().aiRoom);
     }
 
     void onClickPizzle()

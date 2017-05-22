@@ -2000,9 +2000,12 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
            case GameMessage.Hint:
-                type = r.ReadChar();
-                player = r.ReadChar();
-                data = r.ReadInt32();
+                Es_selectMSGHintType = r.ReadChar();
+                Es_selectMSGHintPlayer = localPlayer(r.ReadChar());
+                Es_selectMSGHintData = r.ReadInt32();
+                type = Es_selectMSGHintType;
+                player = Es_selectMSGHintPlayer;
+                data = Es_selectMSGHintData;
                 if (type == 1)
                 {
                     ES_hint = GameStringManager.get(data);
@@ -3756,6 +3759,7 @@ public class Ocgcore : ServantWithCardDescription
                 int field = ~r.ReadInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
                 {
+                    
                     ES_min = min;
                     for (int i = 0; i < min; i++)
                     {
@@ -3855,6 +3859,17 @@ public class Ocgcore : ServantWithCardDescription
                                 resp[2] = 6;
                                 createPlaceSelector(resp);
                             }
+                        }
+                    }
+                    if (Es_selectMSGHintType == 3)
+                    {
+                        if (Es_selectMSGHintPlayer == 0)
+                        {
+                            gameField.setHint(InterString.Get("请为我方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
+                        }
+                        else
+                        {
+                            gameField.setHint(InterString.Get("请为对方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
                         }
                     }
                 }
@@ -5236,6 +5251,9 @@ public class Ocgcore : ServantWithCardDescription
     string ES_hint = "";
 
     string ES_selectHint = "";
+    int Es_selectMSGHintType = 0;
+    int Es_selectMSGHintPlayer = 0;
+    int Es_selectMSGHintData = 0;
 
     List<gameCard> MHS_getBundle(int controller, int location)
     {
