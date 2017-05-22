@@ -103,7 +103,7 @@ public class Menu : WindowServantSP
 
     void onClickAI()
     {
-        //Program.I().shiftToServant(Program.I().aiRoom);
+        Program.I().shiftToServant(Program.I().aiRoom);
     }
 
     void onClickPizzle()

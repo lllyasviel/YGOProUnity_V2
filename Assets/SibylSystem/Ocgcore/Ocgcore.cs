@@ -60,7 +60,7 @@ public class Ocgcore : ServantWithCardDescription
             }
             if (value)
             {
-                target.gameObject = create_s(Program.I().mod_ocgcore_ss_link_mark, get_point_worldposition(target.p) + new Vector3(0, -0.1f, 0), Vector3.zero, false, null, true);
+                target.gameObject = create_s(Program.I().mod_ocgcore_ss_link_mark, get_point_worldposition(target.p) + new Vector3(0, -0.1f, 0), Vector3.zero, true, null, true);
             }
             else
             {
@@ -1332,6 +1332,11 @@ public class Ocgcore : ServantWithCardDescription
                 Sleep(21);
                 break;
             case GameMessage.ReloadField:
+                MasterRule = r.ReadByte() + 1;
+                if (MasterRule > 255)
+                {
+                    MasterRule -= 255;
+                }
                 confirmedCards.Clear();
                 gameField.currentPhase = GameField.ph.dp;
                 result = duelResult.disLink;
@@ -1377,7 +1382,7 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         life_1 = r.ReadInt32();
                     }
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 7; i++)
                     {
                         val = r.ReadByte();
                         if (val > 0)
@@ -2823,7 +2828,6 @@ public class Ocgcore : ServantWithCardDescription
                 showWait();
                 break;
             case GameMessage.Start:
-                realize(true);
                 if (MasterRule >= 4)
                 {
                     gameField.loadNewField();
@@ -2832,6 +2836,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     gameField.loadOldField();
                 }
+                realize(true);
                 if (condition != Condition.record)
                 {
                     if (isObserver)
@@ -2871,8 +2876,15 @@ public class Ocgcore : ServantWithCardDescription
                 hideCaculator();
                 break;
             case GameMessage.ReloadField:
+                if (MasterRule >= 4)
+                {
+                    gameField.loadNewField();
+                }
+                else
+                {
+                    gameField.loadOldField();
+                }
                 realize(true);
-                gameField.loadOldField();
                 if (condition != Condition.record)
                 {
                     if (isObserver)
