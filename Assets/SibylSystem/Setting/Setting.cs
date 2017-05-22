@@ -58,7 +58,6 @@ public class Setting : WindowServant2D
                 {
                     collection[i].value = UIHelper.fromStringToBool(Config.Get(collection[i].name, "0"));
                 }
-                
             }
         }
         setting.showoffATK.value = Config.Get("showoffATK","1800");
@@ -70,6 +69,7 @@ public class Setting : WindowServant2D
         UIHelper.registEvent(setting.cloud.gameObject, onchangeCloud);  
         UIHelper.registEvent(setting.Vpedium.gameObject, onCP);
         UIHelper.registEvent(setting.Vfield.gameObject, onCP);
+        UIHelper.registEvent(setting.Vlink.gameObject, onCP);
         onchangeMouse();
         onchangeCloud();
     }

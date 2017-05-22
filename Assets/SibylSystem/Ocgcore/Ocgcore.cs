@@ -36,6 +36,7 @@ public class Ocgcore : ServantWithCardDescription
     {
         public GPS p;
         public GameObject gameObject;
+        public bool eff = false;
     }
 
     List<linkMask> linkMaskList = new List<linkMask>();
@@ -44,11 +45,32 @@ public class Ocgcore : ServantWithCardDescription
     {
         linkMask ma = new linkMask();
         ma.p = p;
-        ma.gameObject = create_s(Program.I().mod_simple_quad, get_point_worldposition(p)+new Vector3(0,-0.1f,0), new Vector3(90, 0, 0), false, null, true);
-        ma.gameObject.transform.localScale = new Vector3(4, 4, 4);
-        ma.gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.LINKm;
-        ma.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.8f);
+        ma.eff = !Program.I().setting.setting.Vlink.value;
+        shift_effect(ma, Program.I().setting.setting.Vlink.value);
         return ma;
+    }
+
+    void shift_effect(linkMask target, bool value)
+    {
+        if (target.eff != value)
+        {
+            if (target.gameObject != null)
+            {
+                destroy(target.gameObject);
+            }
+            if (value)
+            {
+                target.gameObject = create_s(Program.I().mod_ocgcore_ss_link_mark, get_point_worldposition(target.p) + new Vector3(0, -0.1f, 0), Vector3.zero, false, null, true);
+            }
+            else
+            {
+                target.gameObject = create_s(Program.I().mod_simple_quad, get_point_worldposition(target.p) + new Vector3(0, -0.1f, 0), new Vector3(90, 0, 0), false, null, true);
+                target.gameObject.transform.localScale = new Vector3(4, 4, 4);
+                target.gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.LINKm;
+                target.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.8f);
+            }
+            target.eff = value;
+        }
     }
 
     gameCardCondition get_point_worldcondition(GPS p)
@@ -2053,6 +2075,7 @@ public class Ocgcore : ServantWithCardDescription
                 printDuelLog(InterString.Get("「[?]」失去了时点。", UIHelper.getSuperName(YGOSharp.CardsManager.Get(code).Name, code)));
                 break;
             case GameMessage.NewTurn:
+                toDefaultHintLogical();
                 gameField.currentPhase = GameField.ph.dp;
                 //  keys.Insert(0, currentMessageIndex);
                 player = localPlayer(r.ReadByte());
@@ -2070,6 +2093,7 @@ public class Ocgcore : ServantWithCardDescription
                 ES_hint = ES_turnString + ES_phaseString;
                 break;
             case GameMessage.NewPhase:
+                toDefaultHintLogical();
                 autoForceChainHandler =  autoForceChainHandlerType.manDoAll;
                // keys.Insert(0, currentMessageIndex);
                 ushort ph = r.ReadUInt16();
@@ -4303,6 +4327,18 @@ public class Ocgcore : ServantWithCardDescription
                             if (Program.I().setting.setting.Vrution.value == true)
                             {
                                 mod = Program.I().mod_ocgcore_ss_spsummon_yishi;
+                            }
+                            UIHelper.playSound("specialsummon2", 1f);
+                        }
+                        else if (GameStringHelper.differ(card.get_data().Type, (long)game_type.link))
+                        {
+                            if (Program.I().setting.setting.Vlink.value == true)
+                            {
+                                float sc = Mathf.Clamp(card.get_data().Attack, 0, 3500) / 3000f;
+                                Program.I().mod_ocgcore_ss_spsummon_link.GetComponent<partical_scaler>().scale = sc * 4f;
+                                Program.I().mod_ocgcore_ss_spsummon_link.transform.localScale = Vector3.one * (sc * 4f);
+                                card.animationEffect(Program.I().mod_ocgcore_ss_spsummon_link);
+                                mod.GetComponent<partical_scaler>().scale = Mathf.Clamp(card.get_data().Attack, 0, 3500) / 3000f * 3f;
                             }
                             UIHelper.playSound("specialsummon2", 1f);
                         }
@@ -6709,6 +6745,11 @@ public class Ocgcore : ServantWithCardDescription
         removeList.Clear();
         removeList = null;
 
+        for (int i = 0; i < linkMaskList.Count; i++)
+        {
+            shift_effect(linkMaskList[i],Program.I().setting.setting.Vlink.value);
+        }
+
         gameField.Update();
         //op hand
         List<gameCard> line = new List<gameCard>();
@@ -7117,7 +7158,6 @@ public class Ocgcore : ServantWithCardDescription
         animation_count(gameField.LOCATION_GRAVE_1, game_location.LOCATION_GRAVE, 1);
         animation_count(gameField.LOCATION_REMOVED_1, game_location.LOCATION_REMOVED, 1);
         gameField.realize();
-        toDefaultHint();
         Program.notGo(gameInfo.realize);
         Program.go(50,gameInfo.realize);
         Program.notGo(Program.I().book.realize);
@@ -7840,6 +7880,11 @@ public class Ocgcore : ServantWithCardDescription
     void toDefaultHint()
     {
         gameField.setHint(ES_turnString + ES_phaseString);
+    }
+
+    void toDefaultHintLogical()
+    {
+        gameField.setHintLogical(ES_turnString + ES_phaseString);
     }
 
     void returnFromDeckEdit()

@@ -76,9 +76,11 @@ public class Program : MonoBehaviour
     public GameObject mod_ocgcore_ss_spsummon_ronghe;
     public GameObject mod_ocgcore_ss_spsummon_tongtiao;
     public GameObject mod_ocgcore_ss_spsummon_yishi;
+    public GameObject mod_ocgcore_ss_spsummon_link;
     public GameObject mod_ocgcore_ss_p_idle_effect;
     public GameObject mod_ocgcore_ss_p_sum_effect;
     public GameObject mod_ocgcore_ss_dark_hole;
+    public GameObject mod_ocgcore_ss_link_mark;
     public GameObject new_ui_menu;
     public GameObject new_ui_setting;
     public GameObject new_ui_book;
@@ -230,11 +232,12 @@ public class Program : MonoBehaviour
         loadResource(mod_ocgcore_ss_spsummon_normal);
         loadResource(mod_ocgcore_ss_spsummon_ronghe);
         loadResource(mod_ocgcore_ss_spsummon_tongtiao);
+        loadResource(mod_ocgcore_ss_spsummon_link);
         loadResource(mod_ocgcore_ss_spsummon_yishi);
         loadResource(mod_ocgcore_ss_p_idle_effect);
         loadResource(mod_ocgcore_ss_p_sum_effect);
         loadResource(mod_ocgcore_ss_dark_hole);
-
+        loadResource(mod_ocgcore_ss_link_mark);
     }
 
     public static float transparency = 0;
