@@ -48,7 +48,7 @@ public class PrecyOcg
             Program.I().ocgcore.returnServant = Program.I().puzzleMode;
             if (!ygopro.startPuzzle(path))
             {
-                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试。"));
+                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试，文件名中不能包含中文。"));
                 return;
             }
             else
@@ -60,20 +60,20 @@ public class PrecyOcg
         }
     }
 
-    public void startAI(string playerDek, string aiDeck, string aiScript, bool playerGo, bool unrand, int life,bool god)
+    public void startAI(string playerDek, string aiDeck, string aiScript, bool playerGo, bool unrand, int life,bool god,int rule)
     {
         if (Program.I().ocgcore.isShowed == false)
         {
             Program.I().room.mode = 0;
-            Program.I().ocgcore.MasterRule = 3;
+            Program.I().ocgcore.MasterRule = rule;
             godMode = god;
             prepareOcgcore();
             Program.I().ocgcore.lpLimit = life;
             Program.I().ocgcore.isFirst = playerGo;
             Program.I().ocgcore.returnServant = Program.I().aiRoom;
-            if (!ygopro.startAI(playerDek, aiDeck, aiScript, playerGo, unrand, life, god))
+            if (!ygopro.startAI(playerDek, aiDeck, aiScript, playerGo, unrand, life, god, rule))
             {
-                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试。"));
+                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试，文件名中不能包含中文。"));
                 return;
             }
             else

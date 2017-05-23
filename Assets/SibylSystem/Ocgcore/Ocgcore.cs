@@ -36,6 +36,7 @@ public class Ocgcore : ServantWithCardDescription
     {
         public GPS p;
         public GameObject gameObject;
+        public bool eff = false;
     }
 
     List<linkMask> linkMaskList = new List<linkMask>();
@@ -44,11 +45,32 @@ public class Ocgcore : ServantWithCardDescription
     {
         linkMask ma = new linkMask();
         ma.p = p;
-        ma.gameObject = create_s(Program.I().mod_simple_quad, get_point_worldposition(p)+new Vector3(0,-0.1f,0), new Vector3(90, 0, 0), false, null, true);
-        ma.gameObject.transform.localScale = new Vector3(4, 4, 4);
-        ma.gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.LINKm;
-        ma.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.8f);
+        ma.eff = !Program.I().setting.setting.Vlink.value;
+        shift_effect(ma, Program.I().setting.setting.Vlink.value);
         return ma;
+    }
+
+    void shift_effect(linkMask target, bool value)
+    {
+        if (target.eff != value)
+        {
+            if (target.gameObject != null)
+            {
+                destroy(target.gameObject);
+            }
+            if (value)
+            {
+                target.gameObject = create_s(Program.I().mod_ocgcore_ss_link_mark, get_point_worldposition(target.p) + new Vector3(0, -0.1f, 0), Vector3.zero, true, null, true);
+            }
+            else
+            {
+                target.gameObject = create_s(Program.I().mod_simple_quad, get_point_worldposition(target.p) + new Vector3(0, -0.1f, 0), new Vector3(90, 0, 0), false, null, true);
+                target.gameObject.transform.localScale = new Vector3(4, 4, 4);
+                target.gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.LINKm;
+                target.gameObject.GetComponent<Renderer>().material.color = new Color(1, 1, 1, 0.8f);
+            }
+            target.eff = value;
+        }
     }
 
     gameCardCondition get_point_worldcondition(GPS p)
@@ -1310,6 +1332,11 @@ public class Ocgcore : ServantWithCardDescription
                 Sleep(21);
                 break;
             case GameMessage.ReloadField:
+                MasterRule = r.ReadByte() + 1;
+                if (MasterRule > 255)
+                {
+                    MasterRule -= 255;
+                }
                 confirmedCards.Clear();
                 gameField.currentPhase = GameField.ph.dp;
                 result = duelResult.disLink;
@@ -1355,7 +1382,7 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         life_1 = r.ReadInt32();
                     }
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 7; i++)
                     {
                         val = r.ReadByte();
                         if (val > 0)
@@ -2000,9 +2027,12 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
            case GameMessage.Hint:
-                type = r.ReadChar();
-                player = r.ReadChar();
-                data = r.ReadInt32();
+                Es_selectMSGHintType = r.ReadChar();
+                Es_selectMSGHintPlayer = localPlayer(r.ReadChar());
+                Es_selectMSGHintData = r.ReadInt32();
+                type = Es_selectMSGHintType;
+                player = Es_selectMSGHintPlayer;
+                data = Es_selectMSGHintData;
                 if (type == 1)
                 {
                     ES_hint = GameStringManager.get(data);
@@ -2050,6 +2080,7 @@ public class Ocgcore : ServantWithCardDescription
                 printDuelLog(InterString.Get("「[?]」失去了时点。", UIHelper.getSuperName(YGOSharp.CardsManager.Get(code).Name, code)));
                 break;
             case GameMessage.NewTurn:
+                toDefaultHintLogical();
                 gameField.currentPhase = GameField.ph.dp;
                 //  keys.Insert(0, currentMessageIndex);
                 player = localPlayer(r.ReadByte());
@@ -2067,6 +2098,7 @@ public class Ocgcore : ServantWithCardDescription
                 ES_hint = ES_turnString + ES_phaseString;
                 break;
             case GameMessage.NewPhase:
+                toDefaultHintLogical();
                 autoForceChainHandler =  autoForceChainHandlerType.manDoAll;
                // keys.Insert(0, currentMessageIndex);
                 ushort ph = r.ReadUInt16();
@@ -2796,7 +2828,6 @@ public class Ocgcore : ServantWithCardDescription
                 showWait();
                 break;
             case GameMessage.Start:
-                realize(true);
                 if (MasterRule >= 4)
                 {
                     gameField.loadNewField();
@@ -2805,6 +2836,7 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     gameField.loadOldField();
                 }
+                realize(true);
                 if (condition != Condition.record)
                 {
                     if (isObserver)
@@ -2844,8 +2876,15 @@ public class Ocgcore : ServantWithCardDescription
                 hideCaculator();
                 break;
             case GameMessage.ReloadField:
+                if (MasterRule >= 4)
+                {
+                    gameField.loadNewField();
+                }
+                else
+                {
+                    gameField.loadOldField();
+                }
                 realize(true);
-                gameField.loadOldField();
                 if (condition != Condition.record)
                 {
                     if (isObserver)
@@ -3756,6 +3795,7 @@ public class Ocgcore : ServantWithCardDescription
                 int field = ~r.ReadInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
                 {
+                    
                     ES_min = min;
                     for (int i = 0; i < min; i++)
                     {
@@ -3855,6 +3895,17 @@ public class Ocgcore : ServantWithCardDescription
                                 resp[2] = 6;
                                 createPlaceSelector(resp);
                             }
+                        }
+                    }
+                    if (Es_selectMSGHintType == 3)
+                    {
+                        if (Es_selectMSGHintPlayer == 0)
+                        {
+                            gameField.setHint(InterString.Get("请为我方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
+                        }
+                        else
+                        {
+                            gameField.setHint(InterString.Get("请为对方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
                         }
                     }
                 }
@@ -4288,6 +4339,18 @@ public class Ocgcore : ServantWithCardDescription
                             if (Program.I().setting.setting.Vrution.value == true)
                             {
                                 mod = Program.I().mod_ocgcore_ss_spsummon_yishi;
+                            }
+                            UIHelper.playSound("specialsummon2", 1f);
+                        }
+                        else if (GameStringHelper.differ(card.get_data().Type, (long)game_type.link))
+                        {
+                            if (Program.I().setting.setting.Vlink.value == true)
+                            {
+                                float sc = Mathf.Clamp(card.get_data().Attack, 0, 3500) / 3000f;
+                                Program.I().mod_ocgcore_ss_spsummon_link.GetComponent<partical_scaler>().scale = sc * 4f;
+                                Program.I().mod_ocgcore_ss_spsummon_link.transform.localScale = Vector3.one * (sc * 4f);
+                                card.animationEffect(Program.I().mod_ocgcore_ss_spsummon_link);
+                                mod.GetComponent<partical_scaler>().scale = Mathf.Clamp(card.get_data().Attack, 0, 3500) / 3000f * 3f;
                             }
                             UIHelper.playSound("specialsummon2", 1f);
                         }
@@ -5236,6 +5299,9 @@ public class Ocgcore : ServantWithCardDescription
     string ES_hint = "";
 
     string ES_selectHint = "";
+    int Es_selectMSGHintType = 0;
+    int Es_selectMSGHintPlayer = 0;
+    int Es_selectMSGHintData = 0;
 
     List<gameCard> MHS_getBundle(int controller, int location)
     {
@@ -6691,6 +6757,11 @@ public class Ocgcore : ServantWithCardDescription
         removeList.Clear();
         removeList = null;
 
+        for (int i = 0; i < linkMaskList.Count; i++)
+        {
+            shift_effect(linkMaskList[i],Program.I().setting.setting.Vlink.value);
+        }
+
         gameField.Update();
         //op hand
         List<gameCard> line = new List<gameCard>();
@@ -7099,7 +7170,6 @@ public class Ocgcore : ServantWithCardDescription
         animation_count(gameField.LOCATION_GRAVE_1, game_location.LOCATION_GRAVE, 1);
         animation_count(gameField.LOCATION_REMOVED_1, game_location.LOCATION_REMOVED, 1);
         gameField.realize();
-        toDefaultHint();
         Program.notGo(gameInfo.realize);
         Program.go(50,gameInfo.realize);
         Program.notGo(Program.I().book.realize);
@@ -7822,6 +7892,11 @@ public class Ocgcore : ServantWithCardDescription
     void toDefaultHint()
     {
         gameField.setHint(ES_turnString + ES_phaseString);
+    }
+
+    void toDefaultHintLogical()
+    {
+        gameField.setHintLogical(ES_turnString + ES_phaseString);
     }
 
     void returnFromDeckEdit()

@@ -27,7 +27,7 @@ public class AIRoom : WindowServantSP
         UIHelper.registEvent(gameObject, "rank_", onSave);
         UIHelper.registEvent(gameObject, "start_", onStart);
         UIHelper.registEvent(gameObject, "exit_", ()=> { Program.I().shiftToServant(Program.I().menu); });
-        UIHelper.trySetLableText(gameObject,"percyHint",PrecyOcg.HintInGame);
+        UIHelper.trySetLableText(gameObject,"percyHint",InterString.Get("人机模式"));
         superScrollView.install();
         SetActiveFalse();
     }
@@ -66,7 +66,7 @@ public class AIRoom : WindowServantSP
         {
             aideck = "ai/ydk/" + Config.Get("list_aideck", suiji) + ".ydk";
         }
-        launch("deck/" + Config.Get("deckInUse","miaowu") + ".ydk", aideck, "ai/" + Config.Get("list_airank","ai") + ".lua", UIHelper.getByName<UIToggle>(gameObject, "first_").value, UIHelper.getByName<UIToggle>(gameObject, "unrand_").value, l, UIHelper.getByName<UIToggle>(gameObject, "god_").value);
+        launch("deck/" + Config.Get("deckInUse", "miaowu") + ".ydk", aideck, "ai/" + Config.Get("list_airank", "ai") + ".lua", UIHelper.getByName<UIToggle>(gameObject, "first_").value, UIHelper.getByName<UIToggle>(gameObject, "unrand_").value, l, UIHelper.getByName<UIToggle>(gameObject, "god_").value, UIHelper.getByName<UIToggle>(gameObject, "mr4_").value ? 4 : 3);
     }
 
     void printFile()
@@ -150,14 +150,14 @@ public class AIRoom : WindowServantSP
 
     PrecyOcg precy;
 
-    public void launch(string playerDek, string aiDeck, string aiScript, bool playerGo, bool suffle, int life,bool god)
+    public void launch(string playerDek, string aiDeck, string aiScript, bool playerGo, bool suffle, int life,bool god,int rule)
     {
         if (precy != null)
         {
             precy.dispose();
         }
         precy = new PrecyOcg();
-        precy.startAI(playerDek, aiDeck, aiScript, playerGo, suffle, life, god);
+        precy.startAI(playerDek, aiDeck, aiScript, playerGo, suffle, life, god,rule);
         RMSshow_none(InterString.Get("AI模式还在开发中，您在AI模式下遇到的BUG不会在联机的时候出现。"));
     }
 

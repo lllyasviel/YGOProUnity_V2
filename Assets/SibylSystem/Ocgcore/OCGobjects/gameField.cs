@@ -509,6 +509,10 @@ public class GameField : OCGobject
         currentString = "T" + Program.I().ocgcore.turns.ToString() + " " + hint;
         realize();
     }
+    public void setHintLogical(string hint)
+    {
+        currentString = "T" + Program.I().ocgcore.turns.ToString() + " " + hint;
+    }
     GameObject big_string;
 
     public void animation_show_big_string(Texture2D tex,bool only=false)    
