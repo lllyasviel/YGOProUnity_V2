@@ -6,19 +6,19 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 public static class UIHelper
 {
-    [DllImport("user32.dll")]
+    [DllImport("user32l")]
     static extern bool FlashWindow(IntPtr handle, bool invert);
 
     public delegate bool WNDENUMPROC(IntPtr hwnd, uint lParam);
-    [DllImport("user32.dll", SetLastError = true)]
+    [DllImport("user32", SetLastError = true)]
     static extern bool EnumWindows(WNDENUMPROC lpEnumFunc, uint lParam);
 
-    [DllImport("user32.dll", SetLastError = true)]
+    [DllImport("user32", SetLastError = true)]
     static extern IntPtr GetParent(IntPtr hWnd);
-    [DllImport("user32.dll")]
+    [DllImport("user32")]
     static extern uint GetWindowThreadProcessId(IntPtr hWnd, ref uint lpdwProcessId);
 
-    [DllImport("kernel32.dll")]
+    [DllImport("kernel32")]
     static extern void SetLastError(uint dwErrCode);
 
     static IntPtr GetProcessWnd()

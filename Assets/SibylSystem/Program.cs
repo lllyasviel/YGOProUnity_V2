@@ -273,7 +273,13 @@ public class Program : MonoBehaviour
 
     void initialize()
     {
-
+		#if (UNITY_ANDROID || UNITY_IPHONE)
+		Environment.CurrentDirectory = Application.persistentDataPath;
+		System.IO.Directory.SetCurrentDirectory (Application.persistentDataPath);
+		#else
+		Environment.CurrentDirectory = System.Windows.Forms.Application.StartupPath;
+		System.IO.Directory.SetCurrentDirectory (System.Windows.Forms.Application.StartupPath);
+		#endif
         go(1, () =>
         {
             UIHelper.iniFaces();
@@ -285,19 +291,19 @@ public class Program : MonoBehaviour
         });
         go(300, () =>
         {
-            InterString.initialize("config\\translation.conf");
+            InterString.initialize("config/translation.conf");
             GameTextureManager.initialize();
-            Config.initialize("config\\config.conf");
-            GameStringManager.initialize("config\\strings.conf");
-            if (File.Exists("cdb\\strings.conf"))
+            Config.initialize("config/config.conf");
+            GameStringManager.initialize("config/strings.conf");
+            if (File.Exists("cdb/strings.conf"))
             {
-                GameStringManager.initialize("cdb\\strings.conf");
+                GameStringManager.initialize("cdb/strings.conf");
             }
-            if (File.Exists("diy\\strings.conf"))
+            if (File.Exists("diy/strings.conf"))
             {
-                GameStringManager.initialize("diy\\strings.conf");
+                GameStringManager.initialize("diy/strings.conf");
             }
-            YGOSharp.BanlistManager.initialize("config\\lflist.conf");
+            YGOSharp.BanlistManager.initialize("config/lflist.conf");
 
             var fileInfos = (new DirectoryInfo("cdb")).GetFiles();
             for (int i = 0; i < fileInfos.Length; i++)
@@ -306,7 +312,7 @@ public class Program : MonoBehaviour
                 {
                     if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".cdb")
                     {
-                        YGOSharp.CardsManager.initialize("cdb\\" + fileInfos[i].Name);
+                        YGOSharp.CardsManager.initialize("cdb/" + fileInfos[i].Name);
                     }
                 }
             }
@@ -320,7 +326,7 @@ public class Program : MonoBehaviour
                     {
                         if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".cdb")
                         {
-                            YGOSharp.CardsManager.initialize("diy\\" + fileInfos[i].Name);
+                            YGOSharp.CardsManager.initialize("diy/" + fileInfos[i].Name);
                         }
                     }
                 }
@@ -334,7 +340,7 @@ public class Program : MonoBehaviour
                 {
                     if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 3, 3) == ".db")
                     {
-                        YGOSharp.PacksManager.initialize("pack\\" + fileInfos[i].Name);
+                        YGOSharp.PacksManager.initialize("pack/" + fileInfos[i].Name);
                     }
                 }
             }
@@ -825,12 +831,18 @@ public class Program : MonoBehaviour
 
     void Start()
     {
-        if (Screen.width < 100 || Screen.height < 100)
-        {
-            Screen.SetResolution(1300, 700, false);
-        }
-        Application.targetFrameRate = 120;
-        mouseParticle = Instantiate(new_mouse);
+		#if (UNITY_ANDROID || UNITY_IPHONE)
+		Screen.SetResolution(1366, 768, true);
+		Application.targetFrameRate = -1;
+		#else
+		if (Screen.width < 100 || Screen.height < 100)
+		{
+			Screen.SetResolution(1300, 700, false);
+		}
+		Application.targetFrameRate = 120;
+		#endif
+		
+		mouseParticle = Instantiate(new_mouse);
         instance = this;
         initialize();
         go(500, () => { gameStart(); });
