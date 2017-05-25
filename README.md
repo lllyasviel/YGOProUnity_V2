@@ -22,4 +22,54 @@ YGOPro2 is for players. **All of our designs are for players.** We take advantag
 
 3. Double click Assets\main.unity to open the solution.
 
-**(The readme is not finished)**
+# Advantages
+
+## If you regard YGO as an E-sports
+
+### Concise and clear interface without any special effects
+
+detailed imformation not finished
+
+### Much more amount of information than ygopro
+
+detailed imformation not finished
+
+### Lots of auxiliary functions
+
+detailed imformation not finished
+
+### Card-counting and analysing
+
+detailed imformation not finished
+
+### Time machine
+
+detailed imformation not finished
+
+### Card Monitors
+
+detailed imformation not finished
+
+### Strengthened Chain System
+
+detailed imformation not finished
+
+## If you player game just for fun
+
+### abundant particle effects
+
+detailed imformation not finished
+
+### Monsters stand on cards
+
+detailed imformation not finished
+
+### Closeups of monsters for summoning
+
+detailed imformation not finished
+
+### Interface can be highly personalized
+
+detailed imformation not finished
+
+***the readme is not finished yet***
