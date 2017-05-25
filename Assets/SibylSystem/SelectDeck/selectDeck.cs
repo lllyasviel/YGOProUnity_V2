@@ -30,7 +30,6 @@ public class selectDeck : WindowServantSP
         UIHelper.registEvent(gameObject, "copy_", onCopy);
         UIHelper.registEvent(gameObject, "rename_", onRename);
         UIHelper.registEvent(gameObject, "code_", onCode);
-        //UIHelper.registEvent(gameObject, "search_", onSearch);
         searchInput = UIHelper.getByName<UIInput>(gameObject, "search_");
         superScrollView.install();
         for (int i = 0; i < quickCards.Length; i++)

@@ -11,6 +11,12 @@ public class CardDescription : Servant
     UISprite lineSprite;
     public UITextList description;
     GameObject line;
+    UIWidget cardShowerWidget;
+    UIPanel monitor;
+    UIDeckPanel deckPanel;
+
+    cardPicLoader[] quickCards = new cardPicLoader[300];
+
     public override void initialize()
     {
         gameObject = create
@@ -26,8 +32,12 @@ public class CardDescription : Servant
         picLoader.uiTexture = UIHelper.getByName<UITexture>(gameObject, "pic_");
         picLoader.loaded_code = -1;
         resizer = UIHelper.getByName<UIDragResize>(gameObject, "resizer");
+        resizer.onResize = onResized;
         underSprite = UIHelper.getByName<UITexture>(gameObject, "under_");
         description = UIHelper.getByName<UITextList>(gameObject, "description_");
+        cardShowerWidget = UIHelper.getByName<UIWidget>(gameObject, "card_shower");
+        monitor = UIHelper.getByName<UIPanel>(gameObject, "monitor");
+        deckPanel = gameObject.GetComponentInChildren<UIDeckPanel>();
         line = UIHelper.getByName(gameObject, "line");
         UIHelper.registEvent(gameObject,"pre_", onPre);
         UIHelper.registEvent(gameObject, "next_", onNext); 
@@ -43,6 +53,18 @@ public class CardDescription : Servant
         {
         }
         read();
+        myGraveStr = InterString.Get("我方墓地：");
+        myExtraStr = InterString.Get("我方额外：");
+        myBanishedStr = InterString.Get("我方除外：");
+        opGraveStr = InterString.Get("[8888FF]对方墓地：[-]");
+        opExtraStr = InterString.Get("[8888FF]对方额外：[-]");
+        opBanishedStr = InterString.Get("[8888FF]对方除外：[-]");
+        for (int i = 0; i < quickCards.Length; i++)
+        {
+            quickCards[i] = deckPanel.createCard();
+            quickCards[i].relayer(i);
+        }
+        monitor.gameObject.SetActive(false);
     }
 
     public float width = 0;
@@ -175,10 +197,167 @@ public class CardDescription : Servant
         picLoader.defaults = def;
         picLoader.loaded_code = -1;
         currentCard = card;
+        shiftCardShower(true);
+        Program.go(50, () => { shiftCardShower(true); });
     }
 
-    public void setData(YGOSharp.Card card, Texture2D def, string tail = "")
+    public void shiftCardShower(bool show)
     {
+        if (show)
+        {
+            cardShowerWidget.alpha = 1f;
+        }
+        else
+        {
+            cardShowerWidget.alpha = 0f;
+        }
+        if (!show)
+        {
+            if (monitor.gameObject.activeInHierarchy == false)
+            {
+                monitor.gameObject.SetActive(true);
+                realizeMonitor();
+            }
+        }
+        else
+        {
+            monitor.gameObject.SetActive(false);
+        }
+    }
+
+    string myGraveStr = "";
+    string myExtraStr = "";
+    string myBanishedStr = "";
+    string opGraveStr = "";
+    string opExtraStr = "";
+    string opBanishedStr = "";
+
+
+    public void realizeMonitor()
+    {
+        if (monitor.gameObject.activeInHierarchy)
+        {
+            List<gameCard> myGrave = new List<gameCard>();
+            List<gameCard> myExtra = new List<gameCard>();
+            List<gameCard> myBanished = new List<gameCard>();
+            List<gameCard> opGrave = new List<gameCard>();
+            List<gameCard> opExtra = new List<gameCard>();
+            List<gameCard> opBanished = new List<gameCard>();
+            for (int i = 0; i < Program.I().ocgcore.cards.Count; i++)
+            {
+                var curCard = Program.I().ocgcore.cards[i];
+                int code = curCard.get_data().Id;
+                var gps = curCard.p;
+                if (code > 0)
+                {
+                    if (gps.controller == 0)
+                    {
+                        if ((gps.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+                        {
+                            myGrave.Add(curCard);
+                        }
+                        if ((gps.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+                        {
+                            myBanished.Add(curCard);
+                        }
+                        if ((gps.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+                        {
+                            myExtra.Add(curCard);
+                        }
+                    }
+                    else
+                    {
+                        if ((gps.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+                        {
+                            opGrave.Add(curCard);
+                        }
+                        if ((gps.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+                        {
+                            opBanished.Add(curCard);
+                        }
+                        if ((gps.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+                        {
+                            opExtra.Add(curCard);
+                        }
+                    }
+                }
+            }
+            currentHeight = 0;
+            currentLabelIndex = 0;
+            currentCardIndex = 0;
+            handleMonitorArea(opGrave, opGraveStr);
+            handleMonitorArea(opBanished, opBanishedStr);
+            handleMonitorArea(opExtra, opExtraStr);
+            handleMonitorArea(myGrave, myGraveStr);
+            handleMonitorArea(myBanished, myBanishedStr);
+            handleMonitorArea(myExtra, myExtraStr);
+            while (currentLabelIndex < 6)
+            {
+                deckPanel.labs[currentLabelIndex].gameObject.SetActive(false);
+                currentLabelIndex++;
+            }
+            while (currentCardIndex < 300)
+            {
+                quickCards[currentCardIndex].clear();
+                currentCardIndex++;
+            }
+        }
+    }
+
+    float currentHeight = 0;
+    int currentLabelIndex = 0;
+    int currentCardIndex = 0;
+    int eachLine = 0;
+
+    void handleMonitorArea(List<gameCard> list,string hint)
+    {
+        if (list.Count > 0)
+        {
+            deckPanel.labs[currentLabelIndex].gameObject.SetActive(true);
+            deckPanel.labs[currentLabelIndex].text = hint;
+            deckPanel.labs[currentLabelIndex].width = (int)(monitor.width - 12);
+            deckPanel.labs[currentLabelIndex].transform.localPosition = new Vector3(monitor.width / 2, (monitor.height - 8) / 2 - 12 - currentHeight, 0);
+            currentLabelIndex++;
+            currentHeight += 24;
+            float beginX = 6 + 22;
+            float beginY = monitor.height / 2 - currentHeight - 36;
+            eachLine = (int)((monitor.width - 12f) / 44f);
+            for (int i = 0; i < list.Count; i++)
+            {
+                var gp = UIHelper.get_hang_lie(i, eachLine);
+                quickCards[currentCardIndex].reCode(list[i].get_data().Id);
+                quickCards[currentCardIndex].transform.localPosition = new Vector3(beginX + 44 * gp.y, beginY - 60 * gp.x, 0);
+                currentCardIndex++;
+            }
+            int hangshu = list.Count / eachLine;
+            int yushu = list.Count % eachLine;
+            if (yushu > 0)
+            {
+                hangshu++;
+            }
+            currentHeight += 60 * hangshu;
+        }
+    }
+    
+    void onResized()
+    {
+        if (monitor.gameObject.activeInHierarchy)
+        {
+            int newEach = (int)((monitor.width - 12f) / 44f);
+            if (newEach != eachLine)
+            {
+                eachLine = newEach;
+                realizeMonitor();
+            }
+        }
+    }
+
+    public void setData(YGOSharp.Card card, Texture2D def, string tail = "",bool force=false)
+    {
+        if (cardShowerWidget.alpha == 0&&force==false)
+        {
+            return;
+        }
         if (card == null)
         {
             return;

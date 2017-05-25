@@ -20,6 +20,8 @@ public class UIDeckPanel : MonoBehaviour {
 	
 	}
 
+    public UILabel[] labs = new UILabel[6];
+
     public cardPicLoader createCard()
     {
         GameObject obj = (GameObject)Instantiate(cardMod);

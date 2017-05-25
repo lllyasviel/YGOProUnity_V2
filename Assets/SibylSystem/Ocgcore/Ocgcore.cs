@@ -7174,6 +7174,7 @@ public class Ocgcore : ServantWithCardDescription
         Program.go(50,gameInfo.realize);
         Program.notGo(Program.I().book.realize);
         Program.go(50, Program.I().book.realize);
+        Program.I().cardDescription.realizeMonitor();
     }
 
     private void animation_thunder(GameObject leftGameObject, GameObject rightGameObject)
@@ -8699,16 +8700,21 @@ public class Ocgcore : ServantWithCardDescription
     bool leftExcited = false;
     public override void ES_mouseDownEmpty()    
     {
-        if (gameInfo.queryHashedButton("hide_all_card") == false)
-        {
-            gameInfo.keepChain_set(true); 
-            leftExcited = true;
-        }
+        if (Program.I().setting.setting.spyer.value == false)
+            if (gameInfo.queryHashedButton("hide_all_card") == false)
+            {
+                gameInfo.keepChain_set(true);
+                leftExcited = true;
+            }
         base.ES_mouseDownEmpty();
     }
 
     public override void ES_mouseUpEmpty()
     {
+        if (Program.I().setting.setting.spyer.value)
+        {
+            Program.I().cardDescription.shiftCardShower(false);
+        }
         if (gameInfo.queryHashedButton("hide_all_card") == true)
         {
             if (flagForTimeConfirm)
@@ -8720,15 +8726,16 @@ public class Ocgcore : ServantWithCardDescription
         }
         else
         {
-            if (leftExcited)    
-            {
-                if (Input.GetKey(KeyCode.A)==false)     
+            if (Program.I().setting.setting.spyer.value == false)
+                if (leftExcited)
                 {
-                    leftExcited = false;
-                    gameInfo.keepChain_set(false);
-                }
+                    if (Input.GetKey(KeyCode.A) == false)
+                    {
+                        leftExcited = false;
+                        gameInfo.keepChain_set(false);
+                    }
 
-            }
+                }
         }
         base.ES_mouseUpEmpty();
     }

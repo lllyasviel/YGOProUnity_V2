@@ -78,6 +78,7 @@ public class Book : WindowServant2D
     public override void show()
     {
         base.show();
+        Program.I().cardDescription.shiftCardShower(true);
         Program.notGo(fixScreenProblem);
         fixScreenProblem();
         realize();
