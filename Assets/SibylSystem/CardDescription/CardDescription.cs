@@ -32,7 +32,6 @@ public class CardDescription : Servant
         picLoader.uiTexture = UIHelper.getByName<UITexture>(gameObject, "pic_");
         picLoader.loaded_code = -1;
         resizer = UIHelper.getByName<UIDragResize>(gameObject, "resizer");
-        resizer.onResize = onResized;
         underSprite = UIHelper.getByName<UITexture>(gameObject, "under_");
         description = UIHelper.getByName<UITextList>(gameObject, "description_");
         cardShowerWidget = UIHelper.getByName<UIWidget>(gameObject, "card_shower");
@@ -339,7 +338,7 @@ public class CardDescription : Servant
         }
     }
     
-    void onResized()
+    public void onResized()
     {
         if (monitor.gameObject.activeInHierarchy)
         {
