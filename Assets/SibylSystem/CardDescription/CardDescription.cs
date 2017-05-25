@@ -307,6 +307,7 @@ public class CardDescription : Servant
     int currentLabelIndex = 0;
     int currentCardIndex = 0;
     int eachLine = 0;
+    float monitorHeight = 0;
 
     void handleMonitorArea(List<gameCard> list,string hint)
     {
@@ -343,8 +344,9 @@ public class CardDescription : Servant
         if (monitor.gameObject.activeInHierarchy)
         {
             int newEach = (int)((monitor.width - 12f) / 44f);
-            if (newEach != eachLine)
+            if (newEach != eachLine || monitorHeight != monitor.height)
             {
+                monitorHeight = monitor.height;
                 eachLine = newEach;
                 realizeMonitor();
             }
