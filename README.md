@@ -6,6 +6,10 @@ The game is now being tested in china now, with at least *100,000* users ( about
 
 We use Yu-Gi-Oh card game only to test our engine, and the game is not for commercial use. When our card game engine is finally finished in about several years, all the contents about Yu-Gi-Oh will be deleted.
 
+The feedbacks is checked every day.
+
+![pic](https://raw.githubusercontent.com/lllyasviel/YGOProUnity_V2/master/gitpic/0.jpg)
+
 # Who need this software?
 
 YGOPro2 is for players. **All of our designs are for players.** We take advantage of anything avaliable to entertain our users and try our very best to make those who use ygopro2 win! If you are a skilled and brilliant duelist, you will absolutely like our present. If you have to attend an important online YGO match, our software is like the wings added to the tiger to defeat your enermy!
