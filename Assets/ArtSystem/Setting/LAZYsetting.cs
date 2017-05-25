@@ -38,6 +38,8 @@ public class LAZYsetting : MonoBehaviour {
 
     public UIToggle handm;
 
+    public UIToggle spyer;
+
     // Use this for initialization
     void Start () {
 	

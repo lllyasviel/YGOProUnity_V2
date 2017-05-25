@@ -22,6 +22,7 @@ public class Setting : WindowServant2D
         UIHelper.getByName<UIToggle>(gameObject, "autoChain_").value = UIHelper.fromStringToBool(Config.Get("autoChain_", "1"));
         UIHelper.getByName<UIToggle>(gameObject, "handPosition_").value = UIHelper.fromStringToBool(Config.Get("handPosition_", "0"));
         UIHelper.getByName<UIToggle>(gameObject, "handmPosition_").value = UIHelper.fromStringToBool(Config.Get("handmPosition_", "0"));
+        UIHelper.getByName<UIToggle>(gameObject, "spyer_").value = UIHelper.fromStringToBool(Config.Get("spyer_", "1"));
         UIHelper.getByName<UIToggle>(gameObject, "resize_").value = UIHelper.fromStringToBool(Config.Get("resize_", "0"));
         if (QualitySettings.GetQualityLevel()<3)
         {
@@ -37,6 +38,7 @@ public class Setting : WindowServant2D
         UIHelper.registEvent(gameObject, "autoChain_", save);
         UIHelper.registEvent(gameObject, "handPosition_", save);
         UIHelper.registEvent(gameObject, "handmPosition_", save);
+        UIHelper.registEvent(gameObject, "spyer_", save);
         UIHelper.registEvent(gameObject, "high_", save);
         UIHelper.registEvent(gameObject, "size_", onChangeSize);
         UIHelper.registEvent(gameObject, "alpha_", onChangeAlpha);
@@ -235,6 +237,7 @@ public class Setting : WindowServant2D
         Config.Set("autoChain_", UIHelper.fromBoolToString(UIHelper.getByName<UIToggle>(gameObject, "autoChain_").value));
         Config.Set("handPosition_", UIHelper.fromBoolToString(UIHelper.getByName<UIToggle>(gameObject, "handPosition_").value));
         Config.Set("handmPosition_", UIHelper.fromBoolToString(UIHelper.getByName<UIToggle>(gameObject, "handmPosition_").value));
+        Config.Set("spyer_", UIHelper.fromBoolToString(UIHelper.getByName<UIToggle>(gameObject, "spyer_").value));
         if (UIHelper.getByName<UIToggle>(gameObject, "high_").value)
         {
             QualitySettings.SetQualityLevel(5);
