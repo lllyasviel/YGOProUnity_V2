@@ -10,10 +10,6 @@ The feedbacks is checked every day.
 
 ![pic](https://raw.githubusercontent.com/lllyasviel/YGOProUnity_V2/master/gitpic/0.jpg)
 
-# Who need this software?
-
-YGOPro2 is for players. **All of our designs are for players.** We take advantage of anything avaliable to entertain our users and try our very best to make those who use ygopro2 win! If you are a skilled and brilliant duelist, you will absolutely like our present. If you have to attend an important online YGO match, our software is like the wings added to the tiger to defeat your enermy!
-
 # How to compile the game?
 
 1. Download Unity 5.1.3 (https://unity3d.com/cn/get-unity/download/archive).
