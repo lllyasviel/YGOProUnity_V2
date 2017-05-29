@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 // Copyright (C) 2014 Stephan Schaem - All Rights Reserved
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
@@ -92,7 +94,7 @@ void PixShader(Input input, inout SurfaceOutput o)
 	n = normalize(n - bump);
 
 	// Cubemap reflection
-	fixed4 reflcol = texCUBE(_Cube, reflect(input.viewDirEnv, mul((float3x3)_Object2World,n)));		
+	fixed4 reflcol = texCUBE(_Cube, reflect(input.viewDirEnv, mul((float3x3)unity_ObjectToWorld,n)));		
 	float3 emission = reflcol.rgb * lerp(_ReflectFaceColor.rgb, _ReflectOutlineColor.rgb, saturate(sd + outline * 0.5)) * faceColor.a;
 #else
 	float3 n = float3(0,0,-1);

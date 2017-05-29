@@ -11,7 +11,7 @@ public class forceColor : MonoBehaviour {
             DestroyImmediate(item);
         }
         Color c;
-        UnityEngine.Color.TryParseHexString(Config.Getui("allUI.color"), out c);
+        ColorUtility.TryParseHtmlString(Config.Getui("allUI.color").TrimStart('#'), out c);
         var sprites = GetComponentsInChildren<UISprite>();
         foreach (var item in sprites)   
         {
@@ -27,7 +27,7 @@ public class forceColor : MonoBehaviour {
                 }
             }
         }
-        UnityEngine.Color.TryParseHexString(Config.Getui("List.color"), out c);
+        ColorUtility.TryParseHtmlString(Config.Getui("List.color").TrimStart('#'), out c);
         var lists = GetComponentsInChildren<UIPopupList>();
         foreach (var item in lists)
         {
@@ -41,7 +41,7 @@ public class forceColor : MonoBehaviour {
             {
             }
         }
-        UnityEngine.Color.TryParseHexString(Config.Getui("lable.color"), out c);
+        ColorUtility.TryParseHtmlString(Config.Getui("lable.color").TrimStart('#'), out c);
         var ls = GetComponentsInChildren<UILabel>();
         foreach (var item in ls)
         {
@@ -49,7 +49,7 @@ public class forceColor : MonoBehaviour {
             item.gradientTop = c;
             item.gradientBottom = Color.gray;
         }
-        UnityEngine.Color.TryParseHexString(Config.Getui("lable.color.fadecolor"), out c);
+        ColorUtility.TryParseHtmlString(Config.Getui("lable.color.fadecolor").TrimStart('#'), out c);
         ls = GetComponentsInChildren<UILabel>();
         foreach (var item in ls)
         {

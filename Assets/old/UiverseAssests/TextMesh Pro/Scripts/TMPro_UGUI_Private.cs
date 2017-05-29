@@ -397,7 +397,11 @@ namespace TMPro
         //private int loopCountD = 0;
         //private int loopCountE = 0;
 
-       
+        public void RecalculateMasking()
+        {
+
+        }
+
         protected override void Awake()
         {
             //base.Awake();
