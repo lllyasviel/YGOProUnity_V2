@@ -15,7 +15,7 @@ public class OpenCardOnClick : MonoBehaviour
                     return;
                 }
                 int code = int.Parse(s);
-                ((CardDescription)(Program.I().cardDescription)).setData(YGOSharp.CardsManager.Get(code), GameTextureManager.myBack);
+                ((CardDescription)(Program.I().cardDescription)).setData(YGOSharp.CardsManager.Get(code), GameTextureManager.myBack,"",true);
             }
             catch (System.Exception e)
             {

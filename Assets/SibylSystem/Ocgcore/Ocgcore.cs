@@ -890,27 +890,33 @@ public class Ocgcore : ServantWithCardDescription
         {
             Program.cameraPosition.z = camera_max;
         }
+
         if (Input.GetKeyDown(KeyCode.C) == true)
         {
-            gameInfo.keepChain_set(false);
-            gameInfo.ignoreChain_set(false);
+            gameInfo.set_condition(gameInfo.chainCondition.smart);
         }
         if (Input.GetKeyDown(KeyCode.A) == true)
         {
-            gameInfo.keepChain_set(true);
-        }
-        if (Input.GetKeyUp(KeyCode.A) == true)
-        {
-            gameInfo.keepChain_set(false);
+            gameInfo.set_condition(gameInfo.chainCondition.all);
         }
         if (Input.GetKeyDown(KeyCode.S) == true)
         {
-            gameInfo.ignoreChain_set(true);
+            gameInfo.set_condition(gameInfo.chainCondition.no);
+        }
+
+        if (Input.GetKeyUp(KeyCode.C) == true)
+        {
+            gameInfo.set_condition(gameInfo.chainCondition.standard);
+        }
+        if (Input.GetKeyUp(KeyCode.A) == true)
+        {
+            gameInfo.set_condition(gameInfo.chainCondition.standard);
         }
         if (Input.GetKeyUp(KeyCode.S) == true)
         {
-            gameInfo.ignoreChain_set(false);
+            gameInfo.set_condition(gameInfo.chainCondition.standard);
         }
+
         if (Input.GetMouseButtonDown(2))
         {
             if (Program.I().book.isShowed)
@@ -1115,25 +1121,43 @@ public class Ocgcore : ServantWithCardDescription
                 int hint0 = r.ReadInt32();
                 int hint1 = r.ReadInt32();
                 bool ignore = false;
-                if (gameInfo.ignoreChain()) 
+                if (forced == 0)    
                 {
-                    ignore = true;
-                }
-                else
-                {
-                    if (gameInfo.keepChain())
+                    var condition = gameInfo.get_condition();
+                    if (condition == gameInfo.chainCondition.no)
                     {
-                        ignore = false;
+                        ignore = true;
                     }
                     else
                     {
-                        if (spcount == 0)
+                        if (condition == gameInfo.chainCondition.all)
                         {
-                            ignore = true;
+                            ignore = false;
                         }
                         else
                         {
-                            ignore = false;
+                            if (condition == gameInfo.chainCondition.smart)
+                            {
+                                if (count == 0)
+                                {
+                                    ignore = true;
+                                }
+                                else
+                                {
+                                    ignore = false;
+                                }
+                            }
+                            else
+                            {
+                                if (spcount == 0)
+                                {
+                                    ignore = true;
+                                }
+                                else
+                                {
+                                    ignore = false;
+                                }
+                            }
                         }
                     }
                 }
@@ -3196,10 +3220,20 @@ public class Ocgcore : ServantWithCardDescription
                 code = r.ReadInt32();
                 gps = r.ReadShortGPS();
                 r.ReadByte();
+                int cr = 95;
+                if (Config.ClientVersion >= 0x233c)
+                {
+                    int cp = r.ReadInt32();
+                    if (cp > 0)
+                        cr = cp;
+                }
+                desc = GameStringManager.get(cr);
                 card = GCS_cardGet(gps, false);
+                desc = desc.Replace("[%ls]", "「" + card.get_data().Name + "」");
                 if (card != null)
                 {
-                    RMSshow_yesOrNo("return", ES_hint + InterString.Get(",@n发动「[?]」的效果?", card.get_data().Name), new messageSystemValue { value = "1", hint = "yes" }, new messageSystemValue { value = "0", hint = "no" });
+                    string hin = ES_hint + "，\n" + desc;
+                    RMSshow_yesOrNo("return", hin, new messageSystemValue { value = "1", hint = "yes" }, new messageSystemValue { value = "0", hint = "no" });
                     card.add_one_decoration(Program.I().mod_ocgcore_decoration_chain_selecting, 4, Vector3.zero, "chain_selecting");
                     card.currentFlash = gameCard.flashType.Active;
                 }
@@ -3375,6 +3409,7 @@ public class Ocgcore : ServantWithCardDescription
                         card.effects.Add(eff);
                     }
                 }
+                var chain_condition = gameInfo.get_condition(); 
                 int handle_flag = 0;
                 if (forced == 0)
                 {
@@ -3382,18 +3417,40 @@ public class Ocgcore : ServantWithCardDescription
                     if (spcount == 0)
                     {
                         //无关键卡
-                        if (gameInfo.ignoreChain())
+                        if (chain_condition == gameInfo.chainCondition.no)
                         {
                             //无关键卡 连锁被无视 直接回答---
                             handle_flag = 0;
                         }
-                        else if (gameInfo.keepChain())
+                        else if (chain_condition == gameInfo.chainCondition.all)
                         {
                             //无关键卡但是连锁被监控
                             if (chainCards.Count == 0)
                             {
                                 //欺骗--
                                 handle_flag = -1;
+                            }
+                            else
+                            {
+                                if (chainCards.Count == 1 && chainCards[0].effects.Count == 1)
+                                {
+                                    //只有一张要处理的卡 常规处理 一张---
+                                    handle_flag = 1;
+                                }
+                                else
+                                {
+                                    //常规处理 多张---
+                                    handle_flag = 2;
+                                }
+                            }
+                        }
+                        else if (chain_condition == gameInfo.chainCondition.smart)
+                        {
+                            //无关键卡但是连锁被智能过滤
+                            if (chainCards.Count == 0)
+                            {
+                                //根本没卡 直接回答---
+                                handle_flag = 0;
                             }
                             else
                             {
@@ -3422,13 +3479,13 @@ public class Ocgcore : ServantWithCardDescription
                         {
                             //根本没卡 直接回答---
                             handle_flag = 0;
-                            if (gameInfo.keepChain())
+                            if (chain_condition == gameInfo.chainCondition.all)
                             {
                                 //欺骗--
                                 handle_flag = -1;
                             }
                         }
-                        else if (gameInfo.ignoreChain())
+                        else if (chain_condition == gameInfo.chainCondition.no)
                         {
                             //有关键卡 连锁被无视 直接回答---
                             handle_flag = 0;
@@ -7955,6 +8012,7 @@ public class Ocgcore : ServantWithCardDescription
 
     public override void hide()
     {
+        Program.I().cardDescription.shiftCardShower(true);
         InAI = false;
         MessageBeginTime = 0;
         currentMessage = GameMessage.Waiting;
@@ -8692,7 +8750,7 @@ public class Ocgcore : ServantWithCardDescription
             return;
         }
         rightExcited = true;
-        gameInfo.ignoreChain_set(true);
+        //gameInfo.ignoreChain_set(true);
         base.ES_mouseDownRight();
     }
 
@@ -8703,7 +8761,7 @@ public class Ocgcore : ServantWithCardDescription
         if (Program.I().setting.setting.spyer.value == false)
             if (gameInfo.queryHashedButton("hide_all_card") == false)
             {
-                gameInfo.keepChain_set(true);
+                //gameInfo.keepChain_set(true);
                 leftExcited = true;
             }
         base.ES_mouseDownEmpty();
@@ -8732,7 +8790,7 @@ public class Ocgcore : ServantWithCardDescription
                     if (Input.GetKey(KeyCode.A) == false)
                     {
                         leftExcited = false;
-                        gameInfo.keepChain_set(false);
+                        //gameInfo.keepChain_set(false);
                     }
 
                 }
@@ -8752,7 +8810,7 @@ public class Ocgcore : ServantWithCardDescription
             if (Input.GetKey(KeyCode.A) == false)
             {
                 leftExcited = false;
-                gameInfo.keepChain_set(false);
+                //gameInfo.keepChain_set(false);
             }
         }
         base.ES_mouseUpGameObject(gameObject);
@@ -8766,7 +8824,7 @@ public class Ocgcore : ServantWithCardDescription
             if (Input.GetKey(KeyCode.S) == false)
             {
                 rightExcited = false;
-                gameInfo.ignoreChain_set(false);
+                //gameInfo.ignoreChain_set(false);
             }
         }
         if (gameInfo.queryHashedButton("sendSelected") == true)

@@ -124,6 +124,8 @@ public class GameField : OCGobject
         label.transform.localScale = new Vector3(0.03f, 0.03f, 0.03f);
         label.text = "";
         overCount = 0;
+
+        loadNewField();
     }
 
     public void loadOldField()

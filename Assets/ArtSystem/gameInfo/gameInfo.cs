@@ -12,8 +12,29 @@ public class gameUIbutton
 public class gameInfo : MonoBehaviour
 {
     public UITexture instance_btnPan;
-    public UITextList instance_lab;    
+    public UITextList instance_lab;
+    public UIToggle toggle_ignore;
+    public UIToggle toggle_all;
+    public UIToggle toggle_smart;
     public GameObject line;
+
+    public void on_toggle_ignore()
+    {
+        toggle_all.value = false;
+        toggle_smart.value = false;
+    }
+
+    public void on_toggle_all()
+    {
+        toggle_ignore.value = false;
+        toggle_smart.value = false;
+    }
+
+    public void on_toggle_smart()
+    {
+        toggle_ignore.value = false;
+        toggle_all.value = false;
+    }
 
     //public UITextList hinter;
 
@@ -63,6 +84,7 @@ public class gameInfo : MonoBehaviour
             UnityEngine.Color.TryParseHexString(Config.Getui("gameChainCheckArea.color"), out c);
             UIHelper.getByName<UISprite>(UIHelper.getByName<UIToggle>(gameObject, "ignore_").gameObject, "Background").color = c;
             UIHelper.getByName<UISprite>(UIHelper.getByName<UIToggle>(gameObject, "watch_").gameObject, "Background").color = c;
+            UIHelper.getByName<UISprite>(UIHelper.getByName<UIToggle>(gameObject, "use_").gameObject, "Background").color = c;
         }
         float k = ((float)(Screen.width - Program.I().cardDescription.width)) / 1200f;
         if (k > 1.2f)
@@ -98,10 +120,10 @@ public class gameInfo : MonoBehaviour
             opponent.transform.localPosition = new Vector3(Screen.width / 2-14, Screen.height / 2 - 14 - k * (float)(opponent.under.height));
         }
 
-        float height = 100 + 50 * (HashedButtons.Count);
+        float height = 132 + 50 * (HashedButtons.Count);
         if (HashedButtons.Count==0)  
         {
-            height = 80;
+            height = 116;
         }
          width = (150 * kb) + 15f;
         float localPositionPanX = (((float)Screen.width - 150 * kb) / 2) - 15f;
@@ -114,7 +136,7 @@ public class gameInfo : MonoBehaviour
         {
             if (HashedButtons[i].gameObject != null)
             {
-                HashedButtons[i].gameObject.transform.localPosition += (new Vector3(0, height / 2 - 110 - i * 50, 0) - HashedButtons[i].gameObject.transform.localPosition) * Program.deltaTime * 10f;
+                HashedButtons[i].gameObject.transform.localPosition += (new Vector3(0, height / 2 - 142 - i * 50, 0) - HashedButtons[i].gameObject.transform.localPosition) * Program.deltaTime * 10f;
             }
         }
         if (Program.TimePassed() - lastTickTime > 1000)
@@ -375,45 +397,53 @@ public class gameInfo : MonoBehaviour
         }
     }
 
-    public bool ignoreChain()
+    public enum chainCondition
     {
-        return UIHelper.getByName<UIToggle>(gameObject, "ignore_").value;
+        standard,no,all,smart
     }
 
-    public bool keepChain()
+    public void set_condition(chainCondition c)
     {
-        return UIHelper.getByName<UIToggle>(gameObject, "watch_").value;
+        switch (c)  
+        {
+            case chainCondition.standard:
+                toggle_all.value = false;
+                toggle_smart.value = false;
+                toggle_ignore.value = false;
+                break;
+            case chainCondition.no:
+                toggle_all.value = false;
+                toggle_smart.value = false;
+                toggle_ignore.value = true;
+                break;
+            case chainCondition.all:
+                toggle_all.value = true;
+                toggle_smart.value = false;
+                toggle_ignore.value = false;
+                break;
+            case chainCondition.smart:
+                toggle_all.value = false;
+                toggle_smart.value = true;
+                toggle_ignore.value = false;
+                break;
+        }
     }
 
-    public void ignoreChain_set(bool val)
+    public chainCondition get_condition()
     {
-        try
+        chainCondition res = chainCondition.standard;
+        if (toggle_ignore.value)
         {
-            UIHelper.getByName<UIToggle>(gameObject, "ignore_").value = val;
+            res = chainCondition.no;
         }
-        catch (Exception)
+        if (toggle_smart.value)
         {
+            res = chainCondition.smart;
         }
+        if (toggle_all.value)
+        {
+            res = chainCondition.all;
+        }
+        return res;
     }
-
-    public void keepChain_set(bool val)
-    {
-        try
-        {
-            UIHelper.getByName<UIToggle>(gameObject, "watch_").value = val;
-        }
-        catch (Exception)
-        {
-        }
-    }
-
-    //public void ignoreChain_E()
-    //{
-    //    UIHelper.getByName<UIToggle>(gameObject, "ignore_").SwEt();
-    //}
-
-    //public void keepChain_E()   
-    //{
-    //    UIHelper.getByName<UIToggle>(gameObject, "watch_").SwEt();
-    //}
 }

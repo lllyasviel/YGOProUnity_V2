@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 public static class Config
 {
-    public static uint ClientVersion = 0x133d;
+    public static uint ClientVersion = 0x233c;
 
     class oneString
     {
