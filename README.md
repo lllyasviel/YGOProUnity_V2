@@ -30,7 +30,9 @@ The feedbacks is checked every day.
 
 *Yes, the name of the dll is System.Servicemodel.Faltexception.dll, though it does nothing with c# system :p*
 
-# How to compile the ocdcore.dll?
+# How to compile the ocgcore.dll?
+
+*In most case you do not need to care about the ocgcore.dll.*
 
 1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/Percy.sln**
 
