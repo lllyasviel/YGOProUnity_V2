@@ -357,7 +357,7 @@ public class Room : WindowServantSP
         lflist = r.ReadUInt32();
         rule = r.ReadByte();
         mode = r.ReadByte();
-        Program.I().ocgcore.MasterRule = r.ReadChar()>=3?4:3;
+        Program.I().ocgcore.MasterRule = r.ReadChar();
         no_check_deck = r.ReadBoolean();
         no_shuffle_deck = r.ReadBoolean();
         r.ReadByte();

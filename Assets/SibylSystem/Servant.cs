@@ -651,16 +651,17 @@ public class Servant
             new Vector3(((float)Screen.height) / 700f, ((float)Screen.height) / 700f, ((float)Screen.height) / 700f)
             );
         UISprite sp = UIHelper.getByName<UISprite>(currentMSwindow, "under");
-        sp.height = 70 + UIHelper.get_zonghangshu(options.Count, 3) * 40;
+        sp.height = 70 + UIHelper.get_zonghangshu(options.Count, 5) * 40;
+        sp.width = 470;
         for (int i = 0; i < options.Count; i++)
         {
-            Vector2 v = ui_helper.get_hang_lie(i, 3);
+            Vector2 v = ui_helper.get_hang_lie(i, 5);
             float hang = v.x;
             float lie = v.y;
             GameObject btn = create
            (
            Program.I().ES_multiple_option,
-           new Vector3(-82 + lie * 80, sp.height / 2 - 55 - 40 * hang, 0),
+           new Vector3(-162 + lie * 80, sp.height / 2 - 55 - 40 * hang, 0),
            Vector3.zero,
            false,
            sp.gameObject,

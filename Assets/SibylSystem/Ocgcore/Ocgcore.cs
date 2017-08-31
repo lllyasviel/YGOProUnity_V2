@@ -5056,7 +5056,7 @@ public class Ocgcore : ServantWithCardDescription
                 ES_min = r.ReadByte();
                 available = r.ReadUInt32();
                 values = new List<messageSystemValue>();
-                for (int i = 0; i < 24; i++)
+                for (int i = 0; i < 25; i++)
                 {
                     if ((available & (1 << i)) > 0)
                     {
@@ -5122,9 +5122,10 @@ public class Ocgcore : ServantWithCardDescription
                     int take = r.ReadInt32();
                     ES_searchCode.Add(take);
                 }
-                values = new List<messageSystemValue>();
-                values.Add(new messageSystemValue { value = "", hint = "" });
-                ES_RMS("AnnounceCard", values);
+                //values = new List<messageSystemValue>();
+                //values.Add(new messageSystemValue { value = "", hint = "" });
+                //ES_RMS("AnnounceCard", values);
+                RMSshow_input("AnnounceCard", InterString.Get("请输入关键字。"), "");
                 break;
             case GameMessage.AnnounceNumber:
                 if (inIgnoranceReplay() || inTheWorld())
