@@ -18,54 +18,22 @@ The feedbacks is checked every day.
 
 3. Double click Assets\main.unity to open the solution.
 
-# Advantages
+# How to compile the ocgcore wrapper?
 
-## If you regard YGO as an E-sports
+*In most case you do not need to care about the ocgcore wrapper.*
 
-### Concise and clear interface without any special effects
+1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/Percy.sln**
 
-detailed imformation not finished
+2. build the c# solution in x64 and release mode and you get the **System.Servicemodel.Faltexception.dll**
 
-### Much more amount of information than ygopro
+3. copy it into **YGOProUnity_V2\Assets\Plugins**
 
-detailed imformation not finished
+*Yes, the name of the dll is System.Servicemodel.Faltexception.dll, though it does nothing with c# system :p*
 
-### Lots of auxiliary functions
+# How to compile the ocdcore.dll?
 
-detailed imformation not finished
+1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/Percy.sln**
 
-### Card-counting and analysing
+2. build the c++ solution in x64 and release mode and you get the **ocgcore.dll**
 
-detailed imformation not finished
-
-### Time machine
-
-detailed imformation not finished
-
-### Card Monitors
-
-detailed imformation not finished
-
-### Strengthened Chain System
-
-detailed imformation not finished
-
-## If you player game just for fun
-
-### abundant particle effects
-
-detailed imformation not finished
-
-### Monsters stand on cards
-
-detailed imformation not finished
-
-### Closeups of monsters for summoning
-
-detailed imformation not finished
-
-### Interface can be highly personalized
-
-detailed imformation not finished
-
-***the readme is not finished yet***
+3. copy it into **YGOProUnity_V2\Assets\Plugins**
