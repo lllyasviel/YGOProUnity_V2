@@ -10,6 +10,10 @@ The feedbacks is checked every day.
 
 ![pic](https://raw.githubusercontent.com/lllyasviel/YGOProUnity_V2/master/gitpic/0.jpg)
 
+**The pro2 AI is an lua AI reader with MR4. It can read all lua AI code.**
+
+**The AI seems buggy now because it is not the excellent Percy AI. We will make effort to improve it.**
+
 # How to compile the game?
 
 1. Download Unity 5.1.3 (https://unity3d.com/cn/get-unity/download/archive).
