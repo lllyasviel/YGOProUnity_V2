@@ -26,7 +26,7 @@ The feedbacks is checked every day.
 
 *In most case you do not need to care about the ocgcore wrapper.*
 
-1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/Percy.sln**
+1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/core.sln**
 
 2. build the c# solution in x64 and release mode and you get the **System.Servicemodel.Faltexception.dll**
 
@@ -38,7 +38,7 @@ The feedbacks is checked every day.
 
 *In most case you do not need to care about the ocgcore.dll.*
 
-1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/Percy.sln**
+1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/core.sln**
 
 2. build the c++ solution in x64 and release mode and you get the **ocgcore.dll**
 
