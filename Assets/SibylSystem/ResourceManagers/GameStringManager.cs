@@ -56,7 +56,12 @@ public static class GameStringManager
                     {
                         Program.DEBUGLOG(e);
                     }
-                    a.content = mats[2];
+                    a.content = "";
+                    for (int i = 2; i < mats.Length; i++)
+                    {
+                        a.content += mats[i] + " ";
+                    }
+                    a.content = a.content.Substring(0, a.content.Length - 1);
                     hashedStrings.Add(a);
                     if (a.region == "setname")
                     {

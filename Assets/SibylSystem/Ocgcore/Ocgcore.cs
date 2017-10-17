@@ -6923,15 +6923,18 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         if ((cards[i].p.location & (UInt32)game_location.LOCATION_SZONE) > 0)
                         {
-                            if (cards[i].p.sequence == 6 || cards[i].p.sequence == 7)
+                            if (cards[i].p.sequence == 0 || cards[i].p.sequence == 4)
                             {
-                                if (cards[i].p.controller == 0)
+                                if ((cards[i].get_data().Type & (int)game_type.TYPE_PENDULUM) > 0)
                                 {
-                                    my_p_cards.Add(cards[i]);
-                                }
-                                else
-                                {
-                                    op_p_cards.Add(cards[i]);
+                                    if (cards[i].p.controller == 0)
+                                    {
+                                        my_p_cards.Add(cards[i]);
+                                    }
+                                    else
+                                    {
+                                        op_p_cards.Add(cards[i]);
+                                    }
                                 }
                             }
                         }
@@ -6941,6 +6944,7 @@ public class Ocgcore : ServantWithCardDescription
             {
                 if (my_p_cards.Count == 2)
                 {
+                    Debug.Log("oh");
                     gameField.me_left_p_num.GetComponent<number_loader>().set_number((int)my_p_cards[0].get_data().LScale, 3);
                     gameField.me_right_p_num.GetComponent<number_loader>().set_number((int)my_p_cards[1].get_data().LScale, 0);
                     gameField.mePHole = true;
