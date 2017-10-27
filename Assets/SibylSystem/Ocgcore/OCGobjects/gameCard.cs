@@ -660,7 +660,7 @@ public class gameCard : OCGobject
             iTween.RotateTo(gameObject, new Vector3(-30, 0, 0), 0.3f);
         }
         ES_excited_unsafe_should_not_be_changed_dont_touch_this = true;
-        showMeLeft();
+        showMeLeft(true);
         List<gameCard> overlayed_cards = Program.I().ocgcore.GCS_cardGetOverlayElements(this);
         Vector3 screen = Program.camera_game_main.WorldToScreenPoint(gameObject.transform.position);
         screen.z = 0;
@@ -681,9 +681,9 @@ public class gameCard : OCGobject
         }
     }
 
-    void showMeLeft()
+    void showMeLeft(bool force=false)
     {
-        Program.I().cardDescription.setData(data, p.controller == 0 ? GameTextureManager.myBack : GameTextureManager.opBack, tails.managedString);
+        Program.I().cardDescription.setData(data, p.controller == 0 ? GameTextureManager.myBack : GameTextureManager.opBack, tails.managedString, force);
     }
 
     public void ES_exit_excited(bool move_to_original_place)

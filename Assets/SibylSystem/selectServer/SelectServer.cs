@@ -126,6 +126,11 @@ public class SelectServer : WindowServantSP
         }
     }
 
+    public void set_version(string str)
+    {
+        UIHelper.getByName<UIInput>(gameObject, "version_").value = str;
+    }
+
     void onClickJoin()
     {
         if (!isShowed)

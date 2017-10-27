@@ -23,9 +23,11 @@ public class ServantWithCardDescription : Servant
 
     public override void preFrameFunction()
     {
+        var des = Program.I().cardDescription;
         if (Program.pointedGameObject!= Program.I().cardDescription.description.gameObject)    
         {
-            Program.I().cardDescription.description.OnScroll(Program.wheelValue / 50f);
+            des.description.OnScroll(Program.wheelValue / 50f);
         }
+        des.onResized();
     }
 }

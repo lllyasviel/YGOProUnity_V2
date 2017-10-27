@@ -357,7 +357,7 @@ public class Room : WindowServantSP
         lflist = r.ReadUInt32();
         rule = r.ReadByte();
         mode = r.ReadByte();
-        Program.I().ocgcore.MasterRule = r.ReadChar()>=3?4:3;
+        Program.I().ocgcore.MasterRule = r.ReadChar();
         no_check_deck = r.ReadBoolean();
         no_shuffle_deck = r.ReadBoolean();
         r.ReadByte();
@@ -520,7 +520,13 @@ public class Room : WindowServantSP
                 RMSshow_onlyYes("", InterString.Get("更换副卡组失败，请检查卡片张数是否一致。"), null);
                 break;
             case 4:
-                RMSshow_none(InterString.Get("你输入的版本号和服务器不一致。"));
+                r.ReadByte();
+                r.ReadByte();
+                r.ReadByte();
+                code = r.ReadInt32();
+                string hexOutput = "0x"+String.Format("{0:X}", code);
+                Program.I().selectServer.set_version(hexOutput);
+                RMSshow_none(InterString.Get("你输入的版本号和服务器不一致,[7CFC00]YGOPro2已经智能切换版本号[-]，请重新链接。"));
                 break;
             default:
                 break;

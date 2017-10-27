@@ -168,7 +168,7 @@ public class gameHiddenButton : OCGobject
                     }
                 }
             }
-        Program.I().cardDescription.setData(data, con == 0 ? GameTextureManager.myBack : GameTextureManager.opBack, tailString);
+        Program.I().cardDescription.setData(data, con == 0 ? GameTextureManager.myBack : GameTextureManager.opBack, tailString, data != null);
         if (Program.I().ocgcore.condition == Ocgcore.Condition.duel && Program.I().ocgcore.InAI == false && Program.I().room.mode != 2)
         {
             if (player == 0)

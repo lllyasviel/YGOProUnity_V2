@@ -35,8 +35,20 @@ public class cardPicLoader : MonoBehaviour
         t.depth = 51 + l * 2;
     }
 
+    public Collider coli = null;
+
     void Update()
     {
+        if (coli != null)
+        {
+            if (Program.InputGetMouseButtonDown_0)
+            {
+                if (Program.pointedCollider == coli)
+                {
+                    ((CardDescription)(Program.I().cardDescription)).setData(YGOSharp.CardsManager.Get(code), GameTextureManager.myBack,"",true);
+                }
+            }
+        }
         if (Program.I().deckManager != null)
         {
             if (loaded_code != code)
