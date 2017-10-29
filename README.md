@@ -43,3 +43,14 @@ The feedbacks is checked every day.
 2. build the c++ solution in x64 and release mode and you get the **ocgcore.dll**
 
 3. copy it into **YGOProUnity_V2\Assets\Plugins**
+
+
+# How to compile the libocgcore.so?
+
+*In most case you do not need to care about the ocgcore.dll.*
+
+1. cd  /d **YGOProUnity_V2/AI_core_vs2017solution**
+
+2. ndk-build NDK_PROJECT_PATH=. NDK_APPLICATION_MK=Application.mk
+
+3. copy **YGOProUnity_V2\AI_core_vs2017solution\libs\armeabi-v7a\libocgcore.so to  **YGOProUnity_V2\Assets\Plugins\Android\
