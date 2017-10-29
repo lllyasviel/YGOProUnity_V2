@@ -31,3 +31,5 @@ sysinfo.txt
 Temp/
 ygo2/
 /ygoandroid
+obj
+/AI_core_vs2017solution/libs

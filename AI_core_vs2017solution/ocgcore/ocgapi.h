@@ -7,7 +7,7 @@
 
 #ifndef OCGAPI_H_
 #define OCGAPI_H_
-#define WIN32
+//#define WIN32
 #include "common.h"
 #ifdef WIN32
 #include <windows.h>
