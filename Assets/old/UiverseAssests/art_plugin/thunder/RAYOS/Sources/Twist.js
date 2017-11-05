@@ -39,7 +39,7 @@ function DoTwist( pos : Vector3, t : float )
 {
 	var st = Mathf.Sin(t);
 	var ct = Mathf.Cos(t);
-	new_pos = Vector3.zero;
+	var new_pos = Vector3.zero;
 	
 	new_pos.x = pos.x*ct - pos.z*st;
 	new_pos.z = pos.x*st + pos.z*ct;

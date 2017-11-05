@@ -25,14 +25,15 @@ private var sections = new Array();
 function LateUpdate () {
 	var position = transform.position;
 	var now = Time.time;
-	
+	var tmp : ExtrudedTrailSection = sections[sections.length - 1];
 	// Remove old sections
-	while (sections.length > 0 && now > sections[sections.length - 1].time + time) {
+	while (sections.length > 0 && now > (tmp.time + time)) {
 		sections.Pop();
+		tmp = sections[sections.length - 1];
 	}
-
+	tmp = sections[0];
 	// Add a new trail section to beginning of array
-	if (sections.length == 0 || (sections[0].point - position).sqrMagnitude > minDistance * minDistance)
+	if (sections.length == 0 || (tmp.point - position).sqrMagnitude > minDistance * minDistance)
 	{
 		var section = ExtrudedTrailSection ();
 		section.point = position;
@@ -48,14 +49,16 @@ function LateUpdate () {
 	var worldToLocal = transform.worldToLocalMatrix;
 	var finalSections = new Matrix4x4[sections.length];
 	var previousRotation : Quaternion;
-	
+
+	var fsection : ExtrudedTrailSection = sections[0];
+	var ssection : ExtrudedTrailSection = sections[1];
 	for (var i=0;i<sections.length;i++)
 	{
 		if (autoCalculateOrientation)
 		{
 			if (i == 0)
 			{
-				var direction = sections[0].point - sections[1].point;
+				var direction = fsection.point - ssection.point;
 				var rotation = Quaternion.LookRotation(direction, Vector3.up);
 				previousRotation = rotation;
 				finalSections[i] = worldToLocal * Matrix4x4.TRS(position, rotation, Vector3.one);	
@@ -63,7 +66,9 @@ function LateUpdate () {
 			// all elements get the direction by looking up the next section
 			else if (i != sections.length - 1)
 			{	
-				direction = sections[i].point - sections[i+1].point;
+				var ftmp : ExtrudedTrailSection = sections[i];
+				var stmp : ExtrudedTrailSection = sections[i+1];
+				direction = ftmp.point - stmp.point;
 				rotation = Quaternion.LookRotation(direction, Vector3.up);
 				
 				// When the angle of the rotation compared to the last segment is too high
@@ -72,7 +77,7 @@ function LateUpdate () {
 					rotation = Quaternion.Slerp(previousRotation, rotation, 0.5);
 					
 				previousRotation = rotation;
-				finalSections[i] = worldToLocal * Matrix4x4.TRS(sections[i].point, rotation, Vector3.one);
+				finalSections[i] = worldToLocal * Matrix4x4.TRS(ftmp.point, rotation, Vector3.one);
 			}
 			// except the last one, which just copies the previous one
 			else
@@ -88,7 +93,8 @@ function LateUpdate () {
 			}
 			else
 			{
-				finalSections[i] = worldToLocal * sections[i].matrix;
+				tmp = sections[i];
+				finalSections[i] = worldToLocal * tmp.matrix;
 			}
 		}
 	}

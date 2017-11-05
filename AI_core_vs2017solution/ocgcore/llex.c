@@ -196,7 +196,9 @@ static void buffreplace (LexState *ls, char from, char to) {
   while (n--)
     if (p[n] == from) p[n] = to;
 }
-
+#if __ANDROID__
+#define getlocaledecpoint() ('.')
+#endif
 
 #if !defined(getlocaledecpoint)
 #define getlocaledecpoint()	(localeconv()->decimal_point[0])

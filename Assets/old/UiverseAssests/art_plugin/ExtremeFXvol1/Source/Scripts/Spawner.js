@@ -2,7 +2,7 @@ var ObjectSpawn:GameObject;
 var SpawnRate:float;
 var LifeTimeObject:float = 1;
 var LimitObject:int = 3;
-private var timetemp;
+private var timetemp:float;
 private var objcount:int;
 var PositionRandomSize:Vector3;
 var PositionOffset:Vector3;

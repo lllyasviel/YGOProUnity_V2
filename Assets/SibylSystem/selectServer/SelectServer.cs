@@ -95,11 +95,11 @@ public class SelectServer : WindowServantSP
     void printFile(bool first)
     {
         list.Clear();
-        if (File.Exists("config\\hosts.conf") == false)
+        if (File.Exists("config/hosts.conf") == false)
         {
-            File.Create("config\\hosts.conf").Close();
+            File.Create("config/hosts.conf").Close();
         }
-        string txtString = File.ReadAllText("config\\hosts.conf");
+        string txtString = File.ReadAllText("config/hosts.conf");
         string[] lines = txtString.Replace("\r", "").Split("\n");
         for (int i = 0; i < lines.Length; i++)
         {
@@ -175,7 +175,7 @@ public class SelectServer : WindowServantSP
                 {
                     all += list.items[i] + "\r\n";
                 }
-                File.WriteAllText("config\\hosts.conf", all);
+                File.WriteAllText("config/hosts.conf", all);
                 printFile(false);
                 (new Thread(() => { TcpHelper.join(ipString, name, portString, pswString,versionString); })).Start();
             }

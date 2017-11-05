@@ -106,7 +106,7 @@ function Update () {
 
 function ApplyMeshCollider () {
 	if (unappliedMesh && unappliedMesh.GetComponent(MeshCollider)) {
-		unappliedMesh.GetComponent(MeshCollider).mesh = unappliedMesh.mesh;
+		unappliedMesh.GetComponent(MeshCollider).sharedMesh  = unappliedMesh.mesh;
 	}
 	unappliedMesh = null;
 }
