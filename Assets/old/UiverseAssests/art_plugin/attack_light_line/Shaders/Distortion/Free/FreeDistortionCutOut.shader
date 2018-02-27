@@ -1,4 +1,6 @@
-﻿Shader "Effects/Distortion/Free/CutOutCullOff" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Effects/Distortion/Free/CutOutCullOff" {
 	Properties {
         _Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB) Gloss (A)", 2D) = "black" {}
@@ -47,7 +49,7 @@ Category {
 			v2f vert (appdata_t v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
 				o.texcoord1 = TRANSFORM_TEX(v.texcoord1,_CutoutTex);

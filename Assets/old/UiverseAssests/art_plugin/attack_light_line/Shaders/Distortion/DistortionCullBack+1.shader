@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Effects/Distortion/CullBack+2" {
 	Properties {
         _Color ("Main Color", Color) = (1,1,1,1)
@@ -36,7 +38,7 @@ struct Input {
 
 void vert (inout appdata_full v, out Input o) {
 	UNITY_INITIALIZE_OUTPUT(Input,o);
-	float4 oPos = mul(UNITY_MATRIX_MVP, v.vertex);
+	float4 oPos = UnityObjectToClipPos(v.vertex);
 	#if UNITY_UV_STARTS_AT_TOP
 		float scale = -1.0;
 	#else

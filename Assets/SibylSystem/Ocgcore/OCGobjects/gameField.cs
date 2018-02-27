@@ -297,8 +297,8 @@ public class GameField : OCGobject
             if (p_hole_me == null)
             {
                 p_hole_me = create(Program.I().mod_ocgcore_ss_p_idle_effect, new Vector3(0, 0, 0));
-                p_hole_mel = p_hole_me.transform.FindChild("l");
-                p_hole_mer = p_hole_me.transform.FindChild("r");
+                p_hole_mel = p_hole_me.transform.Find("l");
+                p_hole_mer = p_hole_me.transform.Find("r");
                 prereal = 0;
             }
         }
@@ -317,8 +317,8 @@ public class GameField : OCGobject
             if (p_hole_op == null)
             {
                 p_hole_op = create(Program.I().mod_ocgcore_ss_p_idle_effect, new Vector3(0, 0, 0));
-                p_hole_opl = p_hole_op.transform.FindChild("l");
-                p_hole_opr = p_hole_op.transform.FindChild("r");
+                p_hole_opl = p_hole_op.transform.Find("l");
+                p_hole_opr = p_hole_op.transform.Find("r");
                 prereal = 0;
             }
         }

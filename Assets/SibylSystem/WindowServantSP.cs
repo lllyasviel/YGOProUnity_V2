@@ -11,7 +11,7 @@ public class WindowServantSP : Servant
         {
             if (gameObject != null)
             {
-                var glass = gameObject.transform.FindChild("glass");
+                var glass = gameObject.transform.Find("glass");
                 UIPanel pan = gameObject.GetComponentInChildren<UIPanel>();
                 if (pan != null)
                 {
@@ -35,7 +35,7 @@ public class WindowServantSP : Servant
             {
                 return;
             }
-            var glass = gameObject.transform.FindChild("glass");
+            var glass = gameObject.transform.Find("glass");
             var panelKIller = gameObject.GetComponent<panelKIller>();
             if (panelKIller == null)
             {
@@ -74,7 +74,7 @@ public class WindowServantSP : Servant
                 panelKIller = gameObject.AddComponent<panelKIller>();
             }
             panelKIller.set(true);
-            var glass = gameObject.transform.FindChild("glass");
+            var glass = gameObject.transform.Find("glass");
             if (glass != null)
             {
                 glass.gameObject.SetActive(true);

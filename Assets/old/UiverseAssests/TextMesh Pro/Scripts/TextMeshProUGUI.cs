@@ -1118,6 +1118,10 @@ namespace TMPro
             isInputParsingRequired = true;
         }
 
+        public void RecalculateMasking()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

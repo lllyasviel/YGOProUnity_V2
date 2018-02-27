@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Learning Unity Shader/Lecture 15/RapidBlurEffect"
 {
 	//-----------------------------------【属性 || Properties】------------------------------------------  
@@ -126,7 +128,7 @@ Shader "Learning Unity Shader/Lecture 15/RapidBlurEffect"
 
 		//【6.2】填充输出结构
 		//将三维空间中的坐标投影到二维窗口  
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		//对图像的降采样：取像素上下左右周围的点，分别存于四级纹理坐标中
 		o.uv20 = v.texcoord + _MainTex_TexelSize.xy* half2(0.5h, 0.5h);;
 		o.uv21 = v.texcoord + _MainTex_TexelSize.xy * half2(-0.5h, -0.5h);
@@ -172,7 +174,7 @@ Shader "Learning Unity Shader/Lecture 15/RapidBlurEffect"
 
 		//【9.2】填充输出结构
 		//将三维空间中的坐标投影到二维窗口  
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		//纹理坐标
 		o.uv = half4(v.texcoord.xy, 1, 1);
 		//计算X方向的偏移量
@@ -190,7 +192,7 @@ Shader "Learning Unity Shader/Lecture 15/RapidBlurEffect"
 
 		//【10.2】填充输出结构
 		//将三维空间中的坐标投影到二维窗口  
-		o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.pos = UnityObjectToClipPos(v.vertex);
 		//纹理坐标
 		o.uv = half4(v.texcoord.xy, 1, 1);
 		//计算Y方向的偏移量
