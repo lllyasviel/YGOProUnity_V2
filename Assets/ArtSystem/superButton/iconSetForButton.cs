@@ -68,7 +68,7 @@ public class iconSetForButton : MonoBehaviour
                 break;
         }
         Color c;
-        UnityEngine.Color.TryParseHexString(Config.Getui("gameButtonSign.color"), out c);
+		UnityEngine.ColorUtility.TryParseHtmlString(Config.Getui("gameButtonSign.color"), out c);
         UITextureInButton.color = c;
     }
     public void setText(string hint)

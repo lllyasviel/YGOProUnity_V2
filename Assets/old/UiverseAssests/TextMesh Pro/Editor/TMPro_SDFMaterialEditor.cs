@@ -597,7 +597,7 @@ public class TMPro_SDFMaterialEditor : MaterialEditor
 
         switch (evt.type)
         {
-            case EventType.dragUpdated:
+            case EventType.DragUpdated:
             case EventType.DragPerform:
                 if (!dropArea.Contains(evt.mousePosition))
                     break;
