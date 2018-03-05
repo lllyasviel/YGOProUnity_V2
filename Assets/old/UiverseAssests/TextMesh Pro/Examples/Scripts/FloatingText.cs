@@ -10,7 +10,7 @@ namespace TMPro.Examples
         private GameObject m_floatingText;
         private TextMeshPro m_textMeshPro;
         private TextMesh m_textMesh;
-        private NavMeshAgent m_navAgent;
+        private UnityEngine.AI.NavMeshAgent m_navAgent;
 
         private Transform m_transform;
         private Transform m_floatingText_Transform;
@@ -24,7 +24,7 @@ namespace TMPro.Examples
         void Awake()
         {
             m_transform = transform;
-            m_navAgent = GetComponent<NavMeshAgent>();
+            m_navAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             m_floatingText = new GameObject(m_transform.name + " floating text");
 
             m_floatingText_Transform = m_floatingText.transform;

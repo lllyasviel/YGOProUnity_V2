@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "TMPro/Mobile/Bitmap" {
 
 Properties {
@@ -45,7 +47,7 @@ SubShader {
 		v2f vert (appdata_t v)
 		{
 			v2f o;
-			o.vertex = UnityPixelSnap(mul(UNITY_MATRIX_MVP, v.vertex));
+			o.vertex = UnityPixelSnap(UnityObjectToClipPos(v.vertex));
 			//o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 			o.color = v.color;
 			if(o.color.a > .5) o.color.a -= .5;

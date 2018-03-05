@@ -909,7 +909,7 @@ public class GameTextureManager
         N.Apply();
         try
         {
-            UnityEngine.Color.TryParseHexString(File.ReadAllText("texture\\duel\\chainColor.txt"), out chainColor);
+            ColorUtility.TryParseHtmlString(File.ReadAllText("texture\\duel\\chainColor.txt"), out chainColor);
         }
         catch (Exception)   
         {

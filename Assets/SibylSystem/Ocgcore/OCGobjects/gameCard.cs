@@ -121,10 +121,10 @@ public class gameCard : OCGobject
     public gameCard()
     {
         gameObject =Program.I().create(Program.I().mod_ocgcore_card);
-        gameObject_face = gameObject.transform.FindChild("card").FindChild("face").gameObject;
-        gameObject_back = gameObject.transform.FindChild("card").FindChild("back").gameObject;
-        gameObject_event_main = gameObject.transform.FindChild("card").FindChild("event").gameObject;
-        cardHint = gameObject.transform.FindChild("text").GetComponent<TMPro.TextMeshPro>();
+        gameObject_face = gameObject.transform.Find("card").Find("face").gameObject;
+        gameObject_back = gameObject.transform.Find("card").Find("back").gameObject;
+        gameObject_event_main = gameObject.transform.Find("card").Find("event").gameObject;
+        cardHint = gameObject.transform.Find("text").GetComponent<TMPro.TextMeshPro>();
         SpSummonFlash = insFlash("0099ff");
         ActiveFlash = insFlash("00ff66");
         SelectFlash = insFlash("ff8000");
@@ -962,7 +962,7 @@ public class gameCard : OCGobject
                 try
                 {
                     gameObject_event_main.GetComponent<MeshCollider>().enabled = true;
-                    gameObject.transform.FindChild("card").GetComponent<animation_floating_slow>().enabled = true;
+                    gameObject.transform.Find("card").GetComponent<animation_floating_slow>().enabled = true;
                 }
                 catch (System.Exception e)
                 {
@@ -984,7 +984,7 @@ public class gameCard : OCGobject
                 try
                 {
                     gameObject_event_main.GetComponent<MeshCollider>().enabled = false;
-                    gameObject.transform.FindChild("card").GetComponent<animation_floating_slow>().enabled = false;
+                    gameObject.transform.Find("card").GetComponent<animation_floating_slow>().enabled = false;
                     destroy(gameObject_event_card_bed);
                 }
                 catch (System.Exception e)
@@ -998,7 +998,7 @@ public class gameCard : OCGobject
                 refreshFunctions.Remove(this.card_verticle_drawing_handler);
                 refreshFunctions.Remove(this.monster_cloude_handler);
                 refreshFunctions.Remove(this.card_floating_text_handler);
-                gameObject.transform.FindChild("card").transform.localPosition = Vector3.zero;
+                gameObject.transform.Find("card").transform.localPosition = Vector3.zero;
                 set_text("");
                 //caculateAbility();
             }
@@ -1007,7 +1007,7 @@ public class gameCard : OCGobject
                 try
                 {
                     gameObject_event_main.GetComponent<MeshCollider>().enabled = true;
-                    gameObject.transform.FindChild("card").GetComponent<animation_floating_slow>().enabled = true;
+                    gameObject.transform.Find("card").GetComponent<animation_floating_slow>().enabled = true;
                 }
                 catch (System.Exception e)
                 {
@@ -2062,9 +2062,9 @@ public class gameCard : OCGobject
         flash.transform.SetParent(gameObject_face.transform, false);
         flash.transform.localPosition = Vector3.zero;
         Color tcl = Color.yellow;
-        Color.TryParseHexString(color, out tcl);
+        ColorUtility.TryParseHtmlString(color, out tcl);
         flash.flashingStartColor = tcl;
-        Color.TryParseHexString("000000", out tcl);
+        ColorUtility.TryParseHtmlString("000000", out tcl);
         flash.flashingEndColor = tcl;
         return flash;
     }
@@ -2078,9 +2078,9 @@ public class gameCard : OCGobject
             MouseFlash.transform.SetParent(gameObject_face.transform, false);
             MouseFlash.transform.localPosition = Vector3.zero;
             Color tcl = Color.yellow;
-            Color.TryParseHexString("ff8000", out tcl);
+            ColorUtility.TryParseHtmlString("ff8000", out tcl);
             MouseFlash.flashingStartColor = tcl;
-            Color.TryParseHexString("ffffff", out tcl);
+            ColorUtility.TryParseHtmlString("ffffff", out tcl);
             MouseFlash.flashingEndColor = tcl;
         }
         MouseFlash.gameObject.SetActive(true);

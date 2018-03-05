@@ -71,16 +71,11 @@ namespace TMPro
         }
 
         
-        protected override void OnFillVBO(List<UIVertex> vbo)
+
+        protected override void OnPopulateMesh(VertexHelper vh)
         {
-            base.OnFillVBO(vbo);
-            //Debug.Log("OnFillVBO called.");
-
-            //vbo = m_manager.uiVertex.ToList();
-
-
+            base.OnPopulateMesh(vh);
         }
-        
     }
 }
 

@@ -366,7 +366,7 @@ public class RopeEditor : EditorWindow
             ropeObj.jointPhysicsSettings.interpolation = (RigidbodyInterpolation)EditorGUILayout.EnumPopup("Interpolation Mode", ropeObj.jointPhysicsSettings.interpolation);
             GUILayout.Space(10);
             GUILayout.Label("Physics Iteration [Affects ALL Scene Objects]");
-            Physics.solverIterationCount = (int)EditorGUILayout.Slider(Physics.solverIterationCount, 5, 100);
+            Physics.defaultSolverIterations = (int)EditorGUILayout.Slider(Physics.defaultSolverIterations, 5, 100);
             GUILayout.Space(10);
             GUILayout.Label("Collision Mode Used in Unity 3.0 ONLY");
             ropeObj.jointPhysicsSettings.collisionMode = (Rope2.CollisionDetectMode)EditorGUILayout.EnumPopup("Collision Mode", ropeObj.jointPhysicsSettings.collisionMode);
