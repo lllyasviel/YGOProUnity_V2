@@ -178,10 +178,10 @@ public class selectReplay : WindowServantSP
             byte[] raw = reader.ReadToEnd();
             if ((returnValue.Flag & 0x1) > 0)
             {
-                SevenZip.Compression.LZMA.Decoder lzma = new SevenZip.Compression.LZMA.Decoder();
-                lzma.SetDecoderProperties(returnValue.Props);
+                //SevenZip.Compression.LZMA.Decoder lzma = new SevenZip.Compression.LZMA.Decoder();
+                //.SetDecoderProperties(returnValue.Props);
                 MemoryStream decompressed = new MemoryStream();
-                lzma.Code(new MemoryStream(raw), decompressed, raw.LongLength, returnValue.DataSize, null);
+                //lzma.Code(new MemoryStream(raw), decompressed, raw.LongLength, returnValue.DataSize, null);
                 raw = decompressed.ToArray();
             }
             reader = new BinaryReader(new MemoryStream(raw));

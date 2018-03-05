@@ -16,7 +16,7 @@ public class MonoCardInDeckManager : MonoBehaviour {
             if (pic != null)
             {
                 loadedPicCode = cardData.Id;
-                gameObject.transform.FindChild("face").GetComponent<Renderer>().material.mainTexture = pic;
+                gameObject.transform.Find("face").GetComponent<Renderer>().material.mainTexture = pic;
             }
         }
         if (Program.I().deckManager.currentBanlist != loaded_banlist)

@@ -1627,8 +1627,8 @@ public class DeckManager : ServantWithCardDescription
         if (r == null)
         {
             r = Program.I().create(Program.I().new_mod_cardInDeckManager).AddComponent<MonoCardInDeckManager>();
-            r.gameObject.transform.FindChild("back").gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.myBack;
-            r.gameObject.transform.FindChild("face").gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.myBack;
+            r.gameObject.transform.Find("back").gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.myBack;
+            r.gameObject.transform.Find("face").gameObject.GetComponent<Renderer>().material.mainTexture = GameTextureManager.myBack;
         }
         r.gameObject.transform.position = new Vector3(0, 5, 0);
         r.gameObject.transform.eulerAngles = new Vector3(90, 0, 0);
