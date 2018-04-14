@@ -19,7 +19,7 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "online_", onClickOnline);
         UIHelper.registEvent(gameObject, "replay_", onClickReplay);
         UIHelper.registEvent(gameObject, "single_", onClickPizzle);
-        UIHelper.registEvent(gameObject, "ai_", onClickAI);
+        //UIHelper.registEvent(gameObject, "ai_", onClickAI);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
         (new Thread(up)).Start();
     }
