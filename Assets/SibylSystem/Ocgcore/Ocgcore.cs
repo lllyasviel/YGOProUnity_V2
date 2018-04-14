@@ -3388,7 +3388,7 @@ public class Ocgcore : ServantWithCardDescription
                 cancalable = (r.ReadByte() != 0);
                 ES_min = r.ReadByte();
                 ES_max = r.ReadByte();
-                ES_min = 1; // SelectUnselectCard can actually always select 1 card
+                ES_min = finish ? 0 : 1; // SelectUnselectCard can actually always select 1 card
                 ES_max = 1; // SelectUnselectCard can actually always select 1 card
                 ES_level = 0;
                 count = r.ReadByte();
@@ -3424,6 +3424,10 @@ public class Ocgcore : ServantWithCardDescription
                 if (cancalable)
                 {
                     gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, InterString.Get("取消选择@ui"));
+                }
+                else if (finish)
+                {
+                    gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, "完成选择");
                 }
                 realizeCardsForSelect();
                 if (ES_selectHint != "")
