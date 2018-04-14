@@ -103,6 +103,7 @@ namespace Percy
         SelectSum = 23,
         SelectDisfield = 24,
         SortCard = 25,
+        SelectUnselectCard = 26,
         ConfirmDecktop = 30,
         ConfirmCards = 31,
         ShuffleDeck = 32,
@@ -112,8 +113,10 @@ namespace Percy
         ShuffleSetCard = 36,
         ReverseDeck = 37,
         DeckTop = 38,
+        ShuffleExtra = 39,
         NewTurn = 40,
         NewPhase = 41,
+        ConfirmExtratop = 42,
         Move = 50,
         PosChange = 53,
         Set = 54,
@@ -157,6 +160,8 @@ namespace Percy
         ReleaseRelation = 123,
         TossCoin = 130,
         TossDice = 131,
+        RockPaperScissors = 132,
+        HandResult = 133,
         AnnounceRace = 140,
         AnnounceAttrib = 141,
         AnnounceCard = 142,
@@ -167,7 +172,7 @@ namespace Percy
         ReloadField = 162,
         AiName = 163,
         ShowHint = 164,
-        PlayerHint=165,
+        PlayerHint = 165,
         MatchKill = 170,
         CustomMsg = 180,
         DuelWinner = 200,
@@ -1012,6 +1017,30 @@ namespace Percy
                         int p = currentReader.ReadByte();
                         currentWriter.Write(((int)(p == player ? code : 0)));
                         currentWriter.Write((byte)p);
+                        move(3);
+                    }
+                    returnValue = true;
+                    break;
+                case GameMessage.SelectUnselectCard:
+                    player = move(1);
+                    int buttonok = move(1);
+                    move(3);
+                    int count1 = move(1);
+                    for (int i = 0; i < count1; i++)
+                    {
+                        int code = currentReader.ReadInt32();
+                        int p = currentReader.ReadByte();
+                        currentWriter.Write(((int)(p == player ? code : 0)));
+                        currentWriter.Write((byte)p);
+                        move(3);
+                    }
+                    int count2 = move(1);
+                    for (int i = 0; i < count2; i++)
+                    {
+                        int code = currentReader.ReadInt32();
+                        int p = currentReader.ReadByte();
+                        //currentWriter.Write(((int)(p == player ? code : 0)));
+                        //currentWriter.Write((byte)p);
                         move(3);
                     }
                     returnValue = true;

@@ -40,3 +40,8 @@ deck/
 pack/
 texture/
 config/
+bin/
+Release/
+AI_core_vs2017solution/core.VC.db
+AI_core_vs2017solution/core.VC.VC.opendb
+AI_core_vs2017solution/System.Servicemodel.Faltexception.dll

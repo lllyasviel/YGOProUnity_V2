@@ -3373,6 +3373,68 @@ public class Ocgcore : ServantWithCardDescription
                     gameField.setHint(InterString.Get("请选择卡片。") + " " + ES_min.ToString() + "-" + ES_max.ToString());
                 }
                 break;
+            case GameMessage.SelectUnselectCard:
+                if (inIgnoranceReplay() || inTheWorld())
+                {
+                    break;
+                }
+                if (condition == Condition.record)
+                {
+                    Sleep(60);
+                }
+                destroy(waitObject, 0, false, true);
+                player = localPlayer(r.ReadByte());
+                bool finish = (r.ReadByte() != 0);
+                cancalable = (r.ReadByte() != 0);
+                ES_min = r.ReadByte();
+                ES_max = r.ReadByte();
+                ES_min = 1; // SelectUnselectCard can actually always select 1 card
+                ES_max = 1; // SelectUnselectCard can actually always select 1 card
+                ES_level = 0;
+                count = r.ReadByte();
+                for (int i = 0; i < count; i++)
+                {
+                    code = r.ReadInt32();
+                    gps = r.ReadGPS();
+                    card = GCS_cardGet(gps, false);
+                    if (card != null)
+                    {
+                        card.set_code(code);
+                        card.prefered = true;
+                        card.forSelect = true;
+                        card.selectPtr = i;
+                        allCardsInSelectMessage.Add(card);
+                    }
+                }
+                count = r.ReadByte();
+                for (int i = 0; i < count; i++)
+                {
+                    code = r.ReadInt32();
+                    gps = r.ReadGPS();
+                    /*card = GCS_cardGet(gps, false);
+                    if (card != null)
+                    {
+                        card.set_code(code);
+                        card.prefered = true;
+                        card.forSelect = true;
+                        card.selectPtr = i;
+                        allCardsInSelectMessage.Add(card);
+                    }*/
+                }
+                if (cancalable)
+                {
+                    gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, InterString.Get("取消选择@ui"));
+                }
+                realizeCardsForSelect();
+                if (ES_selectHint != "")
+                {
+                    gameField.setHint(ES_selectHint + " " + ES_min.ToString() + "-" + ES_max.ToString());
+                }
+                else
+                {
+                    gameField.setHint(InterString.Get("请选择卡片。") + " " + ES_min.ToString() + "-" + ES_max.ToString());
+                }
+                break;
             case GameMessage.SelectChain:
                 if (inIgnoranceReplay() || inTheWorld())
                 {
@@ -5542,6 +5604,7 @@ public class Ocgcore : ServantWithCardDescription
                         }
                         break;
                     case GameMessage.SelectCard:
+                    case GameMessage.SelectUnselectCard:
                         if (cardsSelectable.Count <= ES_min)
                         {
                             autoSendCards();
@@ -5713,6 +5776,18 @@ public class Ocgcore : ServantWithCardDescription
                 real_send = true;
             }
         }
+        if (currentMessage == GameMessage.SelectUnselectCard)
+        {
+            if (cardsSelected.Count >= ES_min)
+            {
+                sendable = true;
+            }
+            if (cardsSelected.Count == ES_max || cardsSelected.Count == cardsSelectable.Count)
+            {
+                sendable = true;
+                real_send = true;
+            }
+        }
         if (currentMessage == GameMessage.SelectTribute)
         {
             int all = 0;
@@ -5771,7 +5846,7 @@ public class Ocgcore : ServantWithCardDescription
 
     private void getSelectableCards()
     {
-        if (currentMessage == GameMessage.SelectCard)
+        if (currentMessage == GameMessage.SelectCard || currentMessage == GameMessage.SelectUnselectCard)
         {
             for (int i = 0; i < allCardsInSelectMessage.Count; i++)
             {
@@ -6080,6 +6155,7 @@ public class Ocgcore : ServantWithCardDescription
         switch (currentMessage)
         {
             case GameMessage.SelectCard:
+            case GameMessage.SelectUnselectCard:
             case GameMessage.SelectTribute:
                 int c = ES_min;
                 if (cardsSelectable.Count < c)
@@ -6119,6 +6195,7 @@ public class Ocgcore : ServantWithCardDescription
         switch (currentMessage)
         {
             case GameMessage.SelectCard:
+            case GameMessage.SelectUnselectCard:
             case GameMessage.SelectTribute:
             case GameMessage.SelectSum:
                 m = new BinaryMaster();
@@ -8108,6 +8185,8 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             case GameMessage.SelectCard:
                 break;
+            case GameMessage.SelectUnselectCard:
+                break;
             case GameMessage.SelectChain:
                 break;
             case GameMessage.SelectPlace:
@@ -8178,6 +8257,7 @@ public class Ocgcore : ServantWithCardDescription
             case GameMessage.SelectEffectYn:
             case GameMessage.SelectYesNo:
             case GameMessage.SelectCard:
+            case GameMessage.SelectUnselectCard:
             case GameMessage.SelectTribute:
             case GameMessage.SelectChain:
                 clearAllShowedB = true;
@@ -8356,6 +8436,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
             case GameMessage.SelectCard:
+            case GameMessage.SelectUnselectCard:
             case GameMessage.SelectTribute:
             case GameMessage.SelectSum:
                 if (card.forSelect)
