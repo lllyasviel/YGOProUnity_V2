@@ -33,3 +33,10 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# ygopro
+cdb/
+deck/
+pack/
+texture/
+config/
