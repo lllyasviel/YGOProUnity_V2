@@ -95,7 +95,7 @@ public class Room : WindowServantSP
         if (val != "")
         {
             TcpHelper.CtosMessage_Chat(val);
-            AddChatMsg(val, -1);
+            //AddChatMsg(val, -1);
         }
     }
 
