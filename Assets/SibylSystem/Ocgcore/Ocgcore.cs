@@ -3384,11 +3384,11 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 destroy(waitObject, 0, false, true);
                 player = localPlayer(r.ReadByte());
-                bool finish = (r.ReadByte() != 0);
-                cancalable = (r.ReadByte() != 0);
+                bool finishable = (r.ReadByte() != 0);
+                cancalable = (r.ReadByte() != 0) || finishable;
                 ES_min = r.ReadByte();
                 ES_max = r.ReadByte();
-                ES_min = finish ? 0 : 1; // SelectUnselectCard can actually always select 1 card
+                ES_min = finishable ? 0 : 1; // SelectUnselectCard can actually always select 1 card
                 ES_max = 1; // SelectUnselectCard can actually always select 1 card
                 ES_level = 0;
                 count = r.ReadByte();
@@ -3421,13 +3421,9 @@ public class Ocgcore : ServantWithCardDescription
                         allCardsInSelectMessage.Add(card);
                     }*/
                 }
-                if (cancalable)
+                if (cancalable && !finishable)
                 {
                     gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, InterString.Get("取消选择@ui"));
-                }
-                else if (finish)
-                {
-                    gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, "完成选择");
                 }
                 realizeCardsForSelect();
                 if (ES_selectHint != "")
@@ -6203,6 +6199,12 @@ public class Ocgcore : ServantWithCardDescription
             case GameMessage.SelectTribute:
             case GameMessage.SelectSum:
                 m = new BinaryMaster();
+                if (currentMessage == GameMessage.SelectUnselectCard && cardsSelected.Count == 0)
+                {
+                    m.writer.Write((Int32)(-1));
+                    sendReturn(m.get());
+                    break;
+                }
                 m.writer.Write((byte)(cardsMustBeSelected.Count + cardsSelected.Count));
                 for (int i = 0; i < cardsMustBeSelected.Count; i++)
                 {
@@ -6216,7 +6218,6 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 sendReturn(m.get());
                 break;
-
         }
     }
 
