@@ -3702,6 +3702,10 @@ public class Ocgcore : ServantWithCardDescription
                     }
                     if ((positions & 0x8) > 0)
                     {
+                        if ((positions & 0x4) > 0)
+                        {
+                            op1 = 0x4;
+                        }
                         op2 = 0x8;
                     }
                     RMSshow_position("return", code, new messageSystemValue { value = op1.ToString(), hint = "atk" }, new messageSystemValue { value = op2.ToString(), hint = "def" });
