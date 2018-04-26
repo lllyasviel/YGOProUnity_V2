@@ -1788,6 +1788,17 @@ public class Ocgcore : ServantWithCardDescription
                     printDuelLog(InterString.Get("骰子结果：[?]", data.ToString()));
                 }
                 break;
+            case GameMessage.HandResult:
+                data = r.ReadByte();
+                int data1 = data & 0x3;
+                int data2 = (data >> 2) & 0x3;
+                string res1 = (data1 == 1 ? "剪刀" : (data1 == 2 ? "布" : "石头"));
+                string res2 = (data2 == 1 ? "剪刀" : (data2 == 2 ? "布" : "石头"));
+                if (isFirst)
+                    printDuelLog("猜拳结果：你好像出了" + res2 + data2.ToString() + "，对方好像出了" + res1 + data1.ToString());
+                else
+                    printDuelLog("猜拳结果：你好像出了" + data1.ToString() + res1 + "，对方好像出了" + res2 + data2.ToString());
+                break;
             case GameMessage.Attack:
                 game_card = GCS_cardGet(r.ReadGPS(), false);
                 string derectattack = "";
@@ -4104,6 +4115,11 @@ public class Ocgcore : ServantWithCardDescription
                     }
                     sendReturn(binaryMaster.get());
                 }
+                break;
+            case GameMessage.RockPaperScissors:
+                binaryMaster = new BinaryMaster();
+                binaryMaster.writer.Write(UnityEngine.Random.Range(0, 2));
+                sendReturn(binaryMaster.get());
                 break;
             case GameMessage.ConfirmDecktop:
                 player = localPlayer(r.ReadByte());
