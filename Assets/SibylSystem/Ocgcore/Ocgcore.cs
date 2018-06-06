@@ -2312,6 +2312,7 @@ public class Ocgcore : ServantWithCardDescription
                     }
                 break;
             case GameMessage.ShuffleSetCard:
+                location = r.ReadByte();
                 count = r.ReadByte();
                 List<GPS> gpss = new List<GPS>();
                 for (int i = 0; i < count; i++)
