@@ -3927,7 +3927,7 @@ public class Ocgcore : ServantWithCardDescription
                 binaryMaster = new BinaryMaster();
                 player = r.ReadByte();
                 min = r.ReadByte();
-                int field = ~r.ReadInt32();
+                int _field = ~r.ReadInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
                 {
                     
@@ -3938,7 +3938,7 @@ public class Ocgcore : ServantWithCardDescription
                         bool pendulumZone = false;
                         int filter;
 
-                        if ((field & 0x7f0000) != 0)
+                        /*if ((field & 0x7f0000) != 0)
                         {
                             resp[0] = (byte)(1 - player);
                             resp[1] = 0x4;
@@ -3956,26 +3956,44 @@ public class Ocgcore : ServantWithCardDescription
                             resp[1] = 0x8;
                             filter = (field >> 30) & 0x3;
                             pendulumZone = true;
-                        }
-                        else if ((field & 0x7f) != 0)
+                        }*/ 
+                    for (int j=0; j<2; j++)
+                    {
+                        resp = new byte[3];
+                        pendulumZone = false;
+                        filter = 0;
+                        int field;
+
+                        if (j==0)
                         {
                             resp[0] = (byte)player;
+                            field = _field & 0xffff;
+                        }
+                        else
+                        {
+                            resp[0] = (byte)(1 - player);
+                            field = _field >> 16;
+                        }
+
+                        if ((field & 0x7f) != 0)
+                        {
                             resp[1] = 0x4;
                             filter = field & 0x7f;
                         }
                         else if ((field & 0x1f00) != 0)
                         {
-                            resp[0] = (byte)player;
                             resp[1] = 0x8;
                             filter = (field >> 8) & 0x1f;
                         }
-                        else
+                        else if ((field & 0xc000) != 0)
                         {
-                            resp[0] = (byte)player;
                             resp[1] = 0x8;
                             filter = (field >> 14) & 0x3;
                             pendulumZone = true;
                         }
+
+                        if (filter == 0)
+                            continue;
 
                         if (!pendulumZone)
                         {
@@ -4031,6 +4049,9 @@ public class Ocgcore : ServantWithCardDescription
                                 createPlaceSelector(resp);
                             }
                         }
+
+                    }
+
                     }
                     if (Es_selectMSGHintType == 3)
                     {
@@ -4046,6 +4067,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 else
                 {
+                    int field = _field;
                     for (int i = 0; i < min; i++)
                     {
                         byte[] resp = new byte[3];
