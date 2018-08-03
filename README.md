@@ -16,11 +16,15 @@ The feedbacks is checked every day.
 
 # How to compile the game?
 
-1. Download Unity 5.1.3 (https://unity3d.com/cn/get-unity/download/archive).
+1. Download Unity 5.6.2 (https://unity3d.com/cn/get-unity/download/archive).
 
 2. Clone the repository.
 
 3. Double click Assets\main.unity to open the solution.
+
+*Note that this is only the core engine and that it won't work without the required "game data".*<br>
+*The game data are still covered by the original konami copyright and must be obeyed as usual.*<br>
+*See : https://github.com/msfwaifu/YGOProUnity_V2_Data*
 
 # How to compile the ocgcore wrapper?
 
