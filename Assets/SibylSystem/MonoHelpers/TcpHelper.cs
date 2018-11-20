@@ -763,12 +763,11 @@ public static class BinaryExtensions
         }
         if ((flag & (int)Query.Owner) != 0)
             r.ReadInt32();
-        if ((flag & (int)Query.IsDisabled) != 0)
+        if ((flag & (int)Query.Status) != 0)
         {
-            cardToRefresh.disabled = (r.ReadInt32() != 0);
+            int status = r.ReadInt32();
+            cardToRefresh.disabled = (status & 0x0001) == 0x0001;
         }
-        if ((flag & (int)Query.IsPublic) != 0)
-            r.ReadInt32();
         if ((flag & (int)Query.LScale) != 0)
             data.LScale = r.ReadInt32();
         if ((flag & (int)Query.RScale) != 0)
