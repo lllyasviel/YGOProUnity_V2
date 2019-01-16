@@ -21,7 +21,7 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "single_", onClickPizzle);
         //UIHelper.registEvent(gameObject, "ai_", onClickAI);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
-        (new Thread(up)).Start();
+        //(new Thread(up)).Start();
     }
 
     public override void show()
