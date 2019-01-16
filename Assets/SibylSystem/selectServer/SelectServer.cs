@@ -144,8 +144,8 @@ public class SelectServer : WindowServantSP
         string versionString = UIHelper.getByName<UIInput>(gameObject, "version_").value;
         if (versionString=="")  
         {
-            UIHelper.getByName<UIInput>(gameObject, "version_").value = "0x133d";
-            versionString = "0x133d";
+            UIHelper.getByName<UIInput>(gameObject, "version_").value = "0x1348";
+            versionString = "0x1348";
         }
         KF_onlineGame(Name, ipString, portString, versionString, pswString);
     }
