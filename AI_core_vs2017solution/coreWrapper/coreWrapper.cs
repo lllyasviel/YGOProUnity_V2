@@ -1104,6 +1104,7 @@ namespace Percy
                     move(1);
                     break;
                 case GameMessage.ShuffleSetCard:
+                    move(1);
                     move(move(1) * 8);
                     break;
                 case GameMessage.ReverseDeck:

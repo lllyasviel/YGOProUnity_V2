@@ -367,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &171908
 GameObject:
   m_ObjectHideFlags: 1
@@ -2200,17 +2200,17 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 196
+  mWidth: 200
   mHeight: 27
   mDepth: 7
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 7.259259
+  aspectRatio: 7.4074073
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f775853fdfd14bb47934543e95c3bae3, type: 3}
   mFont: {fileID: 0}
-  mText: YGOPro2 1.034.3
+  mText: "YGOPro2 233\u6D4B\u8BD5\u7248 v7"
   mFontSize: 18
   mFontStyle: 0
   mAlignment: 1
@@ -2764,7 +2764,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: mText
-      value: YGOPro2 1033.D.3
+      value: "YGOPro2 233\u6D4B\u8BD5\u7248 v7"
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: mWidth
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: aspectRatio
+      value: 7.40740728
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

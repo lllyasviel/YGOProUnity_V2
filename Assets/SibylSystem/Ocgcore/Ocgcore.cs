@@ -1788,6 +1788,17 @@ public class Ocgcore : ServantWithCardDescription
                     printDuelLog(InterString.Get("骰子结果：[?]", data.ToString()));
                 }
                 break;
+            case GameMessage.HandResult:
+                data = r.ReadByte();
+                int data1 = data & 0x3;
+                int data2 = (data >> 2) & 0x3;
+                string res1 = (data1 == 1 ? "剪刀" : (data1 == 2 ? "布" : "石头"));
+                string res2 = (data2 == 1 ? "剪刀" : (data2 == 2 ? "布" : "石头"));
+                if (isFirst)
+                    printDuelLog("猜拳结果：你好像出了" + res2 + data2.ToString() + "，对方好像出了" + res1 + data1.ToString());
+                else
+                    printDuelLog("猜拳结果：你好像出了" + data1.ToString() + res1 + "，对方好像出了" + res2 + data2.ToString());
+                break;
             case GameMessage.Attack:
                 game_card = GCS_cardGet(r.ReadGPS(), false);
                 string derectattack = "";
@@ -2301,6 +2312,7 @@ public class Ocgcore : ServantWithCardDescription
                     }
                 break;
             case GameMessage.ShuffleSetCard:
+                location = r.ReadByte();
                 count = r.ReadByte();
                 List<GPS> gpss = new List<GPS>();
                 for (int i = 0; i < count; i++)
@@ -3384,11 +3396,11 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 destroy(waitObject, 0, false, true);
                 player = localPlayer(r.ReadByte());
-                bool finish = (r.ReadByte() != 0);
-                cancalable = (r.ReadByte() != 0);
+                bool finishable = (r.ReadByte() != 0);
+                cancalable = (r.ReadByte() != 0) || finishable;
                 ES_min = r.ReadByte();
                 ES_max = r.ReadByte();
-                ES_min = finish ? 0 : 1; // SelectUnselectCard can actually always select 1 card
+                ES_min = finishable ? 0 : 1; // SelectUnselectCard can actually always select 1 card
                 ES_max = 1; // SelectUnselectCard can actually always select 1 card
                 ES_level = 0;
                 count = r.ReadByte();
@@ -3421,13 +3433,9 @@ public class Ocgcore : ServantWithCardDescription
                         allCardsInSelectMessage.Add(card);
                     }*/
                 }
-                if (cancalable)
+                if (cancalable && !finishable)
                 {
                     gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, InterString.Get("取消选择@ui"));
-                }
-                else if (finish)
-                {
-                    gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, "完成选择");
                 }
                 realizeCardsForSelect();
                 if (ES_selectHint != "")
@@ -3706,6 +3714,10 @@ public class Ocgcore : ServantWithCardDescription
                     }
                     if ((positions & 0x8) > 0)
                     {
+                        if ((positions & 0x4) > 0)
+                        {
+                            op1 = 0x4;
+                        }
                         op2 = 0x8;
                     }
                     RMSshow_position("return", code, new messageSystemValue { value = op1.ToString(), hint = "atk" }, new messageSystemValue { value = op2.ToString(), hint = "def" });
@@ -3915,7 +3927,7 @@ public class Ocgcore : ServantWithCardDescription
                 binaryMaster = new BinaryMaster();
                 player = r.ReadByte();
                 min = r.ReadByte();
-                int field = ~r.ReadInt32();
+                int _field = ~r.ReadInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
                 {
                     
@@ -3926,7 +3938,7 @@ public class Ocgcore : ServantWithCardDescription
                         bool pendulumZone = false;
                         int filter;
 
-                        if ((field & 0x7f0000) != 0)
+                        /*if ((field & 0x7f0000) != 0)
                         {
                             resp[0] = (byte)(1 - player);
                             resp[1] = 0x4;
@@ -3944,26 +3956,44 @@ public class Ocgcore : ServantWithCardDescription
                             resp[1] = 0x8;
                             filter = (field >> 30) & 0x3;
                             pendulumZone = true;
-                        }
-                        else if ((field & 0x7f) != 0)
+                        }*/ 
+                    for (int j=0; j<2; j++)
+                    {
+                        resp = new byte[3];
+                        pendulumZone = false;
+                        filter = 0;
+                        int field;
+
+                        if (j==0)
                         {
                             resp[0] = (byte)player;
+                            field = _field & 0xffff;
+                        }
+                        else
+                        {
+                            resp[0] = (byte)(1 - player);
+                            field = _field >> 16;
+                        }
+
+                        if ((field & 0x7f) != 0)
+                        {
                             resp[1] = 0x4;
                             filter = field & 0x7f;
                         }
                         else if ((field & 0x1f00) != 0)
                         {
-                            resp[0] = (byte)player;
                             resp[1] = 0x8;
                             filter = (field >> 8) & 0x1f;
                         }
-                        else
+                        else if ((field & 0xc000) != 0)
                         {
-                            resp[0] = (byte)player;
                             resp[1] = 0x8;
                             filter = (field >> 14) & 0x3;
                             pendulumZone = true;
                         }
+
+                        if (filter == 0)
+                            continue;
 
                         if (!pendulumZone)
                         {
@@ -4019,6 +4049,9 @@ public class Ocgcore : ServantWithCardDescription
                                 createPlaceSelector(resp);
                             }
                         }
+
+                    }
+
                     }
                     if (Es_selectMSGHintType == 3)
                     {
@@ -4034,6 +4067,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 else
                 {
+                    int field = _field;
                     for (int i = 0; i < min; i++)
                     {
                         byte[] resp = new byte[3];
@@ -4104,6 +4138,11 @@ public class Ocgcore : ServantWithCardDescription
                     }
                     sendReturn(binaryMaster.get());
                 }
+                break;
+            case GameMessage.RockPaperScissors:
+                binaryMaster = new BinaryMaster();
+                binaryMaster.writer.Write(UnityEngine.Random.Range(0, 2));
+                sendReturn(binaryMaster.get());
                 break;
             case GameMessage.ConfirmDecktop:
                 player = localPlayer(r.ReadByte());
@@ -6203,6 +6242,12 @@ public class Ocgcore : ServantWithCardDescription
             case GameMessage.SelectTribute:
             case GameMessage.SelectSum:
                 m = new BinaryMaster();
+                if (currentMessage == GameMessage.SelectUnselectCard && cardsSelected.Count == 0)
+                {
+                    m.writer.Write((Int32)(-1));
+                    sendReturn(m.get());
+                    break;
+                }
                 m.writer.Write((byte)(cardsMustBeSelected.Count + cardsSelected.Count));
                 for (int i = 0; i < cardsMustBeSelected.Count; i++)
                 {
@@ -6216,7 +6261,6 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 sendReturn(m.get());
                 break;
-
         }
     }
 

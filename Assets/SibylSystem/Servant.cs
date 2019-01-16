@@ -696,7 +696,10 @@ public class Servant
         cardPicLoader_.code = code;
         cardPicLoader_.uiTexture = UIHelper.getByName<UITexture>(currentMSwindow, "atkPic_");
         cardPicLoader_ = currentMSwindow.AddComponent<cardPicLoader>();
-        cardPicLoader_.code = code;
+        if (Int32.Parse(def.value) != 8)
+            cardPicLoader_.code = code;
+        else
+            cardPicLoader_.code = 0;
         cardPicLoader_.uiTexture = UIHelper.getByName<UITexture>(currentMSwindow, "defPic_");
     }
 

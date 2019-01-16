@@ -21,8 +21,7 @@
         OverlayCard = 0x10000,
         Counters = 0x20000,
         Owner = 0x40000,
-        IsDisabled = 0x80000,
-        IsPublic = 0x100000,
+        Status = 0x80000,
         LScale = 0x200000,
         RScale = 0x400000
     }

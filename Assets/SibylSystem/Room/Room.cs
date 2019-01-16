@@ -95,7 +95,7 @@ public class Room : WindowServantSP
         if (val != "")
         {
             TcpHelper.CtosMessage_Chat(val);
-            AddChatMsg(val, -1);
+            //AddChatMsg(val, -1);
         }
     }
 
@@ -506,13 +506,39 @@ public class Room : WindowServantSP
                 r.ReadByte();
                 r.ReadByte();
                 code = r.ReadInt32();
-                switch (code)
+                int flag = code >> 28;
+                code = code & 0xFFFFFFF;
+                switch (flag)
                 {
-                    case 1:
-                        RMSshow_onlyYes("", GameStringManager.get_unsafe(1406), null);
+                    case 1: // DECKERROR_LFLIST
+                        RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name) + "（数量不符合禁限卡表）", null);
+                        break;
+                    case 2: // DECKERROR_OCGONLY
+                        RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name) + "（OCG独有卡，不能在当前设置使用）", null);
+                        break;
+                    case 3: // DECKERROR_TCGONLY
+                        RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name) + "（TCG独有卡，不能在当前设置使用）", null);
+                        break;
+                    case 4: // DECKERROR_UNKNOWNCARD
+                        if (code < 100000000)
+                            RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name) + "（服务器无法识别此卡，可能是服务器未更新）", null);
+                        else
+                            RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name) + "（服务器无法识别此卡，可能是服务器不支持先行卡或此先行卡已正式更新）", null);
+                        break;
+                    case 5: // DECKERROR_CARDCOUNT
+                        RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name) + "（数量过多）", null);
+                        break;
+                    case 6: // DECKERROR_MAINCOUNT
+                        RMSshow_onlyYes("", "主卡组数量应为40-60张", null);
+                        break;
+                    case 7: // DECKERROR_EXTRACOUNT
+                        RMSshow_onlyYes("", "额外卡组数量应为0-15张", null);
+                        break;
+                    case 8: // DECKERROR_SIDECOUNT
+                        RMSshow_onlyYes("", "副卡组数量应为0-15", null);
                         break;
                     default:
-                        RMSshow_onlyYes("", InterString.Get("卡组非法，请检查：[?]", YGOSharp.CardsManager.Get(code).Name), null);
+                        RMSshow_onlyYes("", GameStringManager.get_unsafe(1406), null);
                         break;
                 }
                 break;
