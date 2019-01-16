@@ -829,7 +829,8 @@ public class Program : MonoBehaviour
         {
             Screen.SetResolution(1300, 700, false);
         }
-        Application.targetFrameRate = 120;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 144;
         mouseParticle = Instantiate(new_mouse);
         instance = this;
         initialize();
