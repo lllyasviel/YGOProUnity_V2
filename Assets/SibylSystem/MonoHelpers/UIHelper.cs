@@ -963,7 +963,7 @@ public static class UIHelper
             return;
         }
         path = Environment.CurrentDirectory.Replace("\\", "/") + "/" + path;
-        path = "file:///" + path;
+        path = new Uri(new Uri("file:///"), path).AbsolutePath;
         GameObject audio_helper = Program.I().ocgcore.create_s(Program.I().mod_audio_effect);
         audio_helper.GetComponent<audio_helper>().play(path, Program.I().setting.soundValue());
         Program.I().destroy(audio_helper,5f);

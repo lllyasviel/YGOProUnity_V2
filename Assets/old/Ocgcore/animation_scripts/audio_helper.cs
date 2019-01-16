@@ -17,23 +17,25 @@ public class audio_helper : MonoBehaviour {
         }
 	}
     bool played = false;
-    public void play(string u,float vol)
+    private IEnumerator playSound(string u,float vol)
     {
         played = false;
-        WWW www = new WWW(u);
-
-        AudioClip ac = www.GetAudioClip(true, true);
-        audioMgr.clip = ac;
+        using (WWW www = new WWW(u))
+        {
+            yield return www;
+            AudioClip ac = www.GetAudioClip(true, true);
+            audioMgr.clip = ac;
+        }
         audioMgr.volume = vol;
+    }
+    public void play(string u,float vol)
+    {
+        StartCoroutine(playSound(u, vol));
     }
 
     public void change_bgm(string str)
     {
-        played = false;
-        WWW www = new WWW(str);
-
-        AudioClip ac = www.GetAudioClip(true, true);
-        audioMgr.clip = ac;
+        StartCoroutine(playSound(str, 100f));
         audioMgr.loop = true;
     }
 
