@@ -3401,8 +3401,8 @@ public class Ocgcore : ServantWithCardDescription
                 cancalable = (r.ReadByte() != 0) || finishable;
                 ES_min = r.ReadByte();
                 ES_max = r.ReadByte();
-                ES_min = finishable ? 0 : 1; // SelectUnselectCard can actually always select 1 card
-                ES_max = 1; // SelectUnselectCard can actually always select 1 card
+                //ES_min = finishable ? 0 : 1; // SelectUnselectCard can actually always select 1 card
+                //ES_max = 1; // SelectUnselectCard can actually always select 1 card
                 ES_level = 0;
                 count = r.ReadByte();
                 for (int i = 0; i < count; i++)
@@ -3419,12 +3419,13 @@ public class Ocgcore : ServantWithCardDescription
                         allCardsInSelectMessage.Add(card);
                     }
                 }
-                count = r.ReadByte();
-                for (int i = 0; i < count; i++)
+                cardsSelected.Clear();
+                int count2 = r.ReadByte();
+                for (int i = count; i < count + count2; i++)
                 {
                     code = r.ReadInt32();
                     gps = r.ReadGPS();
-                    /*card = GCS_cardGet(gps, false);
+                    card = GCS_cardGet(gps, false);
                     if (card != null)
                     {
                         card.set_code(code);
@@ -3432,13 +3433,19 @@ public class Ocgcore : ServantWithCardDescription
                         card.forSelect = true;
                         card.selectPtr = i;
                         allCardsInSelectMessage.Add(card);
-                    }*/
+                        cardsSelected.Add(card);
+                    }
                 }
                 if (cancalable && !finishable)
                 {
                     gameInfo.addHashedButton("cancleSelected", -1, superButtonType.no, InterString.Get("取消选择@ui"));
                 }
+                if (finishable)
+                {
+                    gameInfo.addHashedButton("sendSelected", 0, superButtonType.yes, InterString.Get("完成选择@ui"));
+                }
                 realizeCardsForSelect();
+                cardsSelected.Clear();
                 if (ES_selectHint != "")
                 {
                     gameField.setHint(ES_selectHint + " " + ES_min.ToString() + "-" + ES_max.ToString());
@@ -5648,7 +5655,6 @@ public class Ocgcore : ServantWithCardDescription
                         }
                         break;
                     case GameMessage.SelectCard:
-                    case GameMessage.SelectUnselectCard:
                         if (cardsSelectable.Count <= ES_min)
                         {
                             autoSendCards();
@@ -5820,18 +5826,6 @@ public class Ocgcore : ServantWithCardDescription
                 real_send = true;
             }
         }
-        if (currentMessage == GameMessage.SelectUnselectCard)
-        {
-            if (cardsSelected.Count >= ES_min)
-            {
-                sendable = true;
-            }
-            if (cardsSelected.Count == ES_max || cardsSelected.Count == cardsSelectable.Count)
-            {
-                sendable = true;
-                real_send = true;
-            }
-        }
         if (currentMessage == GameMessage.SelectTribute)
         {
             int all = 0;
@@ -5878,7 +5872,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
             }
         }
-        else
+        else if (currentMessage != GameMessage.SelectUnselectCard)
         {
             gameInfo.removeHashedButton("sendSelected");
         }
@@ -8485,7 +8479,6 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
             case GameMessage.SelectCard:
-            case GameMessage.SelectUnselectCard:
             case GameMessage.SelectTribute:
             case GameMessage.SelectSum:
                 if (card.forSelect)
@@ -8524,6 +8517,16 @@ public class Ocgcore : ServantWithCardDescription
                         cardsSelected.Remove(card);
                     }
                     realizeCardsForSelect();
+                }
+                break;
+            case GameMessage.SelectUnselectCard:
+                if (card.forSelect)
+                {
+                    cardsSelected.Add(card);
+                    gameInfo.removeHashedButton("sendSelected");
+                    sendSelectedCards();
+                    realize();
+                    toNearest();
                 }
                 break;
             case GameMessage.SelectChain:
