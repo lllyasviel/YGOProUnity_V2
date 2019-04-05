@@ -23,6 +23,7 @@
         Owner = 0x40000,
         Status = 0x80000,
         LScale = 0x200000,
-        RScale = 0x400000
+        RScale = 0x400000,
+        Link = 0x800000
     }
 }
