@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using YGOSharp.OCGWrapper.Enums;
 public class Ocgcore : ServantWithCardDescription
@@ -3234,18 +3235,32 @@ public class Ocgcore : ServantWithCardDescription
                 code = r.ReadInt32();
                 gps = r.ReadShortGPS();
                 r.ReadByte();
-                int cr = 95;
-                if (Config.ClientVersion >= 0x233c)
-                {
-                    int cp = r.ReadInt32();
-                    if (cp > 0)
-                        cr = cp;
-                }
-                desc = GameStringManager.get(cr);
+                int cr = r.ReadInt32();
                 card = GCS_cardGet(gps, false);
-                desc = desc.Replace("[%ls]", "「" + card.get_data().Name + "」");
                 if (card != null)
                 {
+                    string displayname = "「" + card.get_data().Name + "」";
+                    if (cr == 0)
+                    {
+                        desc = GameStringManager.get(200);
+                        Regex forReplaceFirst = new Regex("\\[%ls\\]");
+                        desc = forReplaceFirst.Replace(desc, GameStringManager.formatLocation(gps), 1);
+                        desc = forReplaceFirst.Replace(desc, displayname, 1);
+                    }
+                    else if (cr == 221)
+                    {
+                        desc = GameStringManager.get(221);
+                        Regex forReplaceFirst = new Regex("\\[%ls\\]");
+                        desc = forReplaceFirst.Replace(desc, GameStringManager.formatLocation(gps), 1);
+                        desc = forReplaceFirst.Replace(desc, displayname, 1);
+                        desc = desc + "\n" + GameStringManager.get(223);
+                    }
+                    else
+                    {
+                        desc = GameStringManager.get(cr);
+                        Regex forReplaceFirst = new Regex("\\[%ls\\]");
+                        desc = forReplaceFirst.Replace(desc, displayname, 1);
+                    }
                     string hin = ES_hint + "，\n" + desc;
                     RMSshow_yesOrNo("return", hin, new messageSystemValue { value = "1", hint = "yes" }, new messageSystemValue { value = "0", hint = "no" });
                     card.add_one_decoration(Program.I().mod_ocgcore_decoration_chain_selecting, 4, Vector3.zero, "chain_selecting");

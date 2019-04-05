@@ -12,7 +12,7 @@ public static class GameStringManager
 
     public static List<hashedString> hashedStrings = new List<hashedString>();
 
-    public static List<hashedString> xilies = new List<hashedString>(); 
+    public static List<hashedString> xilies = new List<hashedString>();
 
     public static int helper_stringToInt(string str)
     {
@@ -86,7 +86,7 @@ public static class GameStringManager
         return re;
     }
 
-    internal static string get_unsafe(int hashCode)   
+    internal static string get_unsafe(int hashCode)
     {
         string re = "";
         foreach (hashedString s in hashedStrings)
@@ -100,7 +100,7 @@ public static class GameStringManager
         return re;
     }
 
-    internal static string get(int description)     
+    internal static string get(int description)
     {
         string a = "";
         if (description < 10000)
@@ -121,6 +121,31 @@ public static class GameStringManager
             }
         }
         return a;
+    }
+
+    internal static string formatLocation(uint location, uint sequence)
+    {
+        if (location == 0x8)
+        {
+            if (sequence < 5)
+                return get(1003);
+            else if (sequence == 5)
+                return get(1008);
+            else
+                return get(1009);
+        }
+        uint filter = 1;
+        int i = 1000;
+        for (; filter != 0x100 && filter != location; filter <<= 1)
+            ++i;
+        if (filter == location)
+            return get(i);
+        else
+            return "???";
+    }
+    internal static string formatLocation(GPS gps)
+    {
+        return formatLocation(gps.location, gps.sequence);
     }
 }
 
