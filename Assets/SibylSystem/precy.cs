@@ -53,7 +53,7 @@ public class PrecyOcg
             }
             else
             {
-                Config.ClientVersion = 0x233c;
+                //Config.ClientVersion = 0x233c;
                 Program.I().shiftToServant(Program.I().ocgcore);
             }
         ((CardDescription)Program.I().cardDescription).setTitle(path);
@@ -78,7 +78,7 @@ public class PrecyOcg
             }
             else
             {
-                Config.ClientVersion = 0x233c;
+                //Config.ClientVersion = 0x233c;
                 Program.I().shiftToServant(Program.I().ocgcore);
             }
         }

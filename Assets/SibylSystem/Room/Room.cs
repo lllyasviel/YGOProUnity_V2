@@ -560,9 +560,9 @@ public class Room : WindowServantSP
                 r.ReadByte();
                 r.ReadByte();
                 code = r.ReadInt32();
-                string hexOutput = "0x"+String.Format("{0:X}", code);
-                Program.I().selectServer.set_version(hexOutput);
-                RMSshow_none(InterString.Get("你输入的版本号和服务器不一致,[7CFC00]YGOPro2已经智能切换版本号[-]，请重新链接。"));
+                //string hexOutput = "0x"+String.Format("{0:X}", code);
+                //Program.I().selectServer.set_version(hexOutput);
+                //RMSshow_none(InterString.Get("你输入的版本号和服务器不一致,[7CFC00]YGOPro2已经智能切换版本号[-]，请重新链接。"));
                 break;
             default:
                 break;
