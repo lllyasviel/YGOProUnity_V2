@@ -335,6 +335,9 @@ public class Room : WindowServantSP
         is_host = ((type >> 4) & 0xf) != 0;
         if (is_host)
         {
+            if (selftype < 4 && roomPlayers[selftype] != null) {
+                roomPlayers[selftype].prep = false;
+            }
             UIHelper.shiftButton(startButton(), true);
             lazyRoom.start.localScale = Vector3.one;
             lazyRoom.duelist.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f, 0);
