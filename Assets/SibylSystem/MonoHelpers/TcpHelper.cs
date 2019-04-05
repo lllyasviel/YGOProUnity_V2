@@ -699,17 +699,6 @@ public static class BinaryExtensions
         {
             l2 = r.ReadInt32();
         }
-        if (((flag & (int)Query.Level) != 0) || ((flag & (int)Query.Rank) != 0))
-        {
-            if (l1 > l2)
-            {
-                data.Level = l1;
-            }
-            else
-            {
-                data.Level = l2;
-            }
-        }
 
         if ((flag & (int)Query.Attribute) != 0)
             data.Attribute = r.ReadInt32();
@@ -725,8 +714,8 @@ public static class BinaryExtensions
             r.ReadInt32();
         if ((flag & (int)Query.Reason) != 0)
             r.ReadInt32();
-        //if ((flag & (int)Query.ReasonCard) != 0)
-        //    r.ReadInt32(); 
+        if ((flag & (int)Query.ReasonCard) != 0)
+            r.ReadInt32();
         if ((flag & (int)Query.EquipCard) != 0)
         {
             cardToRefresh.addTarget(Program.I().ocgcore.GCS_cardGet(r.ReadGPS(), false));
@@ -772,6 +761,26 @@ public static class BinaryExtensions
             data.LScale = r.ReadInt32();
         if ((flag & (int)Query.RScale) != 0)
             data.RScale = r.ReadInt32();
+        int l3 = 0;
+        if ((flag & (int)Query.Link) != 0)
+        {
+            l3 = r.ReadInt32(); //link value
+            data.rDefense = r.ReadInt32(); //link marker
+        }
+        if (((flag & (int)Query.Level) != 0) || ((flag & (int)Query.Rank) != 0) || ((flag & (int)Query.Link) != 0))
+        {
+            if (l1 > l2)
+            {
+                data.Level = l1;
+            }
+            else
+            {
+                data.Level = l2;
+            }
+            if(l3 > data.Level)
+                data.Level = l3;
+        }
+
         cardToRefresh.set_data(data);
         //
     }
