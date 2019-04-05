@@ -341,14 +341,16 @@ public class Room : WindowServantSP
             }
             UIHelper.shiftButton(startButton(), true);
             lazyRoom.start.localScale = Vector3.one;
+            lazyRoom.ready.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f + 30f, 0);
             lazyRoom.duelist.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f, 0);
-            lazyRoom.observer.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f-30f, 0);
+            lazyRoom.observer.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f - 30f, 0);
             lazyRoom.start.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f - 30f - 30f, 0);
         }
         else
         {
             UIHelper.shiftButton(startButton(), false);
             lazyRoom.start.localScale = Vector3.zero;
+            lazyRoom.ready.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f, 0);
             lazyRoom.duelist.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f - 30f, 0);
             lazyRoom.observer.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f - 30f - 30f, 0);
             lazyRoom.start.localPosition = new Vector3(lazyRoom.duelist.localPosition.x, -94.2f - 30f - 30f - 30f, 0);
@@ -832,6 +834,7 @@ public class Room : WindowServantSP
         UIHelper.registUIEventTriggerForClick(exitButton().gameObject, listenerForClicked);
         UIHelper.registUIEventTriggerForClick(duelistButton().gameObject, listenerForClicked);
         UIHelper.registUIEventTriggerForClick(observerButton().gameObject, listenerForClicked);
+        UIHelper.registUIEventTriggerForClick(readyButton().gameObject, listenerForClicked);
         realize();
         superScrollView.refreshForOneFrame();
     }
@@ -878,11 +881,31 @@ public class Room : WindowServantSP
         return UIHelper.getByName<UIButton>(gameObject, "observer_");
     }
 
+    private UIButton readyButton()
+    {
+        return UIHelper.getByName<UIButton>(gameObject, "ready_");
+    }
+
     void listenerForClicked(GameObject gameObjectListened)
     {
         if (gameObjectListened.name == "exit_")
         {
             Program.I().ocgcore.onExit();
+        }
+        if (gameObjectListened.name == "ready_")
+        {
+            if (selftype < realPlayers.Length && realPlayers[selftype] != null)
+            {
+                if (realPlayers[selftype].getIfPreped())
+                {
+                    TcpHelper.CtosMessage_HsNotReady();
+                }
+                else
+                {
+                    TcpHelper.CtosMessage_UpdateDeck(new YGOSharp.Deck("deck/" + Config.Get("deckInUse", "wizard") + ".ydk"));
+                    TcpHelper.CtosMessage_HsReady();
+                }
+            }
         }
         if (gameObjectListened.name == "duelist_")
         {
