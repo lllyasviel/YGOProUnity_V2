@@ -96,72 +96,72 @@ public static class TcpHelper
                     {
                         MemoryStream memoryStream = new MemoryStream(datas[i]);
                         BinaryReader r = new BinaryReader(memoryStream);
-                        var ms = (YGOSharp.Network.Enums.StocMessage)(r.ReadByte());
+                        var ms = (StocMessage)(r.ReadByte());
                         switch (ms)
                         {
-                            case YGOSharp.Network.Enums.StocMessage.GameMsg:
-                                ((Room)Program.I().room).StocMessage_GameMsg(r);
+                            case StocMessage.GameMsg:
+                                Program.I().room.StocMessage_GameMsg(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.ErrorMsg:
-                                ((Room)Program.I().room).StocMessage_ErrorMsg(r);
+                            case StocMessage.ErrorMsg:
+                                Program.I().room.StocMessage_ErrorMsg(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.SelectHand:
-                                ((Room)Program.I().room).StocMessage_SelectHand(r);
+                            case StocMessage.SelectHand:
+                                Program.I().room.StocMessage_SelectHand(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.SelectTp:
-                                ((Room)Program.I().room).StocMessage_SelectTp(r);
+                            case StocMessage.SelectTp:
+                                Program.I().room.StocMessage_SelectTp(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.HandResult:
-                                ((Room)Program.I().room).StocMessage_HandResult(r);
+                            case StocMessage.HandResult:
+                                Program.I().room.StocMessage_HandResult(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.TpResult:
-                                ((Room)Program.I().room).StocMessage_TpResult(r);
+                            case StocMessage.TpResult:
+                                Program.I().room.StocMessage_TpResult(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.ChangeSide:
-                                ((Room)Program.I().room).StocMessage_ChangeSide(r);
+                            case StocMessage.ChangeSide:
+                                Program.I().room.StocMessage_ChangeSide(r);
                                 TcpHelper.SaveRecord();
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.WaitingSide:
-                                ((Room)Program.I().room).StocMessage_WaitingSide(r);
+                            case StocMessage.WaitingSide:
+                                Program.I().room.StocMessage_WaitingSide(r);
                                 TcpHelper.SaveRecord();
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.CreateGame:
-                                ((Room)Program.I().room).StocMessage_CreateGame(r);
+                            case StocMessage.CreateGame:
+                                Program.I().room.StocMessage_CreateGame(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.JoinGame:
-                                ((Room)Program.I().room).StocMessage_JoinGame(r);
+                            case StocMessage.JoinGame:
+                                Program.I().room.StocMessage_JoinGame(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.TypeChange:
-                                ((Room)Program.I().room).StocMessage_TypeChange(r);
+                            case StocMessage.TypeChange:
+                                Program.I().room.StocMessage_TypeChange(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.LeaveGame:
-                                ((Room)Program.I().room).StocMessage_LeaveGame(r);
+                            case StocMessage.LeaveGame:
+                                Program.I().room.StocMessage_LeaveGame(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.DuelStart:
-                                ((Room)Program.I().room).StocMessage_DuelStart(r);
+                            case StocMessage.DuelStart:
+                                Program.I().room.StocMessage_DuelStart(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.DuelEnd:
-                                ((Room)Program.I().room).StocMessage_DuelEnd(r);
+                            case StocMessage.DuelEnd:
+                                Program.I().room.StocMessage_DuelEnd(r);
                                 TcpHelper.SaveRecord();
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.Replay:
-                                ((Room)Program.I().room).StocMessage_Replay(r);
+                            case StocMessage.Replay:
+                                Program.I().room.StocMessage_Replay(r);
                                 TcpHelper.SaveRecord();
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.TimeLimit:
-                                ((Ocgcore)Program.I().ocgcore).StocMessage_TimeLimit(r);
+                            case StocMessage.TimeLimit:
+                                Program.I().ocgcore.StocMessage_TimeLimit(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.Chat:
-                                ((Room)Program.I().room).StocMessage_Chat(r);
+                            case StocMessage.Chat:
+                                Program.I().room.StocMessage_Chat(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.HsPlayerEnter:
-                                ((Room)Program.I().room).StocMessage_HsPlayerEnter(r);
+                            case StocMessage.HsPlayerEnter:
+                                Program.I().room.StocMessage_HsPlayerEnter(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.HsPlayerChange:
-                                ((Room)Program.I().room).StocMessage_HsPlayerChange(r);
+                            case StocMessage.HsPlayerChange:
+                                Program.I().room.StocMessage_HsPlayerChange(r);
                                 break;
-                            case YGOSharp.Network.Enums.StocMessage.HsWatchChange:
-                                ((Room)Program.I().room).StocMessage_HsWatchChange(r);
+                            case StocMessage.HsWatchChange:
+                                Program.I().room.StocMessage_HsWatchChange(r);
                                 break;
                             default:
                                 break;
@@ -258,21 +258,21 @@ public static class TcpHelper
         deck = deckFor;
         Package message = new Package();
         message.Fuction = (int)CtosMessage.UpdateDeck;
-        message.Data.writer.Write((int)deckFor.Main.Count + deckFor.Extra.Count);
-        message.Data.writer.Write((int)deckFor.Side.Count);
+        message.Data.writer.Write(deckFor.Main.Count + deckFor.Extra.Count);
+        message.Data.writer.Write(deckFor.Side.Count);
         for (int i = 0; i < deckFor.Main.Count; i++)
         {
-            message.Data.writer.Write((int)deckFor.Main[i]);
-            var c = YGOSharp.CardsManager.Get((int)deckFor.Main[i]);
+            message.Data.writer.Write(deckFor.Main[i]);
+            var c = YGOSharp.CardsManager.Get(deckFor.Main[i]);
             deckStrings.Add(c.Name);
         }
         for (int i = 0; i < deckFor.Extra.Count; i++)
         {
-            message.Data.writer.Write((int)deckFor.Extra[i]);
+            message.Data.writer.Write(deckFor.Extra[i]);
         }
         for (int i = 0; i < deckFor.Side.Count; i++)
         {
-            message.Data.writer.Write((int)deckFor.Side[i]);
+            message.Data.writer.Write(deckFor.Side[i]);
         }
         Send(message);
     }
@@ -322,7 +322,7 @@ public static class TcpHelper
         message.Data.writer.Write((Int16)Config.ClientVersion);
         message.Data.writer.Write((byte)204);
         message.Data.writer.Write((byte)204);
-        message.Data.writer.Write((Int32)0);
+        message.Data.writer.Write(0);
         message.Data.writer.WriteUnicode(psw, 20);
         Send(message);
     }
@@ -456,12 +456,12 @@ public static class TcpHelper
                     i++;
                     try
                     {
-                        if (item.Fuction == (int)YGOSharp.OCGWrapper.Enums.GameMessage.Start)
+                        if (item.Fuction == (int)GameMessage.Start)
                         {
                             write = true;
                             startI = i;
                         }
-                        if (item.Fuction == (int)YGOSharp.OCGWrapper.Enums.GameMessage.ReloadField)
+                        if (item.Fuction == (int)GameMessage.ReloadField)
                         {
                             write = true;
                             startI = i;
@@ -630,7 +630,7 @@ public static class BinaryExtensions
         a.controller = (UInt32)Program.I().ocgcore.localPlayer(reader.ReadByte());
         a.location = reader.ReadByte();
         a.sequence = reader.ReadByte();
-        a.position = (int)game_position.POS_FACEUP_ATTACK;
+        a.position = (int)CardPosition.FaceUpAttack;
         return a;
     }
 

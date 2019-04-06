@@ -1,5 +1,6 @@
 ﻿using System;
 using YGOSharp;
+using YGOSharp.OCGWrapper.Enums;
 
 public class GameStringHelper
 {
@@ -149,27 +150,27 @@ public class GameStringHelper
         {
         }
 
-        if (differ(card.Attribute,(int)game_attributes.ATTRIBUTE_EARTH))     
+        if (differ(card.Attribute, (int)CardAttribute.Earth))     
         {
             re = "[F4A460]" + re + "[-]";
         }
-        if (differ(card.Attribute, (int)game_attributes.ATTRIBUTE_WATER))
+        if (differ(card.Attribute, (int)CardAttribute.Water))
         {
             re = "[D1EEEE]" + re + "[-]";
         }
-        if (differ(card.Attribute, (int)game_attributes.ATTRIBUTE_FIRE))
+        if (differ(card.Attribute, (int)CardAttribute.Fire))
         {
             re = "[F08080]" + re + "[-]";
         }
-        if (differ(card.Attribute, (int)game_attributes.ATTRIBUTE_WIND))
+        if (differ(card.Attribute, (int)CardAttribute.Wind))
         {
             re = "[B3EE3A]" + re + "[-]";
         }
-        if (differ(card.Attribute, (int)game_attributes.ATTRIBUTE_LIGHT))
+        if (differ(card.Attribute, (int)CardAttribute.Light))
         {
             re = "[EEEE00]" + re + "[-]";
         }
-        if (differ(card.Attribute, (int)game_attributes.ATTRIBUTE_DARK))
+        if (differ(card.Attribute, (int)CardAttribute.Dark))
         {
             re = "[FF00FF]" + re + "[-]";
         }
@@ -182,9 +183,9 @@ public class GameStringHelper
         string re = "";
         try
         {
-            if (differ(card.Type, (long)game_type.TYPE_MONSTER)) re += "[ff8000]" + mainType(card.Type);
-            else if (differ(card.Type, (long)game_type.TYPE_SPELL)) re += "[7FFF00]" + mainType(card.Type);
-            else if (differ(card.Type, (long)game_type.TYPE_TRAP)) re += "[dda0dd]" + mainType(card.Type);
+            if (differ(card.Type, (long)CardType.Monster)) re += "[ff8000]" + mainType(card.Type);
+            else if (differ(card.Type, (long)CardType.Spell)) re += "[7FFF00]" + mainType(card.Type);
+            else if (differ(card.Type, (long)CardType.Trap)) re += "[dda0dd]" + mainType(card.Type);
             else re += "[ff8000]" + mainType(card.Type);
             re += "[-]";
         }
@@ -206,9 +207,9 @@ public class GameStringHelper
                 re += "[ff8000]";
                 re += "["+secondType(data.Type)+"]";
 
-                if ((data.Type & (int)game_type.link) == 0)
+                if ((data.Type & (int)CardType.Link) == 0)
                 {
-                    if ((data.Type & (int)game_type.TYPE_XYZ) > 0)
+                    if ((data.Type & (int)CardType.Xyz) > 0)
                     {
                         re += " " + race(data.Race) + fen + attribute(data.Attribute) + fen + data.Level.ToString() + "[sup]☆[/sup]";
                     }
@@ -251,7 +252,7 @@ public class GameStringHelper
                         re += "[sup]ATK[/sup]" + data.Attack.ToString() + "  ";
                     }
                 }
-                if ((data.Type & (int)game_type.link) == 0)
+                if ((data.Type & (int)CardType.Link) == 0)
                 {
                     if (data.Defense < 0)
                     {

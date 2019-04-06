@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using YGOSharp.OCGWrapper.Enums;
+
 public static class UIHelper
 {
     [DllImport("user32.dll")]
@@ -980,31 +982,31 @@ public static class UIHelper
         {
             res += InterString.Get("对方");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_DECK) > 0)
+        if ((p1.location & (UInt32)CardLocation.Deck) > 0)
         {
             res += InterString.Get("卡组");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+        if ((p1.location & (UInt32)CardLocation.Extra) > 0)
         {
             res += InterString.Get("额外");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+        if ((p1.location & (UInt32)CardLocation.Grave) > 0)
         {
             res += InterString.Get("墓地");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_HAND) > 0)
+        if ((p1.location & (UInt32)CardLocation.Hand) > 0)
         {
             res += InterString.Get("手牌");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_MZONE) > 0)
+        if ((p1.location & (UInt32)CardLocation.MonsterZone) > 0)
         {
             res += InterString.Get("前场");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+        if ((p1.location & (UInt32)CardLocation.Removed) > 0)
         {
             res += InterString.Get("除外");
         }
-        if ((p1.location & (UInt32)game_location.LOCATION_SZONE) > 0)
+        if ((p1.location & (UInt32)CardLocation.SpellZone) > 0)
         {
             res += InterString.Get("后场");
         }
@@ -1014,41 +1016,41 @@ public static class UIHelper
     //internal static string getGPSstringPosition(GPS p1) 
     //{
     //    string res = "";
-    //    if ((p1.location & (UInt32)game_location.LOCATION_OVERLAY) > 0)
+    //    if ((p1.location & (UInt32)CardLocation.Overlay) > 0)
     //    {
     //        res += InterString.Get("(被叠放)");
     //    }
     //    else
     //    {
-    //        if ((p1.position & (UInt32)game_position.POS_FACEUP_ATTACK) > 0)
+    //        if ((p1.position & (UInt32)CardPosition.FaceUpAttack) > 0)
     //        {
     //            res += InterString.Get("(表侧攻击)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_FACEUP_DEFENSE) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.FaceUp_DEFENSE) > 0)
     //        {
     //            res += InterString.Get("(表侧防御)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_FACEDOWN_ATTACK) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.FaceDownAttack) > 0)
     //        {
     //            res += InterString.Get("(里侧攻击)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_FACEDOWN_DEFENSE) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.FaceDown_DEFENSE) > 0)
     //        {
     //            res += InterString.Get("(里侧防御)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_ATTACK) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.Attack) > 0)
     //        {
     //            res += InterString.Get("(攻击)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_DEFENSE) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.POS_DEFENSE) > 0)
     //        {
     //            res += InterString.Get("(防御)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_FACEUP) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.FaceUp) > 0)
     //        {
     //            res += InterString.Get("(表侧)");
     //        }
-    //        else if ((p1.position & (UInt32)game_position.POS_DEFENSE) > 0)
+    //        else if ((p1.position & (UInt32)CardPosition.POS_DEFENSE) > 0)
     //        {
     //            res += InterString.Get("(里侧)");
     //        }

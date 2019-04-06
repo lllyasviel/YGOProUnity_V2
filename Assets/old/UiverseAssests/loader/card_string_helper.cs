@@ -10,30 +10,30 @@
 //    public static string get_attribute_string(long a)
 //    {
 //        string r = "";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_EARTH)) r += "地";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_WATER)) r += "水";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_FIRE)) r += "炎";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_WIND)) r += "风";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_DARK)) r += "暗";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_LIGHT)) r += "光";
-//        if (differ(a, (long)game_attributes.ATTRIBUTE_DEVINE)) r += "神";
+//        if (differ(a, (long)CardAttribute.Earth)) r += "地";
+//        if (differ(a, (long)CardAttribute.Water)) r += "水";
+//        if (differ(a, (long)CardAttribute.Fire)) r += "炎";
+//        if (differ(a, (long)CardAttribute.Wind)) r += "风";
+//        if (differ(a, (long)CardAttribute.Dark)) r += "暗";
+//        if (differ(a, (long)CardAttribute.Light)) r += "光";
+//        if (differ(a, (long)CardAttribute.Devine)) r += "神";
 //        r += "属性";
 //        return r;
 //    }
 //    public static string get_type_string(int a)
 //    {
 //        string r = "";
-//        if (differ(a, (long)game_type.TYPE_MONSTER)) r += "怪物卡";
-//        if (differ(a, (long)game_type.TYPE_SPELL)) r += "魔法卡";
-//        if (differ(a, (long)game_type.TYPE_TRAP)) r += "陷阱卡";
+//        if (differ(a, (long)CardType.Monster)) r += "怪物卡";
+//        if (differ(a, (long)CardType.Spell)) r += "魔法卡";
+//        if (differ(a, (long)CardType.Trap)) r += "陷阱卡";
 //        return r;
 //    }
 //    public static string get_detailed_type_string(int a)
 //    {
 //        string r = "";
-//        if (differ(a, (long)game_type.TYPE_MONSTER)) r += "怪物卡";
-//        if (differ(a, (long)game_type.TYPE_SPELL)) r += "魔法卡";
-//        if (differ(a, (long)game_type.TYPE_TRAP)) r += "陷阱卡";
+//        if (differ(a, (long)CardType.Monster)) r += "怪物卡";
+//        if (differ(a, (long)CardType.Spell)) r += "魔法卡";
+//        if (differ(a, (long)CardType.Trap)) r += "陷阱卡";
 //        return r;
 //    }
 //    public static string get_race_string(long a)
@@ -79,25 +79,25 @@
 //        }
 //        switch (p.location)
 //        {
-//            case game_location.LOCATION_DECK:
+//            case CardLocation.Deck:
 //                re += "卡组中的";
 //                break;
-//            case game_location.LOCATION_EXTRA:
+//            case CardLocation.Extra:
 //                re += "额外卡组中的";
 //                break;
-//            case game_location.LOCATION_GRAVE:
+//            case CardLocation.Grave:
 //                re += "墓地中的";
 //                break;
-//            case game_location.LOCATION_HAND:
+//            case CardLocation.Hand:
 //                re += "手上的";
 //                break;
-//            case game_location.LOCATION_MZONE:
+//            case CardLocation.MonsterZone:
 //                re += "前场的";
 //                break;
-//            case game_location.LOCATION_REMOVED:
+//            case CardLocation.Hand:
 //                re += "被除外的";
 //                break;
-//            case game_location.LOCATION_SZONE:
+//            case CardLocation.SpellZone:
 //                re += "后场的";
 //                break;
 //        }
@@ -108,28 +108,28 @@
 //        }
 //        switch (p.position)
 //        {
-//            case game_position.POS_FACEDOWN_ATTACK:
+//            case CardPosition.FaceDownAttack:
 //                re += "(里攻)";
 //                break;
-//            case game_position.POS_FACEDOWN_DEFENSE:
+//            case CardPosition.FaceDown_DEFENSE:
 //                re += "(里守)";
 //                break;
-//            case game_position.POS_FACEUP_ATTACK:
+//            case CardPosition.FaceUpAttack:
 //                re += "(表攻)";
 //                break;
-//            case game_position.POS_FACEUP_DEFENSE:
+//            case CardPosition.FaceUp_DEFENSE:
 //                re += "(表守)";
 //                break;
 //        }
-//        if (p.location == game_location.LOCATION_UNKNOWN) re = "(未知区域)";
+//        if (p.location == CardLocation.Unknown) re = "(未知区域)";
 //        return re;
 //    }
 //    public static string get_name_string(CardData data)
 //    {
 //        string re = "";
-//        if (differ(data.Type, (long)game_type.TYPE_MONSTER)) re += "[ff8000]"+data.Name;
-//        else if (differ(data.Type, (long)game_type.TYPE_SPELL)) re += "[7FFF00]" + data.Name;
-//        else if (differ(data.Type, (long)game_type.TYPE_TRAP)) re += "[dda0dd]" + data.Name;
+//        if (differ(data.Type, (long)CardType.Monster)) re += "[ff8000]"+data.Name;
+//        else if (differ(data.Type, (long)CardType.Spell)) re += "[7FFF00]" + data.Name;
+//        else if (differ(data.Type, (long)CardType.Trap)) re += "[dda0dd]" + data.Name;
 //        else re += "[ff8000]" + data.Name;
 //        re += "[-]";
 //        return re;

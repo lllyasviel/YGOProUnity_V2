@@ -11,7 +11,7 @@
         Divine = 0x40,
     }
 
-    public enum Sp
+    public enum TwoNameCards
     {
         CARD_MARINE_DOLPHIN = 78734254,
         CARD_TWINKLE_MOSS = 13857930,

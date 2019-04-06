@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using YGOSharp.OCGWrapper.Enums;
 
 public class GameField : OCGobject
 {
@@ -90,14 +91,14 @@ public class GameField : OCGobject
 
         Program.I().ocgcore.AddUpdateAction_s(Update);
 
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_DECK, 0));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_EXTRA, 0));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_GRAVE, 0));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_REMOVED, 0));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_DECK, 1));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_EXTRA, 1));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_GRAVE, 1));
-        gameHiddenButtons.Add(new gameHiddenButton(game_location.LOCATION_REMOVED, 1));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Deck, 0));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Extra, 0));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Grave, 0));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Removed, 0));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Deck, 1));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Extra, 1));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Grave, 1));
+        gameHiddenButtons.Add(new gameHiddenButton(CardLocation.Removed, 1));
 
         LOCATION_DECK_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
         LOCATION_EXTRA_0 = create(Program.I().new_ui_textMesh, Vector3.zero, new Vector3(60, 0, 0)).GetComponent<TMPro.TextMeshPro>();
@@ -260,15 +261,15 @@ public class GameField : OCGobject
         rightT.transform.localScale = new Vector3(1f / Program.fieldSize, 1f / Program.fieldSize, 1f / Program.fieldSize);
         rightT.transform.localPosition = new Vector3(((1f - 1f / Program.fieldSize) * (float)(rightT.width)) / 3.5f, 0, 0);
 
-        relocateTextMesh(LOCATION_DECK_0, 0, game_location.LOCATION_DECK, new Vector3(0, 0, -3f));
-        relocateTextMesh(LOCATION_EXTRA_0, 0, game_location.LOCATION_EXTRA, new Vector3(0, 0, -3f));
-        relocateTextMesh(LOCATION_REMOVED_0, 0, game_location.LOCATION_REMOVED, new Vector3(0, 0, -3f));
-        relocateTextMesh(LOCATION_GRAVE_0, 0, game_location.LOCATION_GRAVE, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_DECK_0, 0, CardLocation.Deck, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_EXTRA_0, 0, CardLocation.Extra, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_REMOVED_0, 0, CardLocation.Removed, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_GRAVE_0, 0, CardLocation.Grave, new Vector3(0, 0, -3f));
 
-        relocateTextMesh(LOCATION_DECK_1, 1, game_location.LOCATION_DECK, new Vector3(0, 0, -3f));
-        relocateTextMesh(LOCATION_EXTRA_1, 1, game_location.LOCATION_EXTRA, new Vector3(0, 0, -3f));
-        relocateTextMesh(LOCATION_REMOVED_1, 1, game_location.LOCATION_REMOVED, new Vector3(0, 0, -3f));
-        relocateTextMesh(LOCATION_GRAVE_1, 1, game_location.LOCATION_GRAVE, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_DECK_1, 1, CardLocation.Deck, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_EXTRA_1, 1, CardLocation.Extra, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_REMOVED_1, 1, CardLocation.Removed, new Vector3(0, 0, -3f));
+        relocateTextMesh(LOCATION_GRAVE_1, 1, CardLocation.Grave, new Vector3(0, 0, -3f));
 
         label.transform.localPosition = new Vector3(-5f * (Program.fieldSize - 1), 0, -15.5f * Program.fieldSize);
 
@@ -277,7 +278,7 @@ public class GameField : OCGobject
             prelong = isLong;
             for (int i = 0; i < field_disabled_containers.Count; i++)
             {
-                if (field_disabled_containers[i].p.location == (UInt32)game_location.LOCATION_SZONE)
+                if (field_disabled_containers[i].p.location == (UInt32)CardLocation.SpellZone)
                 {
                     if (field_disabled_containers[i].p.controller == 1)
                     {
@@ -400,7 +401,7 @@ public class GameField : OCGobject
 
     }
 
-    private static void relocateTextMesh(TMPro.TextMeshPro obj, uint con, game_location loc,Vector3 poi)
+    private static void relocateTextMesh(TMPro.TextMeshPro obj, uint con, CardLocation loc,Vector3 poi)
     {
         obj.transform.position = UIHelper.getCamGoodPosition(Program.I().ocgcore.get_point_worldposition(new GPS
         {
@@ -594,7 +595,7 @@ public class GameField : OCGobject
 
         if (Program.I().ocgcore.MasterRule >= 4)
         {
-            if (gps.location == (int)game_location.LOCATION_SZONE)
+            if (gps.location == (int)CardLocation.SpellZone)
             {
                 if (gps.position == 0 || gps.position == 4)
                 {

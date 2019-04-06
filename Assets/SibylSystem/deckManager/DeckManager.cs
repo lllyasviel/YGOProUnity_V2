@@ -1279,7 +1279,7 @@ public class DeckManager : ServantWithCardDescription
             {
                 if (deck.GetCardCount(cardPicLoader_.data.Id) < currentBanlist.GetQuantity(cardPicLoader_.data.Id))
                 {
-                    if ((cardPicLoader_.data.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Token) == 0)
+                    if ((cardPicLoader_.data.Type & (UInt32)CardType.Token) == 0)
                     {
                         MonoCardInDeckManager card = createCard();
                         card.transform.position = card.getGoodPosition(4);
@@ -1348,13 +1348,13 @@ public class DeckManager : ServantWithCardDescription
                     if (isSide)
                     {
                         if (
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Fusion) > 0
+                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Fusion) > 0
                          ||
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Synchro) > 0
+                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Synchro) > 0
                          ||
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Xyz) > 0
+                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Xyz) > 0
                           ||
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Link) > 0
+                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Link) > 0
                         )
                         {
                             deck.IExtra.Add(MonoCardInDeckManager_);
@@ -1387,13 +1387,13 @@ public class DeckManager : ServantWithCardDescription
             card.cardData = data;
             card.gameObject.layer = 16;
             if (
-                (data.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Fusion) > 0
+                (data.Type & (UInt32)CardType.Fusion) > 0
                   ||
-                (data.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Synchro) > 0
+                (data.Type & (UInt32)CardType.Synchro) > 0
                   ||
-                (data.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Xyz) > 0
+                (data.Type & (UInt32)CardType.Xyz) > 0
                 ||
-                (data.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Link) > 0
+                (data.Type & (UInt32)CardType.Link) > 0
                 )
             {
                 deck.IExtra.Add(card);
@@ -1572,13 +1572,13 @@ public class DeckManager : ServantWithCardDescription
                 if (p.z > -8)
                 {
                     if (
-                        (deckTemp[i].cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Fusion) > 0
+                        (deckTemp[i].cardData.Type & (UInt32)CardType.Fusion) > 0
                          ||
-                        (deckTemp[i].cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Synchro) > 0
+                        (deckTemp[i].cardData.Type & (UInt32)CardType.Synchro) > 0
                          ||
-                        (deckTemp[i].cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Xyz) > 0
+                        (deckTemp[i].cardData.Type & (UInt32)CardType.Xyz) > 0
                         ||
-                        (deckTemp[i].cardData.Type & (UInt32)YGOSharp.OCGWrapper.Enums.CardType.Link) > 0
+                        (deckTemp[i].cardData.Type & (UInt32)CardType.Link) > 0
                         )
                     {
                         deck.IExtra.Add(deckTemp[i]);

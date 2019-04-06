@@ -10,6 +10,9 @@
         Removed = 0x20,
         Extra = 0x40,
         Overlay = 0x80,
-        Onfield = 0x0C
+        Onfield = 0x0C,
+		
+		Unknown = 0,
+		Search = 0x800
     }
 }

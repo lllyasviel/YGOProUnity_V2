@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using UnityEngine;
+using YGOSharp.OCGWrapper.Enums;
 
 public enum GameTextureType
 {
@@ -217,7 +218,7 @@ public class GameTextureManager
                         pic = waitLoadStack.Pop();
                         try
                         {
-                            pic.pCard = (YGOSharp.CardsManager.Get((int)pic.code).Type & (int)game_type.TYPE_PENDULUM) > 0;
+                            pic.pCard = (YGOSharp.CardsManager.Get((int)pic.code).Type & (int)CardType.Pendulum) > 0;
                         }
                         catch (Exception e)
                         {

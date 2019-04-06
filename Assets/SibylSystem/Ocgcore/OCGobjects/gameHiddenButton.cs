@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using YGOSharp.OCGWrapper.Enums;
 
 public class gameHiddenButton : OCGobject
 {
-    public game_location location;
+    public CardLocation location;
 
     public int player;
 
@@ -11,7 +12,7 @@ public class gameHiddenButton : OCGobject
 
     GPS ps;
 
-    public gameHiddenButton(game_location l, int p)
+    public gameHiddenButton(CardLocation l, int p)
     {
         ps = new GPS();
         ps.controller = (UInt32)p;
@@ -107,7 +108,7 @@ public class gameHiddenButton : OCGobject
         {
             if (player == 0)
             {
-                if (location == game_location.LOCATION_DECK)
+                if (location == CardLocation.Deck)
                 {
                     if (Program.I().book.lab != null)
                     {
@@ -120,7 +121,7 @@ public class gameHiddenButton : OCGobject
         }
         if (player == 1)
         {
-            if (location == game_location.LOCATION_DECK)
+            if (location == CardLocation.Deck)
             {
                 if (Program.I().book.labop != null)
                 {
@@ -173,7 +174,7 @@ public class gameHiddenButton : OCGobject
         {
             if (player == 0)
             {
-                if (location == game_location.LOCATION_DECK)
+                if (location == CardLocation.Deck)
                 {
                     if (Program.I().book.lab != null)
                     {
@@ -201,7 +202,7 @@ public class gameHiddenButton : OCGobject
 
         if (player == 1)
         {
-            if (location == game_location.LOCATION_DECK)
+            if (location == CardLocation.Deck)
             {
                 if (Program.I().book.labop != null)
                 {

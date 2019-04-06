@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using YGOSharp.OCGWrapper.Enums;
+
 public class selectDeck : WindowServantSP
 {
 
@@ -308,15 +310,15 @@ public class selectDeck : WindowServantSP
         {
             mainAll++;
             YGOSharp.Card c = YGOSharp.CardsManager.Get(item);
-            if ((c.Type & (UInt32)game_type.TYPE_MONSTER) > 0)
+            if ((c.Type & (UInt32)CardType.Monster) > 0)
             {
                 mainMonster++;
             }
-            if ((c.Type & (UInt32)game_type.TYPE_SPELL) > 0)
+            if ((c.Type & (UInt32)CardType.Spell) > 0)
             {
                 mainSpell++;
             }
-            if ((c.Type & (UInt32)game_type.TYPE_TRAP) > 0)
+            if ((c.Type & (UInt32)CardType.Trap) > 0)
             {
                 mainTrap++;
             }
@@ -339,15 +341,15 @@ public class selectDeck : WindowServantSP
         {
             sideAll++;
             YGOSharp.Card c = YGOSharp.CardsManager.Get(item);
-            if ((c.Type & (UInt32)game_type.TYPE_MONSTER) > 0)
+            if ((c.Type & (UInt32)CardType.Monster) > 0)
             {
                 sideMonster++;
             }
-            if ((c.Type & (UInt32)game_type.TYPE_SPELL) > 0)
+            if ((c.Type & (UInt32)CardType.Spell) > 0)
             {
                 sideSpell++;
             }
-            if ((c.Type & (UInt32)game_type.TYPE_TRAP) > 0)
+            if ((c.Type & (UInt32)CardType.Trap) > 0)
             {
                 sideTrap++;
             }
@@ -369,19 +371,19 @@ public class selectDeck : WindowServantSP
         {
             extraAll++;
             YGOSharp.Card c = YGOSharp.CardsManager.Get(item);
-            if ((c.Type & (UInt32)game_type.TYPE_FUSION) > 0)
+            if ((c.Type & (UInt32)CardType.Fusion) > 0)
             {
                 extraFusion++;
             }
-            if ((c.Type & (UInt32)game_type.TYPE_SYNCHRO) > 0)
+            if ((c.Type & (UInt32)CardType.Synchro) > 0)
             {
                 extraSync++;
             }
-            if ((c.Type & (UInt32)game_type.TYPE_XYZ) > 0)
+            if ((c.Type & (UInt32)CardType.Xyz) > 0)
             {
                 extraXyz++;
             }
-            if ((c.Type & (UInt32)game_type.link) > 0)
+            if ((c.Type & (UInt32)CardType.Link) > 0)
             {
                 extraLink++;
             }

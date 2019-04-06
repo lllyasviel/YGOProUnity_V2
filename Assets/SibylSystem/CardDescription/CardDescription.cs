@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using YGOSharp.OCGWrapper.Enums;
 
 public class CardDescription : Servant
 {
@@ -251,30 +252,30 @@ public class CardDescription : Servant
                 {
                     if (gps.controller == 0)
                     {
-                        if ((gps.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+                        if ((gps.location & (UInt32)CardLocation.Grave) > 0)
                         {
                             myGrave.Add(curCard);
                         }
-                        if ((gps.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+                        if ((gps.location & (UInt32)CardLocation.Removed) > 0)
                         {
                             myBanished.Add(curCard);
                         }
-                        if ((gps.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+                        if ((gps.location & (UInt32)CardLocation.Extra) > 0)
                         {
                             myExtra.Add(curCard);
                         }
                     }
                     else
                     {
-                        if ((gps.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+                        if ((gps.location & (UInt32)CardLocation.Grave) > 0)
                         {
                             opGrave.Add(curCard);
                         }
-                        if ((gps.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+                        if ((gps.location & (UInt32)CardLocation.Removed) > 0)
                         {
                             opBanished.Add(curCard);
                         }
-                        if ((gps.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+                        if ((gps.location & (UInt32)CardLocation.Extra) > 0)
                         {
                             opExtra.Add(curCard);
                         }

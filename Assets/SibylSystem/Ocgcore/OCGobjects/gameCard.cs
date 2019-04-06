@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using YGOSharp.OCGWrapper.Enums;
 
 public enum gameCardCondition
 {
@@ -288,7 +289,7 @@ public class gameCard : OCGobject
             Vector3 worldposition = Camera.main.ScreenToWorldPoint(new Vector3(screenposition.x, screenposition.y, screenposition.z - 5));
             obj_number.transform.position = worldposition;
         }
-        if (disabled == true && (((p.location & (UInt32)game_location.LOCATION_MZONE) > 0) || ((p.location & (UInt32)game_location.LOCATION_SZONE) > 0)))
+        if (disabled == true && (((p.location & (UInt32)CardLocation.MonsterZone) > 0) || ((p.location & (UInt32)CardLocation.SpellZone) > 0)))
         {
             if (nagaSign == null)
             {
@@ -566,7 +567,7 @@ public class gameCard : OCGobject
         if (opMonsterWithBackGroundCard)   
         {
             Vector3 vector_of_begin = Vector3.zero;
-            if ((p.position & (UInt32)game_position.POS_ATTACK) > 0)
+            if ((p.position & (UInt32)CardPosition.Attack) > 0)
             {
                 vector_of_begin = gameObject_face.transform.position + new Vector3(0, 0, -2f);
             }
@@ -598,7 +599,7 @@ public class gameCard : OCGobject
             if (VerticleCollider == null)
             {
                 Vector3 vector_of_begin;
-                if ((p.position & (UInt32)game_position.POS_ATTACK) > 0)
+                if ((p.position & (UInt32)CardPosition.Attack) > 0)
                 {
                     vector_of_begin = gameObject_face.transform.position + new Vector3(0, 0, 2);
                 }
@@ -772,13 +773,13 @@ public class gameCard : OCGobject
             {
                 TweenTo(gived_position, gived_rotation);
                 if (
-                    Program.I().ocgcore.currentMessage == YGOSharp.OCGWrapper.Enums.GameMessage.Move
+                    Program.I().ocgcore.currentMessage == GameMessage.Move
                      ||
-                    Program.I().ocgcore.currentMessage == YGOSharp.OCGWrapper.Enums.GameMessage.Swap
+                    Program.I().ocgcore.currentMessage == GameMessage.Swap
                      ||
-                    Program.I().ocgcore.currentMessage == YGOSharp.OCGWrapper.Enums.GameMessage.PosChange
+                    Program.I().ocgcore.currentMessage == GameMessage.PosChange
                      ||
-                    Program.I().ocgcore.currentMessage == YGOSharp.OCGWrapper.Enums.GameMessage.FlipSummoning
+                    Program.I().ocgcore.currentMessage == GameMessage.FlipSummoning
                     )
                 {
                     Program.I().ocgcore.Sleep((int)(30f * time));
@@ -910,11 +911,11 @@ public class gameCard : OCGobject
 
     private void UA_reloadCardHintPosition()
     {
-        if ((p.location & (UInt32)game_location.LOCATION_MZONE) > 0 && (p.location & (UInt32)game_location.LOCATION_OVERLAY) == 0)
+        if ((p.location & (UInt32)CardLocation.MonsterZone) > 0 && (p.location & (UInt32)CardLocation.Overlay) == 0)
         {
             if (p.controller == 0)
             {
-                if ((p.position & (UInt32)game_position.POS_ATTACK) > 0)
+                if ((p.position & (UInt32)CardPosition.Attack) > 0)
                 {
                     cardHint.gameObject.transform.localPosition = new Vector3(0, 0, -2.5f);
                     cardHint.gameObject.transform.localEulerAngles = new Vector3(60, 0, 0);
@@ -927,7 +928,7 @@ public class gameCard : OCGobject
             }
             else
             {
-                if ((p.position & (UInt32)game_position.POS_ATTACK) > 0)
+                if ((p.position & (UInt32)CardPosition.Attack) > 0)
                 {
                     cardHint.gameObject.transform.localPosition = new Vector3(0, 0, 2.5f);
                     cardHint.gameObject.transform.localEulerAngles = new Vector3(40, 180, 0);
@@ -1036,35 +1037,35 @@ public class gameCard : OCGobject
             loaded_controller = (int)p.controller;
             loaded_location = (int)p.location;
             set_text("");
-            if (p.controller == 0 && (p.location & (UInt32)game_location.LOCATION_DECK) > 0)
+            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Deck) > 0)
             {
                 set_text(GameStringHelper.kazu);
             }
-            if (p.controller == 0 && (p.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Extra) > 0)
             {
                 set_text(GameStringHelper.ewai);
             }
-            if (p.controller == 0 && (p.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Grave) > 0)
             {
                 set_text(GameStringHelper.mudi);
             }
-            if (p.controller == 0 && (p.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Removed) > 0)
             {
                 set_text(GameStringHelper.chuwai);
             }
-            if (p.controller == 1 && (p.location & (UInt32)game_location.LOCATION_DECK) > 0)
+            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Deck) > 0)
             {
                 set_text("<#ff8888>" + GameStringHelper.kazu + "</color>");
             }
-            if (p.controller == 1 && (p.location & (UInt32)game_location.LOCATION_EXTRA) > 0)
+            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Extra) > 0)
             {
                 set_text("<#ff8888>" + GameStringHelper.ewai + "</color>");
             }
-            if (p.controller == 1 && (p.location & (UInt32)game_location.LOCATION_GRAVE) > 0)
+            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Grave) > 0)
             {
                 set_text("<#ff8888>" + GameStringHelper.mudi + "</color>");
             }
-            if (p.controller == 1 && (p.location & (UInt32)game_location.LOCATION_REMOVED) > 0)
+            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Removed) > 0)
             {
                 set_text("<#ff8888>" + GameStringHelper.chuwai + "</color>");
             }
@@ -1097,7 +1098,7 @@ public class gameCard : OCGobject
                 Vector3 screenposition = Program.camera_game_main.WorldToScreenPoint(gameObject.transform.position);
                 game_object_monster_cloude.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenposition.x, screenposition.y, screenposition.z + 3));
                 game_object_monster_cloude_ParticleSystem.startSize = UnityEngine.Random.Range(3f, 3f + (20f - 3f) * (float)(Mathf.Clamp(data.Attack,0,3000)) / 3000f);
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_EARTH))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Earth))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                         new Color(
@@ -1105,7 +1106,7 @@ public class gameCard : OCGobject
                             80f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f),
                             0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f));
                 }
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_WATER))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Water))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                        new Color(
@@ -1113,7 +1114,7 @@ public class gameCard : OCGobject
                            0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f),
                            255f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f));
                 }
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_FIRE))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Fire))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                       new Color(
@@ -1121,7 +1122,7 @@ public class gameCard : OCGobject
                           0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f),
                           0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f));
                 }
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_WIND))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Wind))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                       new Color(
@@ -1129,7 +1130,7 @@ public class gameCard : OCGobject
                           140f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f),
                           0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f));
                 }
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_DARK))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Dark))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                        new Color(
@@ -1137,7 +1138,7 @@ public class gameCard : OCGobject
                            0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f),
                            158f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f));
                 }
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_LIGHT))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Light))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                         new Color(
@@ -1145,7 +1146,7 @@ public class gameCard : OCGobject
                             140f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f),
                             0f / 255f + UnityEngine.Random.Range(-0.2f, 0.2f));
                 }
-                if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_DEVINE))
+                if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Divine))
                 {
                     game_object_monster_cloude_ParticleSystem.startColor =
                         new Color(
@@ -1274,16 +1275,16 @@ public class gameCard : OCGobject
 
             int color = 0;
 
-            if ((data.Type & (int)game_type.TYPE_TUNER) > 0)
+            if ((data.Type & (int)CardType.Tuner) > 0)
             {
                 color = 1;
             }
 
-            if ((data.Type & (int)game_type.TYPE_XYZ) > 0)
+            if ((data.Type & (int)CardType.Xyz) > 0)
             {
                 color = 2;
             }
-            if ((data.Type & (int)game_type.link) > 0)
+            if ((data.Type & (int)CardType.Link) > 0)
             {
                 color = 3;
                 data.Level = 0;
@@ -1365,7 +1366,7 @@ public class gameCard : OCGobject
                 loaded_verticaldef = data.Defense;
                 loaded_verticalpos = p.position;
                 loaded_verticalcon = (int)p.controller;
-                if ((data.Type&(uint)game_type.link)>0)   
+                if ((data.Type&(uint)CardType.Link)>0)   
                 {
                     string raw = "";
                     YGOSharp.Card data_raw = YGOSharp.CardsManager.Get(data.Id);
@@ -1391,7 +1392,7 @@ public class gameCard : OCGobject
                 {
                     string raw = "";
                     YGOSharp.Card data_raw = YGOSharp.CardsManager.Get(data.Id);
-                    if ((loaded_verticalpos & (int)game_position.POS_ATTACK) > 0)
+                    if ((loaded_verticalpos & (int)CardPosition.Attack) > 0)
                     {
                         if (data.Attack > data_raw.Attack)
                         {
@@ -1458,7 +1459,7 @@ public class gameCard : OCGobject
     //{
     //    if (condition== gameCardCondition.verticle_clickable)
     //    {
-    //        if ((p.position & (UInt32)game_position.POS_ATTACK) > 0)
+    //        if ((p.position & (UInt32)CardPosition.Attack) > 0)
     //        {
     //            ability = data.Attack;
     //        }
@@ -1588,16 +1589,16 @@ public class gameCard : OCGobject
             }
         }
         int special_hint = 0;
-        if ((p.position & (int)game_position.POS_FACEDOWN) > 0)
+        if ((p.position & (int)CardPosition.FaceDown) > 0)
         {
-            if ((p.location & (int)game_location.LOCATION_REMOVED) > 0)
+            if ((p.location & (int)CardLocation.Removed) > 0)
             {
                 special_hint = 1;
             }
         }
-        if ((p.position & (int)game_position.POS_FACEUP) > 0)
+        if ((p.position & (int)CardPosition.FaceUp) > 0)
         {
-            if ((p.location & (int)game_location.LOCATION_EXTRA) > 0)
+            if ((p.location & (int)CardLocation.Extra) > 0)
             {
                 special_hint = 2;
             }
@@ -1657,19 +1658,19 @@ public class gameCard : OCGobject
 
     public bool isHided()
     {
-        if ((p.location & (int)game_location.LOCATION_DECK) > 0)
+        if ((p.location & (int)CardLocation.Deck) > 0)
         {
             return true;
         }
-        if ((p.location & (int)game_location.LOCATION_EXTRA) > 0)
+        if ((p.location & (int)CardLocation.Extra) > 0)
         {
             return true;
         }
-        if ((p.location & (int)game_location.LOCATION_REMOVED) > 0)
+        if ((p.location & (int)CardLocation.Removed) > 0)
         {
             return true;
         }
-        if ((p.location & (int)game_location.LOCATION_GRAVE) > 0)
+        if ((p.location & (int)CardLocation.Grave) > 0)
         {
             return true;
         }
@@ -1686,31 +1687,31 @@ public class gameCard : OCGobject
     {
         int re = 0;
         //
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_EARTH))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Earth))
         {
             re = 0;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_WATER))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Water))
         {
             re = 3;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_FIRE))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Fire))
         {
             re = 5;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_WIND))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Wind))
         {
             re = 2;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_DARK))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Dark))
         {
             re = 4;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_LIGHT))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Light))
         {
             re = 1;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_DEVINE))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Divine))
         {
             re = 1;
         }
@@ -1936,27 +1937,27 @@ public class gameCard : OCGobject
     public void add_one_overlay_light()
     {
         GameObject mod = Program.I().mod_ocgcore_ol_light;
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_EARTH))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Earth))
         {
             mod = Program.I().mod_ocgcore_ol_earth;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_WATER))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Water))
         {
             mod = Program.I().mod_ocgcore_ol_water;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_FIRE))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Fire))
         {
             mod = Program.I().mod_ocgcore_ol_fire;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_WIND))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Wind))
         {
             mod = Program.I().mod_ocgcore_ol_wind;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_DARK))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Dark))
         {
             mod = Program.I().mod_ocgcore_ol_dark;
         }
-        if (GameStringHelper.differ(data.Attribute, (long)game_attributes.ATTRIBUTE_LIGHT))
+        if (GameStringHelper.differ(data.Attribute, (long)CardAttribute.Light))
         {
             mod = Program.I().mod_ocgcore_ol_light;
         }

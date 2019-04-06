@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using YGOSharp.Network.Enums;
 
 public class Room : WindowServantSP
 {
@@ -254,30 +255,30 @@ public class Room : WindowServantSP
         p.Data = new BinaryMaster();
         p.Data.writer.WriteUnicode(res, res.Length + 1);
         TcpHelper.AddRecordLine(p);
-        switch ((YGOSharp.Network.Enums.PlayerType)player)
+        switch ((PlayerType)player)
         {
-            case YGOSharp.Network.Enums.PlayerType.Red:
+            case PlayerType.Red:
                 result = "[FF3030]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.Green:
+            case PlayerType.Green:
                 result = "[7CFC00]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.Blue:
+            case PlayerType.Blue:
                 result = "[4876FF]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.BabyBlue:
+            case PlayerType.BabyBlue:
                 result = "[63B8FF]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.Pink:
+            case PlayerType.Pink:
                 result = "[EED2EE]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.Yellow:
+            case PlayerType.Yellow:
                 result = "[EEEE00]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.White:
+            case PlayerType.White:
                 result = "[FAF0E6]" + result + "[-]";
                 break;
-            case YGOSharp.Network.Enums.PlayerType.Gray:
+            case PlayerType.Gray:
                 result = "[CDC9C9]" + result + "[-]";
                 break;
         }

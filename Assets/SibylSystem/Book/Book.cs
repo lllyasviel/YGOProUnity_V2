@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using YGOSharp.OCGWrapper.Enums;
 
 public class Book : WindowServant2D
 {
@@ -102,15 +103,15 @@ public class Book : WindowServant2D
             }
             foreach (var item in Program.I().ocgcore.cards)
             {
-                if (item.p.location == (UInt32)game_location.search)
+                if (item.p.location == (UInt32)CardLocation.Search)
                 {
                     continue;
                 }
-                if (item.p.location == (UInt32)game_location.LOCATION_UNKNOWN)
+                if (item.p.location == (UInt32)CardLocation.Unknown)
                 {
                     continue;
                 }
-                if (item.p.location == (UInt32)game_location.LOCATION_DECK)
+                if (item.p.location == (UInt32)CardLocation.Deck)
                 {
                     continue;
                 }
@@ -132,7 +133,7 @@ public class Book : WindowServant2D
             master = new MultiStringMaster();
             foreach (var item in Program.I().ocgcore.cards)
             {
-                if (item.p.location == (UInt32)game_location.search)
+                if (item.p.location == (UInt32)CardLocation.Search)
                 {
                     continue;
                 }
@@ -169,11 +170,11 @@ public class Book : WindowServant2D
         bool died = false;
         foreach (var item in Program.I().ocgcore.cards) 
         {
-            if (item.p.location == (UInt32)game_location.search)
+            if (item.p.location == (UInt32)CardLocation.Search)
             {
                 continue;
             }
-            if (item.p.location == (UInt32)game_location.LOCATION_UNKNOWN)
+            if (item.p.location == (UInt32)CardLocation.Unknown)
             {
                 continue;
             }
@@ -181,15 +182,15 @@ public class Book : WindowServant2D
             {
                 if (item.p.controller == i)
                 {
-                    if (item.p.location == (UInt32)game_location.LOCATION_MZONE || item.p.location == (UInt32)game_location.LOCATION_SZONE)
+                    if (item.p.location == (UInt32)CardLocation.MonsterZone || item.p.location == (UInt32)CardLocation.SpellZone)
                     {
                         fieldCards[i]++;
                     }
-                    if (item.p.location == (UInt32)game_location.LOCATION_HAND)
+                    if (item.p.location == (UInt32)CardLocation.Hand)
                     {
                         handCards[i]++;
                     }
-                    if (item.p.location == (UInt32)game_location.LOCATION_GRAVE || item.p.location == (UInt32)game_location.LOCATION_REMOVED)
+                    if (item.p.location == (UInt32)CardLocation.Grave || item.p.location == (UInt32)CardLocation.Removed)
                     {
                         resourceCards[i]++;
                     }
