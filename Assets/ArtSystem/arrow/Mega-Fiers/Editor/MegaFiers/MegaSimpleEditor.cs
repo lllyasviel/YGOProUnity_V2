@@ -5,7 +5,7 @@ using UnityEditor;
 public class MegaSimpleEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Simple Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\bend_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/bend_help.png"); }
 
 	public override bool Inspector()
 	{

@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaSinusCurveEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Sinus Curve Modifier by Unity"; }
-	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\bend_help.png"); }
+	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/bend_help.png"); }
 
 	public override bool Inspector()
 	{

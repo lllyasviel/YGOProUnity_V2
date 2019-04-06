@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaDisplaceEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Displace Modifier by Chris West"; }
-	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\bend_web.png"); }
+	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/bend_web.png"); }
 
 	public override bool Inspector()
 	{

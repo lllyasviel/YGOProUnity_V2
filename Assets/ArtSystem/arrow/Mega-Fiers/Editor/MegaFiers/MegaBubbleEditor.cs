@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaBubbleEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Bubble Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\bubble_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/bubble_help.png"); }
 
 	public override bool Inspector()
 	{

@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaTwistEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Twist Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\twist_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/twist_help.png"); }
 
 	public override bool Inspector()
 	{

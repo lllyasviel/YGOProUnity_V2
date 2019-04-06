@@ -269,9 +269,9 @@ public class GameTextureManager
 
     private static void ProcessingCardFeature(PictureResource pic)
     {
-        if (File.Exists("picture\\closeup\\" + pic.code.ToString() + ".png"))
+        if (File.Exists("picture/closeup/" + pic.code.ToString() + ".png"))
         {
-            string path = "picture\\closeup\\" + pic.code.ToString() + ".png";
+            string path = "picture/closeup/" + pic.code.ToString() + ".png";
             BitmapHelper bitmap = new BitmapHelper(path);
             int left;
             int right;
@@ -309,16 +309,16 @@ public class GameTextureManager
         }
         else
         {
-            string path = "picture\\card\\" + pic.code.ToString() + ".png";
+            string path = "picture/card/" + pic.code.ToString() + ".png";
             if (!File.Exists(path))
             {
-                path = "picture\\card\\" + pic.code.ToString() + ".jpg";
+                path = "picture/card/" + pic.code.ToString() + ".jpg";
             }
             bool Iam8 = false;
             if (!File.Exists(path))
             {
                 Iam8 = true;
-                path = "picture\\cardIn8thEdition\\" + pic.code.ToString() + ".jpg";
+                path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
             }
             if (!File.Exists(path))
             {
@@ -567,19 +567,19 @@ public class GameTextureManager
 
     private static void ProcessingVerticleDrawing(PictureResource pic)
     {
-        string path = "picture\\closeup\\" + pic.code.ToString() + ".png";
+        string path = "picture/closeup/" + pic.code.ToString() + ".png";
         if (!File.Exists(path))
         {
-            path = "picture\\card\\" + pic.code.ToString() + ".png";
+            path = "picture/card/" + pic.code.ToString() + ".png";
             if (!File.Exists(path))
             {
-                path = "picture\\card\\" + pic.code.ToString() + ".jpg";
+                path = "picture/card/" + pic.code.ToString() + ".jpg";
             }
             bool Iam8 = false;
             if (!File.Exists(path))
             {
                 Iam8 = true;
-                path = "picture\\cardIn8thEdition\\" + pic.code.ToString() + ".jpg";
+                path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
             }
             if (!File.Exists(path))
             {
@@ -707,14 +707,14 @@ public class GameTextureManager
 
     private static void ProcessingCardPicture(PictureResource pic)
     {
-        string path = "picture\\card\\" + pic.code.ToString() + ".png";
+        string path = "picture/card/" + pic.code.ToString() + ".png";
         if (!File.Exists(path))
         {
-            path = "picture\\card\\" + pic.code.ToString() + ".jpg";
+            path = "picture/card/" + pic.code.ToString() + ".jpg";
         }
         if (!File.Exists(path))
         {
-            path = "picture\\cardIn8thEdition\\" + pic.code.ToString() + ".jpg";
+            path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
         }
         if (!File.Exists(path))
         {
@@ -874,30 +874,30 @@ public class GameTextureManager
         opBack = UIHelper.getTexture2D("texture/duel/opponent.jpg");
         unknown = UIHelper.getTexture2D("texture/duel/unknown.jpg");
         negated = UIHelper.getTexture2D("texture/duel/negated.png");
-        bar = UIHelper.getTexture2D("texture\\duel\\healthBar\\bg.png");
-        exBar = UIHelper.getTexture2D("texture\\duel\\healthBar\\excited.png");
-        time = UIHelper.getTexture2D("texture\\duel\\healthBar\\t.png");
-        lp = UIHelper.getTexture2D("texture\\duel\\healthBar\\lp.png");
-        L = UIHelper.getTexture2D("texture\\duel\\L.png");
-        R = UIHelper.getTexture2D("texture\\duel\\R.png");
-        LINK = UIHelper.getTexture2D("texture\\duel\\link.png");
-        LINKm = UIHelper.getTexture2D("texture\\duel\\linkMask.png");
-        Chain = UIHelper.getTexture2D("texture\\duel\\chain.png");
-        Mask = UIHelper.getTexture2D("texture\\duel\\mask.png");
+        bar = UIHelper.getTexture2D("texture/duel/healthBar/bg.png");
+        exBar = UIHelper.getTexture2D("texture/duel/healthBar/excited.png");
+        time = UIHelper.getTexture2D("texture/duel/healthBar/t.png");
+        lp = UIHelper.getTexture2D("texture/duel/healthBar/lp.png");
+        L = UIHelper.getTexture2D("texture/duel/L.png");
+        R = UIHelper.getTexture2D("texture/duel/R.png");
+        LINK = UIHelper.getTexture2D("texture/duel/link.png");
+        LINKm = UIHelper.getTexture2D("texture/duel/linkMask.png");
+        Chain = UIHelper.getTexture2D("texture/duel/chain.png");
+        Mask = UIHelper.getTexture2D("texture/duel/mask.png");
 
 
-        nt = UIHelper.getTexture2D("texture\\duel\\phase\\nt.png");
-        bp = UIHelper.getTexture2D("texture\\duel\\phase\\bp.png");
-        ep = UIHelper.getTexture2D("texture\\duel\\phase\\ep.png");
-        mp1 = UIHelper.getTexture2D("texture\\duel\\phase\\mp1.png");
-        mp2 = UIHelper.getTexture2D("texture\\duel\\phase\\mp2.png");
-        dp = UIHelper.getTexture2D("texture\\duel\\phase\\dp.png");
-        sp = UIHelper.getTexture2D("texture\\duel\\phase\\sp.png");
+        nt = UIHelper.getTexture2D("texture/duel/phase/nt.png");
+        bp = UIHelper.getTexture2D("texture/duel/phase/bp.png");
+        ep = UIHelper.getTexture2D("texture/duel/phase/ep.png");
+        mp1 = UIHelper.getTexture2D("texture/duel/phase/mp1.png");
+        mp2 = UIHelper.getTexture2D("texture/duel/phase/mp2.png");
+        dp = UIHelper.getTexture2D("texture/duel/phase/dp.png");
+        sp = UIHelper.getTexture2D("texture/duel/phase/sp.png");
 
-        phase = UIHelper.getTexture2D("texture\\duel\\phase\\phase.png");
+        phase = UIHelper.getTexture2D("texture/duel/phase/phase.png");
 
-        rs = UIHelper.getTexture2D("texture\\duel\\phase\\rs.png");
-        ts = UIHelper.getTexture2D("texture\\duel\\phase\\ts.png");
+        rs = UIHelper.getTexture2D("texture/duel/phase/rs.png");
+        ts = UIHelper.getTexture2D("texture/duel/phase/ts.png");
 
         N = new Texture2D(10,10);
         for (int i = 0; i < 10; i++)    
@@ -910,7 +910,7 @@ public class GameTextureManager
         N.Apply();
         try
         {
-            ColorUtility.TryParseHtmlString(File.ReadAllText("texture\\duel\\chainColor.txt"), out chainColor);
+            ColorUtility.TryParseHtmlString(File.ReadAllText("texture/duel/chainColor.txt"), out chainColor);
         }
         catch (Exception)   
         {

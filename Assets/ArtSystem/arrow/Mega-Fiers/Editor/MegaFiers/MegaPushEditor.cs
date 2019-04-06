@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaPushEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Push Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\push_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/push_help.png"); }
 
 	public override bool Inspector()
 	{

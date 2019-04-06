@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaHumpEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Hump Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\hump_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/hump_help.png"); }
 
 	public override bool Inspector()
 	{

@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaStretchEditor : MegaModifierEditor
 {
 	public override string GetHelpString()	{ return "Stretch Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\stretch_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/stretch_help.png"); }
 
 	public override bool Inspector()
 	{

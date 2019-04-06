@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaRadialSkewEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Radial Skew Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\skew_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/skew_help.png"); }
 
 	public override bool Inspector()
 	{

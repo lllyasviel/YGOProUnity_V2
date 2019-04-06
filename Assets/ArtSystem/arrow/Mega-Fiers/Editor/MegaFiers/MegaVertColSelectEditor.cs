@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaVertColSelectEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Vertex Color Select Modifier by Chris West"; }
-	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\bend_help.png"); }
+	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/bend_help.png"); }
 
 	public override bool DisplayCommon() { return false; }
 

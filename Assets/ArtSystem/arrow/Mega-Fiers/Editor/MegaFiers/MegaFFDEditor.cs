@@ -6,7 +6,7 @@ public class MegaFFDEditor : MegaModifierEditor
 {
 	Vector3 pm = new Vector3();
 
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\ffd_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/ffd_help.png"); }
 
 	bool showpoints = true;
 

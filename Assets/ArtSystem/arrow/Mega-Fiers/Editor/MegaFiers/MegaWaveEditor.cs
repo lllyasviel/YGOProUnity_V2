@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaWaveEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Wave Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\wave_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/wave_help.png"); }
 
 	public override bool Inspector()
 	{

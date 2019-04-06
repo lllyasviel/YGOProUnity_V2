@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaVertNoiseEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Vertical Noise Modifier by Chris West"; }
-	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\noise_help.png"); }
+	public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/noise_help.png"); }
 
 	public override bool Inspector()
 	{

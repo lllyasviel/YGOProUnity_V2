@@ -6,7 +6,7 @@ using UnityEditor;
 public class MegaSqueezeEditor : MegaModifierEditor
 {
 	public override string GetHelpString() { return "Squeeze Modifier by Chris West"; }
-	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers\\taper_help.png"); }
+	//public override Texture LoadImage() { return (Texture)EditorGUIUtility.LoadRequired("MegaFiers/taper_help.png"); }
 
 	public override bool Inspector()
 	{
