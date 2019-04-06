@@ -14,18 +14,6 @@ We use Yu-Gi-Oh card game only to test our engine, and the game is not for comme
 
 3. Double click Assets\main.unity to open the solution.
 
-# How to compile the ocgcore wrapper?
-
-*In most case you do not need to care about the ocgcore wrapper.*
-
-1. Double click the **YGOProUnity_V2/AI_core_vs2017solution/core.sln**
-
-2. build the c# solution in x64 and release mode and you get the **System.Servicemodel.Faltexception.dll**
-
-3. copy it into **YGOProUnity_V2\Assets\Plugins**
-
-*Yes, the name of the dll is System.Servicemodel.Faltexception.dll, though it does nothing with c# system :p*
-
 # How to compile the ocgcore.dll?
 
 *In most case you do not need to care about the ocgcore.dll.*
