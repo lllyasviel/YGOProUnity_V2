@@ -23,6 +23,8 @@
         SeaSerpent = 0x40000,
         Reptile = 0x80000,
         Psycho = 0x100000,
-        DivineBeast = 0x200000
+        DivineBeast = 0x200000,
+        Wyrm = 0x800000,
+        Cyberse = 0x1000000
     }
 }

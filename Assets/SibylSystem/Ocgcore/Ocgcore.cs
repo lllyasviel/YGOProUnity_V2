@@ -1830,7 +1830,7 @@ public class Ocgcore : ServantWithCardDescription
                     //printDuelLog(derectattack);
                 }
                 break;
-            case GameMessage.AttackDiabled:
+            case GameMessage.AttackDisabled:
                 ES_hint = InterString.Get("攻击被无效时");
                 //printDuelLog(InterString.Get("攻击被无效"));
                 break;
@@ -3402,7 +3402,7 @@ public class Ocgcore : ServantWithCardDescription
                     gameField.setHint(InterString.Get("请选择卡片。") + " " + ES_min.ToString() + "-" + ES_max.ToString());
                 }
                 break;
-            case GameMessage.SelectUnselectCard:
+            case GameMessage.SelectUnselect:
                 if (inIgnoranceReplay() || inTheWorld())
                 {
                     break;
@@ -5108,7 +5108,7 @@ public class Ocgcore : ServantWithCardDescription
                     Sleep(40);
                 }
                 break;
-            case GameMessage.AttackDiabled:
+            case GameMessage.AttackDisabled:
                 //removeAttackHandler();
                 break;
             case GameMessage.DamageStepStart:
@@ -5888,7 +5888,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
             }
         }
-        else if (currentMessage != GameMessage.SelectUnselectCard)
+        else if (currentMessage != GameMessage.SelectUnselect)
         {
             gameInfo.removeHashedButton("sendSelected");
         }
@@ -5900,7 +5900,7 @@ public class Ocgcore : ServantWithCardDescription
 
     private void getSelectableCards()
     {
-        if (currentMessage == GameMessage.SelectCard || currentMessage == GameMessage.SelectUnselectCard)
+        if (currentMessage == GameMessage.SelectCard || currentMessage == GameMessage.SelectUnselect)
         {
             for (int i = 0; i < allCardsInSelectMessage.Count; i++)
             {
@@ -6209,7 +6209,7 @@ public class Ocgcore : ServantWithCardDescription
         switch (currentMessage)
         {
             case GameMessage.SelectCard:
-            case GameMessage.SelectUnselectCard:
+            case GameMessage.SelectUnselect:
             case GameMessage.SelectTribute:
                 int c = ES_min;
                 if (cardsSelectable.Count < c)
@@ -6249,11 +6249,11 @@ public class Ocgcore : ServantWithCardDescription
         switch (currentMessage)
         {
             case GameMessage.SelectCard:
-            case GameMessage.SelectUnselectCard:
+            case GameMessage.SelectUnselect:
             case GameMessage.SelectTribute:
             case GameMessage.SelectSum:
                 m = new BinaryMaster();
-                if (currentMessage == GameMessage.SelectUnselectCard && cardsSelected.Count == 0)
+                if (currentMessage == GameMessage.SelectUnselect && cardsSelected.Count == 0)
                 {
                     m.writer.Write((Int32)(-1));
                     sendReturn(m.get());
@@ -6814,10 +6814,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         gameCard card = vvv[curHang - 1, curLie - 1];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.youshang) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopRight))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.zuoxia) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomLeft))
                                 lighted = true;
                     }
 
@@ -6826,10 +6826,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                             gameCard card = vvv[curHang, curLie - 1];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.you) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Right))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.zuo) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Left))
                                 lighted = true;
                     }
                         if (curLie - 1 >= 0)
@@ -6837,10 +6837,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                             gameCard card = vvv[curHang + 1, curLie - 1];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.youxia) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomRight))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.zuoshang) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopLeft))
                                 lighted = true;
                     }
                     if (curHang - 1 >= 0)
@@ -6848,10 +6848,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                             gameCard card = vvv[curHang - 1, curLie];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.shang) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Top))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.xia) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Bottom))
                                 lighted = true;
                     }
 
@@ -6859,10 +6859,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         gameCard card = vvv[curHang + 1, curLie];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.xia) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Bottom))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.shang) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Top))
                                 lighted = true;
                     }
                     if (curHang - 1 >= 0)
@@ -6870,10 +6870,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                             gameCard card = vvv[curHang - 1, curLie + 1];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.zuoshang) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopLeft))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.youxia) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomRight))
                                 lighted = true;
                     }
 
@@ -6881,10 +6881,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         gameCard card = vvv[curHang, curLie + 1];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.zuo) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Left))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.you) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.Right))
                                 lighted = true;
                     }
 
@@ -6892,10 +6892,10 @@ public class Ocgcore : ServantWithCardDescription
                     {
                         gameCard card = vvv[curHang + 1, curLie + 1];
                         if (card.p.controller == 0)
-                            if ((card.get_data().rDefense & CardFac.zuoxia) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.BottomLeft))
                                 lighted = true;
                         if (card.p.controller == 1)
-                            if ((card.get_data().rDefense & CardFac.youshang) > 0)
+                            if (card.get_data().HasLinkMarker(CardLinkMarker.TopRight))
                                 lighted = true;
                     }
 
@@ -8246,7 +8246,7 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             case GameMessage.SelectCard:
                 break;
-            case GameMessage.SelectUnselectCard:
+            case GameMessage.SelectUnselect:
                 break;
             case GameMessage.SelectChain:
                 break;
@@ -8318,7 +8318,7 @@ public class Ocgcore : ServantWithCardDescription
             case GameMessage.SelectEffectYn:
             case GameMessage.SelectYesNo:
             case GameMessage.SelectCard:
-            case GameMessage.SelectUnselectCard:
+            case GameMessage.SelectUnselect:
             case GameMessage.SelectTribute:
             case GameMessage.SelectChain:
                 clearAllShowedB = true;
@@ -8537,7 +8537,7 @@ public class Ocgcore : ServantWithCardDescription
                     realizeCardsForSelect();
                 }
                 break;
-            case GameMessage.SelectUnselectCard:
+            case GameMessage.SelectUnselect:
                 if (card.forSelect)
                 {
                     cardsSelected.Add(card);

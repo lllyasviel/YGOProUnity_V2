@@ -25,7 +25,7 @@
         Toon = 0x400000,
         Xyz = 0x800000,
         Pendulum = 0x1000000,
-        sp = 0x2000000,
-        link = 0x4000000,
+        SpSummon = 0x2000000,
+        Link = 0x4000000
     }
 }

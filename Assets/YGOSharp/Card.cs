@@ -100,9 +100,14 @@ namespace YGOSharp
             return ((Type & (int)type) != 0);
         }
 
+        public bool HasLinkMarker(CardLinkMarker dir)
+        {
+            return (rDefense & (int)dir) != 0;
+        }
+
         public bool IsExtraCard()
         {
-            return (HasType(CardType.Fusion) || HasType(CardType.Synchro) || HasType(CardType.Xyz) || HasType(CardType.link));
+            return (HasType(CardType.Fusion) || HasType(CardType.Synchro) || HasType(CardType.Xyz) || HasType(CardType.Link));
         }
 
         internal Card(IDataRecord reader)
