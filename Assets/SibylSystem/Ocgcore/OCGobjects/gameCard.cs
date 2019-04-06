@@ -2541,7 +2541,7 @@ public class gameCard : OCGobject
             if (ballChain!=null)    
             {
                 del_all_decoration_by_string("chaining");
-                Vector3 pos = ui_helper.get_close(gameObject.transform.position, Program.camera_game_main, 5);
+                Vector3 pos = UIHelper.get_close(gameObject.transform.position, Program.camera_game_main, 5);
                 if (Program.I().setting.setting.Vchain.value == true)
                 {
                     MonoBehaviour.Destroy((GameObject)MonoBehaviour.Instantiate(Program.I().mod_ocgcore_cs_end, pos, Quaternion.identity), 5f);

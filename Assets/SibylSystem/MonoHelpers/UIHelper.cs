@@ -1098,4 +1098,13 @@ public static class UIHelper
         foreach (Transform achild in Transforms)
             achild.gameObject.layer = parent.layer;
     }
+
+    internal static Vector3 get_close(Vector3 input_vector, Camera cam, float l)
+    {
+        Vector3 o = Vector3.zero;
+        Vector3 scr = cam.WorldToScreenPoint(input_vector);
+        scr.z -= l;
+        o = cam.ScreenToWorldPoint(scr);
+        return o;
+    }
 }

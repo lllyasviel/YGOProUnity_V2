@@ -4922,7 +4922,7 @@ public class Ocgcore : ServantWithCardDescription
                         UIHelper.playSound("addcounter", 1);
                         //if (Program.YGOPro1 == false)
                         {
-                            Vector3 pos = ui_helper.get_close(card.gameObject.transform.position, Program.camera_game_main, 5);
+                            Vector3 pos = UIHelper.get_close(card.gameObject.transform.position, Program.camera_game_main, 5);
                             MonoBehaviour.Destroy((GameObject)MonoBehaviour.Instantiate(Program.I().mod_ocgcore_cs_end, pos, Quaternion.identity), 5f);
                         }
                     }
@@ -4943,7 +4943,7 @@ public class Ocgcore : ServantWithCardDescription
                         UIHelper.playSound("removecounter", 1);
                         //if (Program.YGOPro1 == false)
                         {
-                            Vector3 pos = ui_helper.get_close(card.gameObject.transform.position, Program.camera_game_main, 5);
+                            Vector3 pos = UIHelper.get_close(card.gameObject.transform.position, Program.camera_game_main, 5);
                             MonoBehaviour.Destroy((GameObject)MonoBehaviour.Instantiate(Program.I().mod_ocgcore_cs_end, pos, Quaternion.identity), 5f);
                         }
                     }

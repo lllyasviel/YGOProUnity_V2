@@ -655,7 +655,7 @@ public class Servant
         sp.width = 470;
         for (int i = 0; i < options.Count; i++)
         {
-            Vector2 v = ui_helper.get_hang_lie(i, 5);
+            Vector2 v = UIHelper.get_hang_lie(i, 5);
             float hang = v.x;
             float lie = v.y;
             GameObject btn = create
