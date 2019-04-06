@@ -35,6 +35,7 @@ sysinfo.txt
 *.unitypackage
 
 # ygopro
+ai/
 cdb/
 deck/
 pack/
