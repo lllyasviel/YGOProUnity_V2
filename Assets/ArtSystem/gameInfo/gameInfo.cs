@@ -7,6 +7,8 @@ public class gameUIbutton
     public string hashString;
     public GameObject gameObject;
     public int response;
+    public bool dying;
+    public bool dead;
 }
 
 public class gameInfo : MonoBehaviour
@@ -120,25 +122,41 @@ public class gameInfo : MonoBehaviour
             opponent.transform.localPosition = new Vector3(Screen.width / 2-14, Screen.height / 2 - 14 - k * (float)(opponent.under.height));
         }
 
-        float height = 132 + 50 * (HashedButtons.Count);
-        if (HashedButtons.Count==0)  
-        {
-            height = 116;
-        }
-         width = (150 * kb) + 15f;
+        width = (150 * kb) + 15f;
         float localPositionPanX = (((float)Screen.width - 150 * kb) / 2) - 15f;
-        float localPositionPanY = 0;
-        float localPositionPanY_ = instance_btnPan.transform.localPosition.y + (localPositionPanY - instance_btnPan.transform.localPosition.y) * 0.2f;
-        instance_btnPan.height += (int)(((float)height - (float)instance_btnPan.height) * 0.2f);
-        instance_btnPan.transform.localPosition = new Vector3(localPositionPanX, localPositionPanY_, 0);
+        instance_btnPan.transform.localPosition = new Vector3(localPositionPanX, 145, 0);
         instance_lab.transform.localPosition = new Vector3(Screen.width/2-315, -Screen.height / 2+90, 0);
+        int j = 0;
         for (int i = 0; i < HashedButtons.Count; i++)
         {
             if (HashedButtons[i].gameObject != null)
             {
-                HashedButtons[i].gameObject.transform.localPosition += (new Vector3(0, height / 2 - 142 - i * 50, 0) - HashedButtons[i].gameObject.transform.localPosition) * Program.deltaTime * 10f;
+                if (HashedButtons[i].dying)
+                {
+                    HashedButtons[i].gameObject.transform.localPosition += (new Vector3(0, -120, 0) - HashedButtons[i].gameObject.transform.localPosition) * Program.deltaTime * 20f;
+                    if (Math.Abs(HashedButtons[i].gameObject.transform.localPosition.y - -120) < 1)
+                        HashedButtons[i].dead = true;
+                }
+                else
+                {
+                    HashedButtons[i].gameObject.transform.localPosition += (new Vector3(0, -145 - j * 50, 0) - HashedButtons[i].gameObject.transform.localPosition) * Program.deltaTime * 10f;
+                    j++;
+                }
             }
+            else
+                HashedButtons[i].dead = true;
         }
+        for (int i = HashedButtons.Count - 1; i >= 0; i--)
+        {
+            if (HashedButtons[i].dead)
+                HashedButtons.RemoveAt(i);
+        }
+        float height = 132 + 50 * j;
+        if (j == 0)
+        {
+            height = 116;
+        }
+        instance_btnPan.height += (int)(((float)height - (float)instance_btnPan.height) * 0.2f);
         if (Program.TimePassed() - lastTickTime > 1000)
         {
             lastTickTime = Program.TimePassed();
@@ -171,9 +189,10 @@ public class gameInfo : MonoBehaviour
         }
         hashedButton.gameObject.transform.SetParent(instance_btnPan.transform,false);
         hashedButton.gameObject.transform.localScale = Vector3.zero;
-        hashedButton.gameObject.transform.localPosition= Vector3.zero;
+        hashedButton.gameObject.transform.localPosition= new Vector3(0, -120, 0);
         hashedButton.gameObject.transform.localEulerAngles = Vector3.zero;
         iTween.ScaleTo(hashedButton.gameObject, new Vector3(0.9f, 0.9f, 0.9f), 0.3f);
+        hashedButton.dying = false;
         HashedButtons.Add(hashedButton);
         refreshLine();
     }
@@ -222,9 +241,9 @@ public class gameInfo : MonoBehaviour
         {
             if (remove.gameObject != null)
             {
-                Program.I().destroy(remove.gameObject, 0.6f, true);
+                Program.I().destroy(remove.gameObject, 0.3f, true);
             }
-            HashedButtons.Remove(remove);
+            remove.dying = true;
         }
         refreshLine();
     }
@@ -242,16 +261,24 @@ public class gameInfo : MonoBehaviour
         {
             if (HashedButtons[i].gameObject != null)
             {
-                Program.I().destroy(HashedButtons[i].gameObject, 0.6f, true);
+                Program.I().destroy(HashedButtons[i].gameObject, 0.3f, true);
             }
+            HashedButtons[i].dying = true;
         }
-        HashedButtons.Clear();
         refreshLine();
     }
 
     void refreshLine()
     {
-        line.SetActive(HashedButtons.Count > 0);
+        int j = 0;
+        for (int i = 0; i < HashedButtons.Count; i++)
+        {
+            if (!HashedButtons[i].dying)
+            {
+                j++;
+            }
+        }
+        line.SetActive(j > 0);
     }
 
     int[] time = new int[2];
