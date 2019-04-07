@@ -124,7 +124,7 @@ public class Book : WindowServant2D
                     master.remove(item.get_data().Name);
                 }
             }
-            deckString += master.managedString;
+            deckString += master.managedString.TrimEnd('\n');
             lab.text = deckString;
         }
         if (labop != null)
@@ -146,7 +146,7 @@ public class Book : WindowServant2D
                     master.Add(item.get_data().Name);
                 }
             }
-            opString += master.managedString;
+            opString += master.managedString.TrimEnd('\n');
             if (master.strings.Count > 0)
             {
                 labop.text = InterString.Get("[ff5555]对手使用过：@n[?][-]", opString);

@@ -11,13 +11,7 @@ public class MultiStringMaster
 
     public List<part> strings = new List<part>();
 
-    private string _managedString = "";
-
-    public string managedString
-    {
-        get { return _managedString.TrimEnd('\n'); }
-        set { _managedString = value; }
-    }
+    public string managedString = "";
 
     public void Add(string str)
     {
@@ -37,16 +31,16 @@ public class MultiStringMaster
             t.str = str;
             strings.Add(t);
         }
-        _managedString = "";
+        managedString = "";
         for (int i = 0; i < strings.Count; i++)
         {
             if (strings[i].count == 1)
             {
-                _managedString += strings[i].str + "\n";
+                managedString += strings[i].str + "\n";
             }
             else
             {
-                _managedString += strings[i].str + "*" + strings[i].count.ToString() + "\n";
+                managedString += strings[i].str + "*" + strings[i].count.ToString() + "\n";
             }
         }
     }
@@ -54,7 +48,7 @@ public class MultiStringMaster
     public void clear()
     {
         strings.Clear();
-        _managedString = "";
+        managedString = "";
     }
 
     public void remove(string str)
@@ -78,16 +72,16 @@ public class MultiStringMaster
                 t.count--;
             }
         }
-        _managedString = "";
+        managedString = "";
         for (int i = 0; i < strings.Count; i++)
         {
             if (strings[i].count == 1)
             {
-                _managedString += strings[i].str + "\n";
+                managedString += strings[i].str + "\n";
             }
             else
             {
-                _managedString += strings[i].str + "*" + strings[i].count.ToString() + "\n";
+                managedString += strings[i].str + "*" + strings[i].count.ToString() + "\n";
             }
         }
     }
