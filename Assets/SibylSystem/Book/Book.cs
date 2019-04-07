@@ -149,7 +149,7 @@ public class Book : WindowServant2D
             opString += master.managedString;
             if (master.strings.Count > 0)
             {
-                labop.text = InterString.Get("[ff5555]对手使用过：\n[?][-]", opString);
+                labop.text = InterString.Get("[ff5555]对手使用过：@n[?][-]", opString);
             }
             else
             {
