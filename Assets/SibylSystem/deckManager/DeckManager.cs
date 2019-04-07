@@ -189,6 +189,7 @@ public class DeckManager : ServantWithCardDescription
                 UIHelper.setParent(gameObjectSearch, Program.ui_main_2d);
                 SetBar(Program.I().new_bar_changeSide, 0, 230);
                 UIPopupList_banlist = null;
+                UIHelper.registEvent(toolBar, "rand_", rand);
                 UIHelper.registEvent(toolBar, "sort_", sort);
                 UIHelper.registEvent(toolBar, "finish_", home);
                 UIHelper.registEvent(toolBar, "input_", onChat);
