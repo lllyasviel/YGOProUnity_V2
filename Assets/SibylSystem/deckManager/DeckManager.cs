@@ -286,6 +286,7 @@ public class DeckManager : ServantWithCardDescription
                     }
                     System.IO.File.WriteAllText("deck/" + deckInUse + ".ydk", value, System.Text.Encoding.UTF8);
                 }
+                deckDirty = false;
                 RMSshow_none(InterString.Get("卡组[?]已经被保存。", deckInUse));
                 return true;
             }
@@ -352,6 +353,7 @@ public class DeckManager : ServantWithCardDescription
                 Debug.Log(e);
             }
         }
+        deckDirty = true;
     }
 
     bool detailShowed = false;
@@ -1135,6 +1137,7 @@ public class DeckManager : ServantWithCardDescription
             destroyCard(deck.IRemoved[i]);
         }
         deck = new YGOSharp.Deck();
+        deckDirty = false;
         ((CardDescription)Program.I().cardDescription).setTitle("");
         base.hide();
     }
@@ -1263,6 +1266,7 @@ public class DeckManager : ServantWithCardDescription
                 MonoCardInDeckManager_.cardData.cloneTo(card.cardData);
                 card.gameObject.layer = 16;
                 deck.IMain.Add(card);
+                deckDirty = true;
                 ArrangeObjectDeck(true);
                 ShowObjectDeck();
             }
@@ -1287,6 +1291,7 @@ public class DeckManager : ServantWithCardDescription
                         card.cardData = cardPicLoader_.data;
                         card.gameObject.layer = 16;
                         deck.IMain.Add(card);
+                        deckDirty = true;
                         cardInDragging = card;
                         card.beginDrag();
                     }
@@ -1305,6 +1310,7 @@ public class DeckManager : ServantWithCardDescription
             }
             else
             {
+                deckDirty = true;
                 ArrangeObjectDeck(true);
                 ShowObjectDeck();
             }
@@ -1373,6 +1379,7 @@ public class DeckManager : ServantWithCardDescription
                         deck.IMain.Remove(MonoCardInDeckManager_);
                         deck.IExtra.Remove(MonoCardInDeckManager_);
                     }
+                    deckDirty = true;
                     ShowObjectDeck();
                 }
             }
@@ -1405,15 +1412,18 @@ public class DeckManager : ServantWithCardDescription
                 deck.IMain.Add(card);
                 deck.Main.Add(card.cardData.Id);
             }
+            deckDirty = true;
         }
     }
 
     public YGOSharp.Deck deck = new YGOSharp.Deck();
+    public bool deckDirty = false;
 
     public void loadDeckFromYDK(string path)
     {
         FromYDKtoCodedDeck(path, out deck);
         FormCodedDeckToObjectDeck();
+        deckDirty = false;
     }
 
     public static void FromYDKtoCodedDeck(string path, out YGOSharp.Deck deck)
@@ -1606,11 +1616,13 @@ public class DeckManager : ServantWithCardDescription
         YGOSharp.Deck.sort((List<MonoCardInDeckManager>)deck.IMain);
         YGOSharp.Deck.sort((List<MonoCardInDeckManager>)deck.IExtra);
         YGOSharp.Deck.sort((List<MonoCardInDeckManager>)deck.ISide);
+        deckDirty = true;
     }
 
     void RandObjectDeck()
     {
         YGOSharp.Deck.rand((List<MonoCardInDeckManager>)deck.IMain);
+        deckDirty = true;
     }
 
 

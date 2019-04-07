@@ -89,6 +89,8 @@ public class selectDeck : WindowServantSP
             ((DeckManager)Program.I().deckManager).returnAction =
                 () =>
                 {
+                    if (((DeckManager)Program.I().deckManager).deckDirty)
+                    {
                     RMSshow_yesOrNoOrCancle(
                           "deckManager_returnAction"
                         , InterString.Get("要保存卡组的变更吗？")
@@ -96,6 +98,10 @@ public class selectDeck : WindowServantSP
                         , new messageSystemValue { hint = "no", value = "no" }
                         , new messageSystemValue { hint = "cancle", value = "cancle" }
                         );
+                    }
+                    else {
+                        Program.I().shiftToServant(Program.I().selectDeck);
+                    }
                 };
         }
     }
