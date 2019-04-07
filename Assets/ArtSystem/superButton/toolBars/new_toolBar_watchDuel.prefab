@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 11434976}
   - component: {fileID: 11413998}
   - component: {fileID: 11401532}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: left_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ GameObject:
   m_Component:
   - component: {fileID: 468138}
   - component: {fileID: 11118740}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405508}
   - component: {fileID: 11111788}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 11476170}
   - component: {fileID: 11407528}
   - component: {fileID: 11475756}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: book_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 455054}
   - component: {fileID: 11480540}
   m_Layer: 8
-  m_Name: Label
+  m_Name: '!default'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 464294}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: new_toolBar_watchDuel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 11411154}
   - component: {fileID: 11401478}
   - component: {fileID: 11429468}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: go_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 490578}
   - component: {fileID: 11142802}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 11433166}
   - component: {fileID: 11437822}
   - component: {fileID: 11445862}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: right_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 407148}
   - component: {fileID: 11152374}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 11454394}
   - component: {fileID: 11471524}
   - component: {fileID: 11463426}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: exit_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 497222}
   - component: {fileID: 11148494}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436034}
   - component: {fileID: 11150022}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 451004}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: input_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 11451376}
   - component: {fileID: 11409544}
   - component: {fileID: 11481210}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: chat_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 11409648}
   - component: {fileID: 11410536}
   - component: {fileID: 11416808}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: setting_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 11454074}
   - component: {fileID: 11430996}
   - component: {fileID: 11459212}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: stop_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,7 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 455070}
   - component: {fileID: 11188846}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 468054}
   - component: {fileID: 11179910}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Animation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -728,7 +728,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117332}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2251,7 +2251,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f775853fdfd14bb47934543e95c3bae3, type: 3}
   mFont: {fileID: 0}
-  mText: Press here to type
+  mText: "\u70B9\u51FB\u8F93\u5165\u6D88\u606F\u5185\u5BB9"
   mFontSize: 20
   mFontStyle: 0
   mAlignment: 0

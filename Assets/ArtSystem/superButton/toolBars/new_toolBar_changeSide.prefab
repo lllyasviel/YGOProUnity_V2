@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 446740}
   - component: {fileID: 11450894}
   m_Layer: 5
-  m_Name: Label
+  m_Name: '!default'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 407458}
   - component: {fileID: 11401230}
   m_Layer: 5
-  m_Name: UILabel
+  m_Name: '!label'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f775853fdfd14bb47934543e95c3bae3, type: 3}
   mFont: {fileID: 0}
-  mText: Press here to type
+  mText: "\u70B9\u51FB\u8F93\u5165\u6D88\u606F\u5185\u5BB9"
   mFontSize: 20
   mFontStyle: 0
   mAlignment: 0

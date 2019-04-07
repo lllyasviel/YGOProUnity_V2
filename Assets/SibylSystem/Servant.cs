@@ -301,6 +301,7 @@ public class Servant
             false,
             Program.ui_main_2d
             );
+        UIHelper.InterGameObject(toolBar);
         fixScreenProblem();
     }
 

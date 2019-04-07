@@ -64,12 +64,14 @@ public static class InterString
         {
             return return_value.Replace("@n", "\r\n").Replace("@ui", "");
         }
-        else
+        else if (original != "")
         {
             File.AppendAllText(path, original + "->" + original + "\r\n");
             translations.Add(original, original);
             return original.Replace("@n", "\r\n").Replace("@ui", "");
         }
+        else
+            return original;
     }
 
     public static string Get(string original, string replace)

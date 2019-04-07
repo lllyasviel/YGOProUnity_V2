@@ -2640,6 +2640,7 @@ public class Ocgcore : ServantWithCardDescription
                 true,
                 new Vector3(((float)Screen.height) / 700f, ((float)Screen.height) / 700f, ((float)Screen.height) / 700f)
                 ).GetComponent<lazyWin>();
+                UIHelper.InterGameObject(winCaculator.gameObject);
                 winCaculator.input.value = UIHelper.getTimeString();
                 UIHelper.registEvent(winCaculator.gameObject, "yes_", onSaveReplay);
                 UIHelper.registEvent(winCaculator.gameObject, "no_", onGiveUpReplay);

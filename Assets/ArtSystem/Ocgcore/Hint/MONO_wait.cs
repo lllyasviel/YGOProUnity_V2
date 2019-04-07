@@ -16,7 +16,7 @@ public class MONO_wait : MonoBehaviour {
         string t = "";
         for (int i = 0; i < (((int)(a * 60)) / 20) % 4; i++)
         {
-            t += "。";
+            t += InterString.Get("…");
         }
         lab.text = t + s + t;
     }

@@ -1028,7 +1028,7 @@ public static class UIHelper
     //        }
     //        else if ((p1.position & (UInt32)CardPosition.FaceUp_DEFENSE) > 0)
     //        {
-    //            res += InterString.Get("(表侧防御)");
+    //            res += InterString.Get("(表侧守备)");
     //        }
     //        else if ((p1.position & (UInt32)CardPosition.FaceDownAttack) > 0)
     //        {
@@ -1036,7 +1036,7 @@ public static class UIHelper
     //        }
     //        else if ((p1.position & (UInt32)CardPosition.FaceDown_DEFENSE) > 0)
     //        {
-    //            res += InterString.Get("(里侧防御)");
+    //            res += InterString.Get("(里侧守备)");
     //        }
     //        else if ((p1.position & (UInt32)CardPosition.Attack) > 0)
     //        {
@@ -1044,7 +1044,7 @@ public static class UIHelper
     //        }
     //        else if ((p1.position & (UInt32)CardPosition.POS_DEFENSE) > 0)
     //        {
-    //            res += InterString.Get("(防御)");
+    //            res += InterString.Get("(守备)");
     //        }
     //        else if ((p1.position & (UInt32)CardPosition.FaceUp) > 0)
     //        {

@@ -196,7 +196,7 @@ public static class TcpHelper
                 {
                     Program.I().shiftToServant(Program.I().selectServer);
                 }
-                Program.I().cardDescription.RMSshow_none(InterString.Get("链接被断开。"));
+                Program.I().cardDescription.RMSshow_none(InterString.Get("连接被断开。"));
             }
             else
             {
