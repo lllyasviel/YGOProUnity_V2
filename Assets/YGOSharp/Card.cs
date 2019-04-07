@@ -15,6 +15,7 @@ namespace YGOSharp
         public int Level;
         public int LScale;
         public int RScale;
+        public int LinkMarker;
 
         public int Attribute;
         public int Race;
@@ -47,6 +48,7 @@ namespace YGOSharp
             r.Level = Level;
             r.LScale = LScale;
             r.RScale = RScale;
+            r.LinkMarker = LinkMarker;
             r.Attribute = Attribute;
             r.Race = Race;
             r.Attack = Attack;
@@ -102,7 +104,7 @@ namespace YGOSharp
 
         public bool HasLinkMarker(CardLinkMarker dir)
         {
-            return (rDefense & (int)dir) != 0;
+            return (LinkMarker & (int)dir) != 0;
         }
 
         public bool IsExtraCard()
@@ -126,6 +128,7 @@ namespace YGOSharp
             this.Level = (int)Level_raw & 0xff;
             this.LScale = (int)((Level_raw >> 0x18) & 0xff);
             this.RScale = (int)((Level_raw >> 0x10) & 0xff);
+            this.LinkMarker = this.Defense;
             this.Race = reader.GetInt32(8);
             this.Attribute = reader.GetInt32(9);
             this.Category = reader.GetInt64(10);

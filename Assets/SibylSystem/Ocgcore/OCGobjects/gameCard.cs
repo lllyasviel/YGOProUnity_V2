@@ -1290,7 +1290,7 @@ public class gameCard : OCGobject
                 data.Level = 0;
                 for (int i = 0; i < 32; i++)
                 {
-                    if ((data.rDefense & 1 << i) > 0)
+                    if ((data.LinkMarker & 1 << i) > 0)
                     {
                         data.Level++;
                     }

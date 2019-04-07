@@ -765,7 +765,7 @@ public static class BinaryExtensions
         if ((flag & (int)Query.Link) != 0)
         {
             l3 = r.ReadInt32(); //link value
-            data.rDefense = r.ReadInt32(); //link marker
+            data.LinkMarker = r.ReadInt32();
         }
         if (((flag & (int)Query.Level) != 0) || ((flag & (int)Query.Rank) != 0) || ((flag & (int)Query.Link) != 0))
         {
