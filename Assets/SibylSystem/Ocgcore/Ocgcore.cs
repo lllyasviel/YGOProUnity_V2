@@ -372,13 +372,13 @@ public class Ocgcore : ServantWithCardDescription
             if (c != null)
             {
                 int pposition = c.overFatherCount - 1 - p.position;
-                return_value.y -= (pposition + 2) * 1f;
-                return_value.x += (pposition + 1) * 0.6f;
+                return_value.y -= (pposition + 2) * 0.25f;
+                return_value.x += (pposition + 1) * 0.15f;
             }
             else
             {
-                return_value.y -= (p.position + 2) * 1f;
-                return_value.x += (p.position + 1) * 0.6f;
+                return_value.y -= (p.position + 2) * 0.25f;
+                return_value.x += (p.position + 1) * 0.15f;
             }
 
         }
