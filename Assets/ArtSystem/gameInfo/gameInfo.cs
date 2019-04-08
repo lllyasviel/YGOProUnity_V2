@@ -330,8 +330,16 @@ public class gameInfo : MonoBehaviour
             opponent.under.mainTexture = GameTextureManager.exBar;
             me.under.mainTexture = GameTextureManager.bar;
         }
-        me.api_timeHint.text = "paused";
-        opponent.api_timeHint.text = "paused";
+        if (Program.I().ocgcore.timeLimit == 0)
+        {
+            me.api_timeHint.text = "infinite";
+            opponent.api_timeHint.text = "infinite";
+        }
+        else
+        {
+            me.api_timeHint.text = "paused";
+            opponent.api_timeHint.text = "paused";
+        }
     }
 
     public bool amIdanger()
@@ -341,6 +349,10 @@ public class gameInfo : MonoBehaviour
 
     void setTimeAbsolutely(int player, int t)
     {
+        if (Program.I().ocgcore.timeLimit == 0)
+        {
+            return;
+        }
         if (player == 0)
         {
             me.api_timeHint.text = t.ToString() + "/" + Program.I().ocgcore.timeLimit.ToString();
