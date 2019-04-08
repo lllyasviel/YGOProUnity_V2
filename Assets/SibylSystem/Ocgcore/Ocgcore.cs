@@ -1793,17 +1793,21 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             case GameMessage.HandResult:
                 data = r.ReadByte();
-                int data1 = data & 0x3;
-                int data2 = (data >> 2) & 0x3;
-                string scissors = InterString.Get("剪刀");
-                string rock = InterString.Get("石头");
-                string paper = InterString.Get("布");
-                string res1 = (data1 == 1 ? scissors : (data1 == 2 ? paper : rock));
-                string res2 = (data2 == 1 ? scissors : (data2 == 2 ? paper : rock));
+                int res1 = (data & 0x3) - 1;
+                int res2 = ((data >> 2) & 0x3) - 1;
                 if (isFirst)
-                    printDuelLog(InterString.Get("猜拳结果：你好像出了") + res2 + InterString.Get("，对方好像出了") + res1);
+                {
+                    Program.I().new_ui_handShower.GetComponent<handShower>().me = res1;
+                    Program.I().new_ui_handShower.GetComponent<handShower>().op = res2;
+                }
                 else
-                    printDuelLog(InterString.Get("猜拳结果：你好像出了") + res1 + InterString.Get("，对方好像出了") + res2);
+                {
+                    Program.I().new_ui_handShower.GetComponent<handShower>().me = res2;
+                    Program.I().new_ui_handShower.GetComponent<handShower>().op = res1;
+                }
+                GameObject handres = create(Program.I().new_ui_handShower, Vector3.zero, Vector3.zero, false, Program.ui_main_2d);
+                destroy(handres, 10f);
+                Sleep(60);
                 break;
             case GameMessage.Attack:
                 game_card = GCS_cardGet(r.ReadGPS(), false);
@@ -4168,9 +4172,20 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 break;
             case GameMessage.RockPaperScissors:
-                binaryMaster = new BinaryMaster();
-                binaryMaster.writer.Write(UnityEngine.Random.Range(0, 2));
-                sendReturn(binaryMaster.get());
+                if (inIgnoranceReplay() || inTheWorld())
+                {
+                    break;
+                }
+                if (condition == Condition.record)
+                {
+                    Sleep(60);
+                }
+                destroy(waitObject, 0, false, true);
+                player = localPlayer(r.ReadByte());
+                RMSshow_tp("RockPaperScissors"
+                    , new messageSystemValue { hint = "jiandao", value = "1" }
+                    , new messageSystemValue { hint = "shitou", value = "2" }
+                    , new messageSystemValue { hint = "bu", value = "3" });
                 break;
             case GameMessage.ConfirmDecktop:
                 player = localPlayer(r.ReadByte());
@@ -8800,6 +8815,20 @@ public class Ocgcore : ServantWithCardDescription
                         {
                             ES_sortResult[i].card.show_number(i + 1, true);
                         }
+                    }
+                }
+                break;
+            case "RockPaperScissors":
+                {
+                    try
+                    {
+                        binaryMaster = new BinaryMaster();
+                        binaryMaster.writer.Write(Int32.Parse(result[0].value));
+                        sendReturn(binaryMaster.get());
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log(e);
                     }
                 }
                 break;
