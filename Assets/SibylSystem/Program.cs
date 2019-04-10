@@ -939,6 +939,18 @@ public class Program : MonoBehaviour
 #endif
     }
 
+    public static void PrintToChat(object o)
+    {
+        try
+        {
+            instance.cardDescription.mLog(o.ToString());
+        }
+        catch
+        {
+            DEBUGLOG(o);
+        }
+    }
+
     void gameStart()
     {
         if (UIHelper.shouldMaximize())
