@@ -212,7 +212,8 @@ public class SuperScrollView
     {
         moveFloat = panel.baseClipRegion.y + (panel.GetViewSize().y - heightOfEach) / 2 - 10;
         maxFloat = -(heightOfEach * Items.Count - panel.GetViewSize().y + 20);
-        if (maxFloat > 0)
+        // 1900x1000 resolution and 11 cards displayed caused this value to reach exactly 0 and crash the game. 
+        if (maxFloat >= 0)
         {
             maxFloat = -0.001f;
         }
