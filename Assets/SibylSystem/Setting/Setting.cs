@@ -15,7 +15,6 @@ public class Setting : WindowServant2D
         UIHelper.registEvent(gameObject, "full_", resizeScreen);
         UIHelper.registEvent(gameObject, "resize_", resizeScreen);
         UIHelper.getByName<UIToggle>(gameObject, "full_").value = Screen.fullScreen;
-        UIHelper.getByName<UIPopupList>(gameObject, "screen_").value = Screen.width.ToString() + "*" + Screen.height.ToString();
         UIHelper.getByName<UIToggle>(gameObject, "ignoreWatcher_").value = UIHelper.fromStringToBool(Config.Get("ignoreWatcher_", "0"));
         UIHelper.getByName<UIToggle>(gameObject, "ignoreOP_").value = UIHelper.fromStringToBool(Config.Get("ignoreOP_", "0"));
         UIHelper.getByName<UIToggle>(gameObject, "smartSelect_").value = UIHelper.fromStringToBool(Config.Get("smartSelect_", "1"));
@@ -74,6 +73,7 @@ public class Setting : WindowServant2D
         UIHelper.registEvent(setting.Vlink.gameObject, onCP);
         onchangeMouse();
         onchangeCloud();
+        setScreenSizeValue();
     }
 
     private void readVales()
@@ -101,6 +101,14 @@ public class Setting : WindowServant2D
     public void onchangeMouse()
     {
         Program.I().mouseParticle.SetActive(setting.mouseEffect.value);
+    }
+
+    //private int dontResizeTwice = 2;
+
+    public void setScreenSizeValue()
+    {
+        //dontResizeTwice = 3;
+        UIHelper.getByName<UIPopupList>(gameObject, "screen_").value = Screen.width.ToString() + "*" + Screen.height.ToString();
     }
 
     void onCP()
@@ -202,6 +210,14 @@ public class Setting : WindowServant2D
 
     void resizeScreen()
     {
+        //if (dontResizeTwice > 0)
+        //{
+        //    dontResizeTwice--;
+        //    return;
+        //}
+        //dontResizeTwice = 2;
+        if (UIHelper.isMaximized())
+            UIHelper.RestoreWindow();
         string[] mats = UIHelper.getByName<UIPopupList>(gameObject, "screen_").value.Split(new string[] { "*" }, StringSplitOptions.RemoveEmptyEntries);
         if (mats.Length == 2)
         {
@@ -227,6 +243,7 @@ public class Setting : WindowServant2D
         Config.Set("showoffATK", setting.showoffATK.value.ToString());
         Config.Set("showoffStar", setting.showoffStar.value.ToString());
         Config.Set("resize_", UIHelper.fromBoolToString(UIHelper.getByName<UIToggle>(gameObject, "resize_").value));
+        Config.Set("maximize_", UIHelper.fromBoolToString(UIHelper.isMaximized()));
     }
 
     public void save()

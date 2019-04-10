@@ -926,6 +926,8 @@ public class Program : MonoBehaviour
     {
         preWid = Screen.width;
         preheight = Screen.height;
+        //if (setting != null)
+        //    setting.setScreenSizeValue();
         Program.notGo(fixScreenProblems);
         Program.go(500, fixScreenProblems);
     }
@@ -939,6 +941,10 @@ public class Program : MonoBehaviour
 
     void gameStart()
     {
+        if (UIHelper.shouldMaximize())
+        {
+            UIHelper.MaximizeWindow();
+        }
         backGroundPic.show();
         shiftToServant(menu);
     }
