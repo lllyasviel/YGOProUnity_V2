@@ -1454,6 +1454,21 @@ public class DeckManager : ServantWithCardDescription
                     }
                     if (code > 100)
                     {
+                        YGOSharp.Card card = YGOSharp.CardsManager.Get(code);
+                        if (card.Id > 0 && flag != 3)
+                        {
+                            if (card.IsExtraCard())
+                            {
+                                deck.Extra.Add(code);
+                                deck.Deck_O.Extra.Add(code);
+                            }
+                            else
+                            {
+                                deck.Main.Add(code);
+                                deck.Deck_O.Main.Add(code);
+                            }
+                        }
+                        else
                         switch (flag)
                         {
                             case 1:
