@@ -236,7 +236,7 @@ public class UICamera : MonoBehaviour
 	/// Whether the joystick and controller events will be processed.
 	/// </summary>
 
-	public bool useController = true;
+	public bool useController = false;
 
 	[System.Obsolete("Use new OnDragStart / OnDragOver / OnDragOut / OnDragEnd events instead")]
 	public bool stickyPress { get { return true; } }
@@ -372,7 +372,7 @@ public class UICamera : MonoBehaviour
 		}
 	}
 
-	static bool mDisableController = false;
+	static bool mDisableController = true;
 	static Vector2 mLastPos = Vector2.zero;
 
 	/// <summary>
