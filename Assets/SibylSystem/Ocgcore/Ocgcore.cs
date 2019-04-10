@@ -6648,7 +6648,7 @@ public class Ocgcore : ServantWithCardDescription
                             //op_m[m].isMinBlockMode = true;
                             if (Program.getVerticalTransparency() >= 0.5f)
                             {
-                                gameField.isLong = true;    //这个设定暂时取消了
+                                gameField.isLong = Program.longField;    //这个设定恢复（？）了
                             }
                         }
                     }

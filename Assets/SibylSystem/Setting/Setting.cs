@@ -23,6 +23,7 @@ public class Setting : WindowServant2D
         UIHelper.getByName<UIToggle>(gameObject, "handmPosition_").value = UIHelper.fromStringToBool(Config.Get("handmPosition_", "0"));
         UIHelper.getByName<UIToggle>(gameObject, "spyer_").value = UIHelper.fromStringToBool(Config.Get("spyer_", "1"));
         UIHelper.getByName<UIToggle>(gameObject, "resize_").value = UIHelper.fromStringToBool(Config.Get("resize_", "0"));
+        UIHelper.getByName<UIToggle>(gameObject, "longField_").value = UIHelper.fromStringToBool(Config.Get("longField_", "0"));
         if (QualitySettings.GetQualityLevel()<3)
         {
             UIHelper.getByName<UIToggle>(gameObject, "high_").value = false;
@@ -39,11 +40,12 @@ public class Setting : WindowServant2D
         UIHelper.registEvent(gameObject, "handmPosition_", save);
         UIHelper.registEvent(gameObject, "spyer_", save);
         UIHelper.registEvent(gameObject, "high_", save);
+        UIHelper.registEvent(gameObject, "longField_", onChangeLongField);
         UIHelper.registEvent(gameObject, "size_", onChangeSize);
-        UIHelper.registEvent(gameObject, "alpha_", onChangeAlpha);
+        //UIHelper.registEvent(gameObject, "alpha_", onChangeAlpha);
         UIHelper.registEvent(gameObject, "vSize_", onChangeVsize);
         sliderSize = UIHelper.getByName<UISlider>(gameObject, "size_");
-        sliderAlpha = UIHelper.getByName<UISlider>(gameObject, "alpha_");
+        //sliderAlpha = UIHelper.getByName<UISlider>(gameObject, "alpha_");
         sliderVsize = UIHelper.getByName<UISlider>(gameObject, "vSize_");
         Program.go(2000,readVales);
         var collection = gameObject.GetComponentsInChildren<UIToggle>();
@@ -83,7 +85,7 @@ public class Setting : WindowServant2D
             setting.sliderVolum.forceValue(((float)(int.Parse(Config.Get("vol_", "750")))) / 1000f);
             setting.sliderSize.forceValue(((float)(int.Parse(Config.Get("size_", "500")))) / 1000f);
             setting.sliderSizeDrawing.forceValue(((float)(int.Parse(Config.Get("vSize_", "500")))) / 1000f);
-            setting.sliderAlpha.forceValue(((float)(int.Parse(Config.Get("alpha_", "666")))) / 1000f);
+            //setting.sliderAlpha.forceValue(((float)(int.Parse(Config.Get("alpha_", "666")))) / 1000f);
             onChangeAlpha();
             onChangeSize();
         }
@@ -172,8 +174,14 @@ public class Setting : WindowServant2D
         {
             Program.transparency = 1.5f * sliderAlpha.value;
         }
+        Program.transparency = 1f;
     }
 
+    void onChangeLongField()
+    {
+        Program.longField = UIHelper.getByName<UIToggle>(gameObject, "longField_").value;
+        onCP();
+    }
 
     UISlider sliderVsize;
     void onChangeVsize()
@@ -231,7 +239,8 @@ public class Setting : WindowServant2D
         Config.Set("vol_", ((int)(UIHelper.getByName<UISlider>(gameObject, "vol_").value * 1000)).ToString());
         Config.Set("size_", ((int)(UIHelper.getByName<UISlider>(gameObject, "size_").value * 1000)).ToString());
         Config.Set("vSize_", ((int)(UIHelper.getByName<UISlider>(gameObject, "vSize_").value * 1000)).ToString());
-        Config.Set("alpha_", ((int)(UIHelper.getByName<UISlider>(gameObject, "alpha_").value * 1000)).ToString());
+        //Config.Set("alpha_", ((int)(UIHelper.getByName<UISlider>(gameObject, "alpha_").value * 1000)).ToString());
+        Config.Set("longField_", UIHelper.fromBoolToString(UIHelper.getByName<UIToggle>(gameObject, "longField_").value));
         var collection = gameObject.GetComponentsInChildren<UIToggle>();
         for (int i = 0; i < collection.Length; i++) 
         {
