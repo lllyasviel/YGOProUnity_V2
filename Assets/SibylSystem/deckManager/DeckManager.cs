@@ -1802,31 +1802,20 @@ public class DeckManager : ServantWithCardDescription
         {
             UnityEngine.Debug.Log(e);
         }
-        List<YGOSharp.Card> result = new List<YGOSharp.Card>();
         if (side)   
         {
+            List<YGOSharp.Card> result = new List<YGOSharp.Card>();
             foreach (var item in Program.I().ocgcore.sideReference) 
             {
                 result.Add(YGOSharp.CardsManager.Get(item.Value));
             }
+            print(result);
+            UIHelper.trySetLableText(gameObjectSearch, "title_", result.Count.ToString());
         }
         else
         {
-            foreach (var item in deck.Main)
-            {
-                result.Add(YGOSharp.CardsManager.Get(item));
-            }
-            foreach (var item in deck.Extra)
-            {
-                result.Add(YGOSharp.CardsManager.Get(item));
-            }
-            foreach (var item in deck.Side)
-            {
-                result.Add(YGOSharp.CardsManager.Get(item));
-            }
+            UIHelper.trySetLableText(gameObjectSearch, "title_", InterString.Get("在此搜索卡片，拖动加入卡组"));
         }
-        print(result);
-        UIHelper.trySetLableText(gameObjectSearch, "title_", result.Count.ToString());
         Program.go(50, superScrollView.toTop);
         Program.go(100, superScrollView.toTop);
         Program.go(200, superScrollView.toTop);
