@@ -98,12 +98,12 @@ public class MonoCardInDeckManager : MonoBehaviour {
     {
         physicalON();
         isDraging = false;
-        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)||getIfAlive()==false)
+        if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl) || getIfAlive() == false)
         {
             Vector3 form_position = getGoodPosition(4);
             Vector3 to_position = getGoodPosition(0);
             Vector3 delta_position = to_position - form_position;
-            GetComponent<Rigidbody>().AddForce(delta_position * 200);
+            GetComponent<Rigidbody>().AddForce(delta_position * 1000);
             dying = true;
         }
     }
