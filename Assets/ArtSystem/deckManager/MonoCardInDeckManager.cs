@@ -5,6 +5,7 @@ using System;
 public class MonoCardInDeckManager : MonoBehaviour {
     int loadedPicCode = 0;
     YGOSharp.Banlist loaded_banlist = null;
+    public bool dying = false;
     bool died = false;
     public YGOSharp.Card cardData=new YGOSharp.Card();
 
@@ -61,6 +62,7 @@ public class MonoCardInDeckManager : MonoBehaviour {
         }
         else
         {
+            dying = true;
             died = true;
             gameObject.SetActive(false);
         }
@@ -102,6 +104,7 @@ public class MonoCardInDeckManager : MonoBehaviour {
             Vector3 to_position = getGoodPosition(0);
             Vector3 delta_position = to_position - form_position;
             GetComponent<Rigidbody>().AddForce(delta_position * 200);
+            dying = true;
         }
     }
 

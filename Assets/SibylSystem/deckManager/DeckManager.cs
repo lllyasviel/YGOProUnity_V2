@@ -1257,7 +1257,8 @@ public class DeckManager : ServantWithCardDescription
         goLast = gameObject;
         timeLastDown = Program.TimePassed();
         MonoCardInDeckManager MonoCardInDeckManager_ = gameObject.GetComponent<MonoCardInDeckManager>();
-        if (MonoCardInDeckManager_ != null)
+        cardPicLoader cardPicLoader_ = gameObject.GetComponent<cardPicLoader>();
+        if (MonoCardInDeckManager_ != null && !MonoCardInDeckManager_.dying)
         {
             if (doubleClick && condition == Condition.editDeck && deck.GetCardCount(MonoCardInDeckManager_.cardData.Id) < currentBanlist.GetQuantity(MonoCardInDeckManager_.cardData.Id))
             {
@@ -1276,11 +1277,9 @@ public class DeckManager : ServantWithCardDescription
                 MonoCardInDeckManager_.beginDrag();
             }
         }
-
-        if (condition == Condition.editDeck)
+        else if (cardPicLoader_ != null)
         {
-            cardPicLoader cardPicLoader_ = gameObject.GetComponent<cardPicLoader>();
-            if (cardPicLoader_ != null)
+            if (condition == Condition.editDeck)
             {
                 if (deck.GetCardCount(cardPicLoader_.data.Id) < currentBanlist.GetQuantity(cardPicLoader_.data.Id))
                 {
