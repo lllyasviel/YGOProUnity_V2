@@ -22,7 +22,7 @@ public class selectReplay : WindowServantSP
         UIHelper.registEvent(gameObject, "delete_", onDelete);
         UIHelper.registEvent(gameObject, "yrp_", onYrp);
         UIHelper.registEvent(gameObject, "ydk_", onYdk);
-        //UIHelper.registEvent(gameObject, "god_", onGod);
+        UIHelper.registEvent(gameObject, "god_", Program.gugugu);
         UIHelper.registEvent(gameObject, "value_", onValue);
         setSortLable();
         superScrollView.install();

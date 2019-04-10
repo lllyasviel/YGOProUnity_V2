@@ -995,4 +995,8 @@ public class Program : MonoBehaviour
 
     #endregion
 
+    public static void gugugu()
+    {
+        PrintToChat(InterString.Get("非常抱歉，因为技术原因，此功能暂时无法使用。请关注官方网站获取更多消息。"));
+    }
 }

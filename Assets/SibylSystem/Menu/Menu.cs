@@ -18,8 +18,8 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "deck_", onClickSelectDeck);
         UIHelper.registEvent(gameObject, "online_", onClickOnline);
         UIHelper.registEvent(gameObject, "replay_", onClickReplay);
-        //UIHelper.registEvent(gameObject, "single_", onClickPizzle);
-        //UIHelper.registEvent(gameObject, "ai_", onClickAI);
+        UIHelper.registEvent(gameObject, "single_", Program.gugugu);
+        UIHelper.registEvent(gameObject, "ai_", Program.gugugu);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
         //(new Thread(up)).Start();
     }
