@@ -9,25 +9,25 @@ using YGOSharp.OCGWrapper.Enums;
 
 public static class UIHelper
 {
-    [DllImport("user32.dll")]
+    [DllImport("user32")]
     static extern bool FlashWindow(IntPtr handle, bool invert);
 
     public delegate bool WNDENUMPROC(IntPtr hwnd, IntPtr lParam);
-    [DllImport("user32.dll", SetLastError = true)]
+    [DllImport("user32", SetLastError = true)]
     static extern bool EnumWindows(WNDENUMPROC lpEnumFunc, IntPtr lParam);
 
-    [DllImport("user32.dll", SetLastError = true)]
+    [DllImport("user32", SetLastError = true)]
     static extern IntPtr GetParent(IntPtr hWnd);
-    [DllImport("user32.dll")]
+    [DllImport("user32")]
     static extern uint GetWindowThreadProcessId(IntPtr hWnd, ref IntPtr lpdwProcessId);
-    [DllImport("user32.dll")]
+    [DllImport("user32")]
     static extern int GetClassNameW(IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)]StringBuilder lpString, int nMaxCount);
-    [DllImport("user32.dll")]
+    [DllImport("user32")]
     static extern bool IsZoomed(IntPtr hWnd);
-    [DllImport("user32.dll")]
+    [DllImport("user32")]
     static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-    [DllImport("kernel32.dll")]
+    [DllImport("kernel32")]
     static extern void SetLastError(uint dwErrCode);
 
     static IntPtr myHWND = IntPtr.Zero;

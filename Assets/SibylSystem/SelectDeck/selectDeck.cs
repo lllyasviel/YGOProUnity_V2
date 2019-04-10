@@ -249,7 +249,13 @@ public class selectDeck : WindowServantSP
         string path = "deck/" + superScrollView.selectedString + ".ydk";
         if (File.Exists(path))
         {
-            System.Diagnostics.Process.Start("notepad.exe", path);
+            #if UNITY_EDITOR || UNITY_STANDALONE_WIN //编译器、Windows
+                System.Diagnostics.Process.Start("notepad.exe", path);
+            #elif UNITY_STANDALONE_OSX //Mac OS X
+                System.Diagnostics.Process.Start("open", "-e " + path);
+            #elif UNITY_STANDALONE_LINUX //Linux
+                System.Diagnostics.Process.Start("gedit", path);
+            #endif
         }
     }
 
