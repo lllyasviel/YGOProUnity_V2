@@ -646,7 +646,17 @@ public class DeckManager : ServantWithCardDescription
         UIInput_search.isSelected = true;
     }
 
-  public  YGOSharp.Banlist currentBanlist = null;
+    public YGOSharp.Banlist currentBanlist = null;
+
+    bool checkBanlistAvail(int cardid)
+    {
+        return deck.GetCardCount(cardid) < currentBanlist.GetQuantity(cardid);
+    }
+
+    bool isBanned(int cardid)
+    {
+        return currentBanlist.GetQuantity(cardid) == 0;
+    }
 
     List<YGOSharp.Card> PrintedResult = new List<YGOSharp.Card>();
 
@@ -1228,15 +1238,15 @@ public class DeckManager : ServantWithCardDescription
 
     public override void ES_HoverOverGameObject(GameObject gameObject)
     {
-        MonoCardInDeckManager MonoCardInDeckManager_ = gameObject.GetComponent<MonoCardInDeckManager>();
-        if (MonoCardInDeckManager_ != null)
+        MonoCardInDeckManager cardInDeck = gameObject.GetComponent<MonoCardInDeckManager>();
+        if (cardInDeck != null)
         {
-            ((CardDescription)(Program.I().cardDescription)).setData(MonoCardInDeckManager_.cardData, GameTextureManager.myBack);
+            ((CardDescription)(Program.I().cardDescription)).setData(cardInDeck.cardData, GameTextureManager.myBack);
         }
-        cardPicLoader cardPicLoader_ = gameObject.GetComponent<cardPicLoader>();
-        if (cardPicLoader_ != null)
+        cardPicLoader cardInSearchResult = gameObject.GetComponent<cardPicLoader>();
+        if (cardInSearchResult != null)
         {
-            ((CardDescription)(Program.I().cardDescription)).setData(cardPicLoader_.data, GameTextureManager.myBack);
+            ((CardDescription)(Program.I().cardDescription)).setData(cardInSearchResult.data, GameTextureManager.myBack);
         }
     }
 
@@ -1256,15 +1266,15 @@ public class DeckManager : ServantWithCardDescription
         }
         goLast = gameObject;
         timeLastDown = Program.TimePassed();
-        MonoCardInDeckManager MonoCardInDeckManager_ = gameObject.GetComponent<MonoCardInDeckManager>();
-        cardPicLoader cardPicLoader_ = gameObject.GetComponent<cardPicLoader>();
-        if (MonoCardInDeckManager_ != null && !MonoCardInDeckManager_.dying)
+        MonoCardInDeckManager cardInDeck = gameObject.GetComponent<MonoCardInDeckManager>();
+        cardPicLoader cardInSearchResult = gameObject.GetComponent<cardPicLoader>();
+        if (cardInDeck != null && !cardInDeck.dying)
         {
-            if (doubleClick && condition == Condition.editDeck && deck.GetCardCount(MonoCardInDeckManager_.cardData.Id) < currentBanlist.GetQuantity(MonoCardInDeckManager_.cardData.Id))
+            if (doubleClick && condition == Condition.editDeck && checkBanlistAvail(cardInDeck.cardData.Id))
             {
                 MonoCardInDeckManager card = createCard();
-                card.transform.position = MonoCardInDeckManager_.transform.position;
-                MonoCardInDeckManager_.cardData.cloneTo(card.cardData);
+                card.transform.position = cardInDeck.transform.position;
+                cardInDeck.cardData.cloneTo(card.cardData);
                 card.gameObject.layer = 16;
                 deck.IMain.Add(card);
                 deckDirty = true;
@@ -1273,21 +1283,21 @@ public class DeckManager : ServantWithCardDescription
             }
             else
             {
-                cardInDragging = MonoCardInDeckManager_;
-                MonoCardInDeckManager_.beginDrag();
+                cardInDragging = cardInDeck;
+                cardInDeck.beginDrag();
             }
         }
-        else if (cardPicLoader_ != null)
+        else if (cardInSearchResult != null)
         {
             if (condition == Condition.editDeck)
             {
-                if (deck.GetCardCount(cardPicLoader_.data.Id) < currentBanlist.GetQuantity(cardPicLoader_.data.Id))
+                if (checkBanlistAvail(cardInSearchResult.data.Id))
                 {
-                    if ((cardPicLoader_.data.Type & (UInt32)CardType.Token) == 0)
+                    if ((cardInSearchResult.data.Type & (UInt32)CardType.Token) == 0)
                     {
                         MonoCardInDeckManager card = createCard();
                         card.transform.position = card.getGoodPosition(4);
-                        card.cardData = cardPicLoader_.data;
+                        card.cardData = cardInSearchResult.data;
                         card.gameObject.layer = 16;
                         deck.IMain.Add(card);
                         cardInDragging = card;
@@ -1324,61 +1334,52 @@ public class DeckManager : ServantWithCardDescription
         {
             if (condition == Condition.editDeck)
             {
-                MonoCardInDeckManager MonoCardInDeckManager_ = Program.pointedGameObject.GetComponent<MonoCardInDeckManager>();
-                if (MonoCardInDeckManager_ != null)
+                MonoCardInDeckManager cardInDeck = Program.pointedGameObject.GetComponent<MonoCardInDeckManager>();
+                if (cardInDeck != null)
                 {
-                    MonoCardInDeckManager_.killIt();
+                    cardInDeck.killIt();
                     ArrangeObjectDeck(true);
                     ShowObjectDeck();
                 }
-                cardPicLoader cardPicLoader_ = Program.pointedGameObject.GetComponent<cardPicLoader>();
-                if (cardPicLoader_ != null)
+                cardPicLoader cardInSearchResult = Program.pointedGameObject.GetComponent<cardPicLoader>();
+                if (cardInSearchResult != null)
                 {
-                    CreateMonoCard(cardPicLoader_.data);
+                    CreateMonoCard(cardInSearchResult.data);
                     ShowObjectDeck();
                 }
             }
             else
             {
-                MonoCardInDeckManager MonoCardInDeckManager_ = Program.pointedGameObject.GetComponent<MonoCardInDeckManager>();
-                if (MonoCardInDeckManager_ != null)
+                MonoCardInDeckManager cardInDeck = Program.pointedGameObject.GetComponent<MonoCardInDeckManager>();
+                if (cardInDeck != null)
                 {
                     bool isSide = false;
                     for (int i = 0; i < deck.ISide.Count; i++)  
                     {
-                        if (MonoCardInDeckManager_== deck.ISide[i])
+                        if (cardInDeck== deck.ISide[i])
                         {
                             isSide = true;
                         }
                     }
                     if (isSide)
                     {
-                        if (
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Fusion) > 0
-                         ||
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Synchro) > 0
-                         ||
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Xyz) > 0
-                          ||
-                        (MonoCardInDeckManager_.cardData.Type & (UInt32)CardType.Link) > 0
-                        )
+                        if (cardInDeck.cardData.IsExtraCard())
                         {
-                            deck.IExtra.Add(MonoCardInDeckManager_);
-                            deck.ISide.Remove(MonoCardInDeckManager_);
+                            deck.IExtra.Add(cardInDeck);
+                            deck.ISide.Remove(cardInDeck);
                         }
                         else
                         {
-                            deck.IMain.Add(MonoCardInDeckManager_);
-                            deck.ISide.Remove(MonoCardInDeckManager_);
+                            deck.IMain.Add(cardInDeck);
+                            deck.ISide.Remove(cardInDeck);
                         }
                     }
                     else
                     {
-                        deck.ISide.Add(MonoCardInDeckManager_);
-                        deck.IMain.Remove(MonoCardInDeckManager_);
-                        deck.IExtra.Remove(MonoCardInDeckManager_);
+                        deck.ISide.Add(cardInDeck);
+                        deck.IMain.Remove(cardInDeck);
+                        deck.IExtra.Remove(cardInDeck);
                     }
-                    deckDirty = true;
                     ShowObjectDeck();
                 }
             }
@@ -1387,21 +1388,13 @@ public class DeckManager : ServantWithCardDescription
 
     private void CreateMonoCard(YGOSharp.Card data)
     {
-        if (deck.GetCardCount(data.Id) < currentBanlist.GetQuantity(data.Id))
+        if (checkBanlistAvail(data.Id))
         {
             MonoCardInDeckManager card = createCard();
             card.transform.position = card.getGoodPosition(4);
             card.cardData = data;
             card.gameObject.layer = 16;
-            if (
-                (data.Type & (UInt32)CardType.Fusion) > 0
-                  ||
-                (data.Type & (UInt32)CardType.Synchro) > 0
-                  ||
-                (data.Type & (UInt32)CardType.Xyz) > 0
-                ||
-                (data.Type & (UInt32)CardType.Link) > 0
-                )
+            if (data.IsExtraCard())
             {
                 deck.IExtra.Add(card);
                 deck.Extra.Add(card.cardData.Id);
@@ -1581,15 +1574,7 @@ public class DeckManager : ServantWithCardDescription
             {
                 if (p.z > -8)
                 {
-                    if (
-                        (deckTemp[i].cardData.Type & (UInt32)CardType.Fusion) > 0
-                         ||
-                        (deckTemp[i].cardData.Type & (UInt32)CardType.Synchro) > 0
-                         ||
-                        (deckTemp[i].cardData.Type & (UInt32)CardType.Xyz) > 0
-                        ||
-                        (deckTemp[i].cardData.Type & (UInt32)CardType.Link) > 0
-                        )
+                    if (deckTemp[i].cardData.IsExtraCard())
                     {
                         deck.IExtra.Add(deckTemp[i]);
                     }
