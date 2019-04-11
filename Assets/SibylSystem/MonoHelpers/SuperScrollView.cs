@@ -241,12 +241,12 @@ public class SuperScrollView
         caculateMoveFloat();
         float now = panel.clipOffset.y + moveFloat;
         scrollBar.value = now / maxFloat;
-        float min = -panel.clipOffset.y - 500;
+        float min = -panel.clipOffset.y - (Screen.height / 2 + 100);
         if (Math.Abs(min - lastMin) > 40 || Items.Count<100||lastForce)
         {
             lastForce = false;
             lastMin = min;
-            float max = -panel.clipOffset.y + panel.GetViewSize().y + 500;
+            float max = -panel.clipOffset.y + panel.GetViewSize().y + (Screen.height / 2 + 100);
             for (int i = 0; i < Items.Count; i++)
             {
                 if (i >= (int)(min / heightOfEach) && i <= (int)(max / heightOfEach))
