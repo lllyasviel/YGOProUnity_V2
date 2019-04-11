@@ -326,19 +326,22 @@ public class Program : MonoBehaviour
                 }
             }
 
-
-            fileInfos = (new DirectoryInfo("pack")).GetFiles();
-            for (int i = 0; i < fileInfos.Length; i++)
+            if (Directory.Exists("pack"))
             {
-                if (fileInfos[i].Name.Length > 3)
+                fileInfos = (new DirectoryInfo("pack")).GetFiles();
+                for (int i = 0; i < fileInfos.Length; i++)
                 {
-                    if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 3, 3) == ".db")
+                    if (fileInfos[i].Name.Length > 3)
                     {
-                        YGOSharp.PacksManager.initialize("pack/" + fileInfos[i].Name);
+                        if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 3, 3) == ".db")
+                        {
+                            YGOSharp.PacksManager.initialize("pack/" + fileInfos[i].Name);
+                        }
                     }
                 }
+                YGOSharp.PacksManager.initializeSec();
             }
-            YGOSharp.PacksManager.initializeSec();
+
             initializeALLservants();
             loadResources();
 
