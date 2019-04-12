@@ -679,7 +679,7 @@ public class DeckManager : ServantWithCardDescription
                 string[] arg = new string[5];
                 arg[0] = item.Id.ToString();
                 arg[1] = "3";
-                arg[2] = item.Name + "\n" + GameStringHelper.getSmall(item);
+                arg[2] = item.Name + "\n" + GameStringHelper.getSearchResult(item);
                 args.Add(arg);
             }
             superScrollView.print(args);
