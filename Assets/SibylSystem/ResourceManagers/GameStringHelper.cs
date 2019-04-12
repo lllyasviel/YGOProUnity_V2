@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using YGOSharp;
 using YGOSharp.OCGWrapper.Enums;
 
@@ -453,15 +454,25 @@ public class GameStringHelper
 
     public static string getSetName(long Setcode)
     {
-        string returnValue = "";
+        var returnValue = new List<string>();
+        int lastBaseType = 0xfff;
         for (int i = 0; i < GameStringManager.xilies.Count; i++)
         {
-            if (YGOSharp.CardsManager.IfSetCard(GameStringManager.xilies[i].hashCode, Setcode))
+            int currentHash = GameStringManager.xilies[i].hashCode;
+            if (YGOSharp.CardsManager.IfSetCard(currentHash, Setcode))
             {
-                returnValue = GameStringManager.xilies[i].content + " ";
+                if ((lastBaseType & currentHash) == lastBaseType)
+                    returnValue.RemoveAt(returnValue.Count - 1);
+                lastBaseType = currentHash & 0xfff;
+                string[] setArray = GameStringManager.xilies[i].content.Split('\t');
+                string setString = setArray[0];
+                //if (setArray.Length > 1)
+                //{
+                //    setString += "[sup]" + setArray[1] + "[/sup]";
+                //}
+                returnValue.Add(setString);
             }
         }
-
-        return returnValue;
+        return String.Join("|", returnValue.ToArray());
     }
 }

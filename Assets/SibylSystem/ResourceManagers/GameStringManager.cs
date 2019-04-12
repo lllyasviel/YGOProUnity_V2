@@ -43,7 +43,7 @@ public static class GameStringManager
         {
             if (line.Length > 1 && line.Substring(0, 1) == "!")
             {
-                string[] mats = line.Substring(1, line.Length - 1).Split(new string[] { " ", "	" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] mats = line.Substring(1, line.Length - 1).Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                 if (mats.Length > 2)
                 {
                     hashedString a = new hashedString();
