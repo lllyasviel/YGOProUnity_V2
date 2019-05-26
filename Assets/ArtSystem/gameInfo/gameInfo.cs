@@ -219,7 +219,7 @@ public class gameInfo : MonoBehaviour
     {
         for (int i = 0; i < HashedButtons.Count; i++)
         {
-            if (HashedButtons[i].hashString == hashString)
+            if (HashedButtons[i].hashString == hashString && !HashedButtons[i].dying)
             {
                 return true;
             }
