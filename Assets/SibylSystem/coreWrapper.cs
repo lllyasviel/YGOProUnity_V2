@@ -166,7 +166,6 @@ namespace Percy
         AnnounceAttrib = 141,
         AnnounceCard = 142,
         AnnounceNumber = 143,
-        AnnounceCardFilter = 144,
         CardHint = 160,
         TagSwap = 161,
         ReloadField = 162,
@@ -1279,10 +1278,6 @@ namespace Percy
                     returnValue = true;
                     break;
                 case GameMessage.AnnounceCard:
-                    move(5);
-                    returnValue = true;
-                    break;
-                case GameMessage.AnnounceCardFilter:
                 case GameMessage.AnnounceNumber:
                     move(1);
                     move(move(1) * 4);
