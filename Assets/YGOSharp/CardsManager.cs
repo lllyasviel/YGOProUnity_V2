@@ -20,14 +20,13 @@ namespace YGOSharp
         {
             nullName = InterString.Get("未知卡片");
             nullString = "";
-            nullString += "欢迎使用 YGOPro2 233测试版";
+            nullString += "欢迎使用 YGOPro2";
             nullString += "\r\n\r\n";
-            nullString += "详见官方网站说明：";
+            nullString += "官方网站：";
             nullString += "\r\n";
-            nullString += "[url=https://ygo233.com/ygopro2_233_test][u]https://ygo233.com/ygopro2_233_test[/u][/url]";
+            nullString += "[url=https://ygopro2.lofter.com/][u]https://ygopro2.lofter.com/[/u][/url]";
             nullString += "\r\n\r\n";
             nullString += "公测玩家交流群：\r\n[url=https://jq.qq.com/?_wv=1027&k=42Gsxgd][u]580454979[/u][/url]";
-            nullString += "\r\n[url=https://jq.qq.com/?_wv=1027&k=44aGRzz][u]428563714[/u][/url]";
             using (SqliteConnection connection = new SqliteConnection("Data Source=" + databaseFullPath))
             {
                 connection.Open();
