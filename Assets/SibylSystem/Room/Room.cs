@@ -687,7 +687,11 @@ public class Room : WindowServantSP
         {
             description += InterString.Get("双打模式");
         }
-        if (Program.I().ocgcore.MasterRule == 4)
+        if (Program.I().ocgcore.MasterRule == 5)
+        {
+            description += InterString.Get("/大师规则2020") + "\r\n";
+        }
+        else if (Program.I().ocgcore.MasterRule == 4)
         {
             description += InterString.Get("/新大师规则") + "\r\n";
         }
