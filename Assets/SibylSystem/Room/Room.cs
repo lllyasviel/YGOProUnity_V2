@@ -205,6 +205,20 @@ public class Room : WindowServantSP
         AddChatMsg(str, player);
     }
 
+    public void StocMessage_DeckCount(BinaryReader r)
+    {
+        int deck0=r.ReadInt16();
+        int extra0=r.ReadInt16();
+        int side0=r.ReadInt16();
+        int deck1=r.ReadInt16();
+        int extra1=r.ReadInt16();
+        int side1=r.ReadInt16();
+        string str= InterString.Get("对方主卡组：[?]张", deck1.ToString()) +
+            InterString.Get("，额外卡组：[?]张", extra1.ToString()) +
+            InterString.Get("，副卡组：[?]张", side1.ToString());
+        AddChatMsg(str, 10);
+    }
+
     public void AddChatMsg(string msg, int player)
     {
         string result = "";

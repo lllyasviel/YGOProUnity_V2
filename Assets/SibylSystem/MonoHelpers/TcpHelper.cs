@@ -125,6 +125,9 @@ public static class TcpHelper
                                 Program.I().room.StocMessage_WaitingSide(r);
                                 TcpHelper.SaveRecord();
                                 break;
+                            case StocMessage.DeckCount:
+                                Program.I().room.StocMessage_DeckCount(r);
+                                break;
                             case StocMessage.CreateGame:
                                 Program.I().room.StocMessage_CreateGame(r);
                                 break;

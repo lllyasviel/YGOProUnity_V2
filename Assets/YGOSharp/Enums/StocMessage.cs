@@ -10,6 +10,7 @@
         TpResult = 0x6,
         ChangeSide = 0x7,
         WaitingSide = 0x8,
+        DeckCount = 0x9,
         CreateGame = 0x11,
         JoinGame = 0x12,
         TypeChange = 0x13,
