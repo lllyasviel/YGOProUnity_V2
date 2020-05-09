@@ -1447,8 +1447,9 @@ namespace Percy
                 WriteUnicode(writer, playerData[1].name, 50);
                 WriteUnicode(writer, playerData[1].name, 50);
             }
+            writer.Write((Int32)(opt >> 16));
             BinaryWriter Rwriter = new BinaryWriter(new MemoryStream());
-            Rwriter.Write((byte)235);
+            Rwriter.Write((byte)YGOSharp.OCGWrapper.Enums.GameMessage.sibyl_name);
             Rwriter.Write(stream.ToArray());
             return ((MemoryStream)(Rwriter.BaseStream)).ToArray();
         }
