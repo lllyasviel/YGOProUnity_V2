@@ -7,10 +7,9 @@
 
 #ifndef OCGAPI_H_
 #define OCGAPI_H_
-#define WIN32
+
 #include "common.h"
 #ifdef WIN32
-#include <windows.h>
 #define DECL_DLLEXPORT __declspec(dllexport)
 #else
 #define DECL_DLLEXPORT
@@ -30,18 +29,13 @@ typedef uint32 (*message_handler)(void*, uint32);
 extern "C" DECL_DLLEXPORT void set_script_reader(script_reader f);
 extern "C" DECL_DLLEXPORT void set_card_reader(card_reader f);
 extern "C" DECL_DLLEXPORT void set_message_handler(message_handler f);
-extern "C" DECL_DLLEXPORT void set_chat_handler(message_handler f);
 
 byte* read_script(const char* script_name, int* len);
 uint32 read_card(uint32 code, card_data* data);
 uint32 handle_message(void* pduel, uint32 message_type);
-uint32 handle_chat_message(void* pduel, uint32 message_type);
 
 extern "C" DECL_DLLEXPORT ptr create_duel(uint32 seed);
 extern "C" DECL_DLLEXPORT void start_duel(ptr pduel, int32 options);
-extern "C" DECL_DLLEXPORT int32 get_ai_going_first_second(ptr pduel, char* deckname);
-extern "C" DECL_DLLEXPORT void set_player_going_first_second(ptr pduel, int32 first, char* deckname);
-extern "C" DECL_DLLEXPORT void set_ai_id(ptr pduel, int playerid);
 extern "C" DECL_DLLEXPORT void end_duel(ptr pduel);
 extern "C" DECL_DLLEXPORT void set_player_info(ptr pduel, int32 playerid, int32 lp, int32 startcount, int32 drawcount);
 extern "C" DECL_DLLEXPORT void get_log_message(ptr pduel, byte* buf);
@@ -55,7 +49,7 @@ extern "C" DECL_DLLEXPORT int32 query_field_card(ptr pduel, uint8 playerid, uint
 extern "C" DECL_DLLEXPORT int32 query_field_info(ptr pduel, byte* buf);
 extern "C" DECL_DLLEXPORT void set_responsei(ptr pduel, int32 value);
 extern "C" DECL_DLLEXPORT void set_responseb(ptr pduel, byte* buf);
-extern "C" DECL_DLLEXPORT int32 preload_script(ptr pduel, char* script, int32 len);
+extern "C" DECL_DLLEXPORT int32 preload_script(ptr pduel, const char* script, int32 len);
 byte* default_script_reader(const char* script_name, int* len);
 uint32 default_card_reader(uint32 code, card_data* data);
 uint32 default_message_handler(void* pduel, uint32 msg_type);

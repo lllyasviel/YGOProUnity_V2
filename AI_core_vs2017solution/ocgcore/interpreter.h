@@ -8,17 +8,14 @@
 #ifndef INTERPRETER_H_
 #define INTERPRETER_H_
 
-extern "C"
-{
 #include "lua.h"
 #include "lauxlib.h"
-#include"lualib.h"
-}
-
+#include "lualib.h"
 #include "common.h"
 #include <unordered_map>
 #include <list>
 #include <vector>
+#include <cstdio>
 #include <cstring>
 
 class card;
@@ -28,8 +25,8 @@ class duel;
 
 class interpreter {
 public:
-	typedef std::unordered_map<int32, lua_State*> coroutine_map;
-	typedef std::list<std::pair<void*, uint32> > param_list;
+	using coroutine_map = std::unordered_map<int32, lua_State*>;
+	using param_list = std::list<std::pair<void*, uint32>>;
 	
 	duel* pduel;
 	char msgbuf[64];
@@ -44,26 +41,28 @@ public:
 	explicit interpreter(duel* pd);
 	~interpreter();
 
-	int32 register_card(card *pcard);
+	int32 register_card(card* pcard);
 	void register_effect(effect* peffect);
 	void unregister_effect(effect* peffect);
 	void register_group(group* pgroup);
 	void unregister_group(group* pgroup);
 
-	int32 load_script(char* buffer);
+	int32 load_script(const char* script_name);
 	int32 load_card_script(uint32 code);
 	void add_param(void* param, int32 type, bool front = false);
 	void add_param(ptr param, int32 type, bool front = false);
 	void push_param(lua_State* L, bool is_coroutine = false);
 	int32 call_function(int32 f, uint32 param_count, int32 ret_count);
-	int32 call_card_function(card *pcard, char *f, uint32 param_count, int32 ret_count);
-	int32 call_code_function(uint32 code, char *f, uint32 param_count, int32 ret_count);
+	int32 call_card_function(card* pcard, const char* f, uint32 param_count, int32 ret_count);
+	int32 call_code_function(uint32 code, const char* f, uint32 param_count, int32 ret_count);
 	int32 check_condition(int32 f, uint32 param_count);
 	int32 check_matching(card* pcard, int32 findex, int32 extraargs);
 	int32 get_operation_value(card* pcard, int32 findex, int32 extraargs);
 	int32 get_function_value(int32 f, uint32 param_count);
 	int32 get_function_value(int32 f, uint32 param_count, std::vector<int32>* result);
 	int32 call_coroutine(int32 f, uint32 param_count, uint32* yield_value, uint16 step);
+	int32 clone_function_ref(int32 func_ref);
+	void* get_ref_object(int32 ref_handler);
 
 	static void card2value(lua_State* L, card* pcard);
 	static void group2value(lua_State* L, group* pgroup);
@@ -73,18 +72,9 @@ public:
 	static void set_duel_info(lua_State* L, duel* pduel);
 	static duel* get_duel_info(lua_State* L);
 
-	//ai related
-	static int get_counter(lua_State *L);
-	static int is_affected_by(lua_State *L);
-	static int is_affectable_by_chain(lua_State *L);
-	static int can_be_targeted_by_chain(lua_State *L);
-	static int get_equipped_cards(lua_State *L);
-	static int get_equip_target(lua_State *L);
-	static int is_public_card(lua_State *L);
-
-	template <size_t N>
-	static char* strcpy(char (&dst)[N], const char* src) {
-		return std::strncpy(reinterpret_cast<char*>(&dst), src, N);
+	template <size_t N, typename... TR>
+	static int sprintf(char (&buffer)[N], const char* format, TR... args) {
+		return std::snprintf(buffer, N, format, args...);
 	}
 };
 

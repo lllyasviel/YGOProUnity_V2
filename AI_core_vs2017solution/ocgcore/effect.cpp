@@ -15,7 +15,6 @@ bool effect_sort_id(const effect* e1, const effect* e2) {
 	return e1->id < e2->id;
 };
 effect::effect(duel* pd) {
-	scrtype = 3;
 	ref_handle = 0;
 	pduel = pd;
 	owner = 0;
@@ -25,6 +24,7 @@ effect::effect(duel* pd) {
 	card_type = 0;
 	active_type = 0;
 	active_location = 0;
+	active_sequence = 0;
 	active_handler = 0;
 	id = 0;
 	code = 0;
@@ -41,7 +41,7 @@ effect::effect(duel* pd) {
 	reset_flag = 0;
 	count_code = 0;
 	category = 0;
-	label = 0;
+	label.reserve(4);
 	label_object = 0;
 	hint_timing[0] = 0;
 	hint_timing[1] = 0;
@@ -52,11 +52,13 @@ effect::effect(duel* pd) {
 	value = 0;
 	operation = 0;
 }
-effect::~effect() {
-
-}
 int32 effect::is_disable_related() {
 	if (code == EFFECT_IMMUNE_EFFECT || code == EFFECT_DISABLE || code == EFFECT_CANNOT_DISABLE || code == EFFECT_FORBIDDEN)
+		return TRUE;
+	return FALSE;
+}
+int32 effect::is_self_destroy_related() {
+	if(code == EFFECT_UNIQUE_CHECK || code == EFFECT_SELF_DESTROY || code == EFFECT_SELF_TOGRAVE)
 		return TRUE;
 	return FALSE;
 }
@@ -112,7 +114,7 @@ int32 effect::is_available() {
 				return FALSE;
 		}
 	}
-	if (type & EFFECT_TYPE_FIELD) {
+	if (type & (EFFECT_TYPE_FIELD | EFFECT_TYPE_TARGET)) {
 		card* phandler = get_handler();
 		card* powner = get_owner();
 		if (!is_flag(EFFECT_FLAG_FIELD_ONLY)) {
@@ -132,7 +134,7 @@ int32 effect::is_available() {
 				return FALSE;
 			if(powner == phandler && !is_flag(EFFECT_FLAG_CANNOT_DISABLE) && phandler->get_status(STATUS_DISABLED))
 				return FALSE;
-			if(phandler->is_status(STATUS_BATTLE_DESTROYED) && !is_flag(EFFECT_FLAG_AVAILABLE_BD))
+			if(phandler->is_status(STATUS_BATTLE_DESTROYED))
 				return FALSE;
 		}
 	}
@@ -171,8 +173,7 @@ int32 effect::check_count_limit(uint8 playerid) {
 }
 // check if an EFFECT_TYPE_ACTIONS effect can be activated
 // for triggering effects, it checks EFFECT_FLAG_DAMAGE_STEP, EFFECT_FLAG_SET_AVAILABLE
-// for continuous effect, it checks EFFECT_FLAG_AVAILABLE_BD
-int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_cond, int32 neglect_cost, int32 neglect_target, int32 neglect_loc) {
+int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_cond, int32 neglect_cost, int32 neglect_target, int32 neglect_loc, int32 neglect_faceup) {
 	if(!(type & EFFECT_TYPE_ACTIONS))
 		return FALSE;
 	if(!check_count_limit(playerid))
@@ -184,31 +185,43 @@ int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_con
 			if(pduel->game_field->check_unique_onfield(handler, playerid, LOCATION_SZONE))
 				return FALSE;
 			if(!(handler->data.type & TYPE_COUNTER)) {
-				if((code < 1132 || code > 1149) && pduel->game_field->infos.phase == PHASE_DAMAGE && !is_flag(EFFECT_FLAG_DAMAGE_STEP))
+				if((code < 1132 || code > 1149) && pduel->game_field->infos.phase == PHASE_DAMAGE && !is_flag(EFFECT_FLAG_DAMAGE_STEP)
+					&& !pduel->game_field->get_cteffect(this, playerid, FALSE))
 					return FALSE;
-				if((code < 1134 || code > 1136) && pduel->game_field->infos.phase == PHASE_DAMAGE_CAL && !is_flag(EFFECT_FLAG_DAMAGE_CAL))
+				if((code < 1134 || code > 1136) && pduel->game_field->infos.phase == PHASE_DAMAGE_CAL && !is_flag(EFFECT_FLAG_DAMAGE_CAL)
+					&& !pduel->game_field->get_cteffect(this, playerid, FALSE))
 					return FALSE;
 			}
-			// additional check for each location
-			if(handler->current.location == LOCATION_HAND) {
-				if(handler->data.type & TYPE_MONSTER) {
-					if(!(handler->data.type & TYPE_PENDULUM))
-						return FALSE;
-					if(!pduel->game_field->is_location_useable(playerid, LOCATION_PZONE, 0)
-							&& !pduel->game_field->is_location_useable(playerid, LOCATION_PZONE, 1))
-						return FALSE;
-				} else if(!(handler->data.type & TYPE_FIELD)
-						&& pduel->game_field->get_useable_count(playerid, LOCATION_SZONE, playerid, LOCATION_REASON_TOFIELD) <= 0)
-					return FALSE;
-			} else if(handler->current.location == LOCATION_SZONE) {
+			uint32 zone = 0xff;
+			if(!(handler->data.type & (TYPE_FIELD | TYPE_PENDULUM)) && is_flag(EFFECT_FLAG_LIMIT_ZONE)) {
+				pduel->lua->add_param(playerid, PARAM_TYPE_INT);
+				pduel->lua->add_param(e.event_cards , PARAM_TYPE_GROUP);
+				pduel->lua->add_param(e.event_player, PARAM_TYPE_INT);
+				pduel->lua->add_param(e.event_value, PARAM_TYPE_INT);
+				pduel->lua->add_param(e.reason_effect , PARAM_TYPE_EFFECT);
+				pduel->lua->add_param(e.reason, PARAM_TYPE_INT);
+				pduel->lua->add_param(e.reason_player, PARAM_TYPE_INT);
+				zone = get_value(7);
+				if(!zone)
+					zone = 0xff;
+			}
+			if(handler->current.location == LOCATION_SZONE) {
 				if(handler->is_position(POS_FACEUP))
 					return FALSE;
 				if(handler->equiping_target)
 					return FALSE;
-				if(handler->get_status(STATUS_SET_TURN)) {
-					if((handler->data.type & TYPE_SPELL) && (handler->data.type & TYPE_QUICKPLAY))
+				if(!(handler->data.type & (TYPE_FIELD | TYPE_PENDULUM)) && is_flag(EFFECT_FLAG_LIMIT_ZONE) && !(zone & (1u << handler->current.sequence)))
+					return FALSE;
+			} else {
+				if(handler->data.type & TYPE_MONSTER) {
+					if(!(handler->data.type & TYPE_PENDULUM))
 						return FALSE;
-				}
+					if(!pduel->game_field->is_location_useable(playerid, LOCATION_PZONE, 0)
+						&& !pduel->game_field->is_location_useable(playerid, LOCATION_PZONE, 1))
+						return FALSE;
+				} else if(!(handler->data.type & TYPE_FIELD)
+					&& pduel->game_field->get_useable_count(handler, playerid, LOCATION_SZONE, playerid, LOCATION_REASON_TOFIELD, zone) <= 0)
+					return FALSE;
 			}
 			// check activate in hand/in set turn
 			int32 ecode = 0;
@@ -224,9 +237,11 @@ int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_con
 			} else if(handler->current.location == LOCATION_SZONE) {
 				if((handler->data.type & TYPE_TRAP) && handler->get_status(STATUS_SET_TURN))
 					ecode = EFFECT_TRAP_ACT_IN_SET_TURN;
+				if((handler->data.type & TYPE_SPELL) && (handler->data.type & TYPE_QUICKPLAY) && handler->get_status(STATUS_SET_TURN))
+					ecode = EFFECT_QP_ACT_IN_SET_TURN;
 			}
 			if(ecode) {
-				int32 available = false;
+				bool available = false;
 				effect_set eset;
 				handler->filter_effect(ecode, &eset);
 				for(int32 i = 0; i < eset.size(); ++i) {
@@ -244,20 +259,15 @@ int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_con
 				return FALSE;
 		} else if(!(type & EFFECT_TYPE_CONTINUOUS)) {
 			card* phandler = get_handler();
-			if((phandler->data.type & TYPE_MONSTER) && (phandler->current.location & LOCATION_SZONE)
-					&& !in_range(phandler))
+			if(!(phandler->get_type() & TYPE_MONSTER) && (get_active_type() & TYPE_MONSTER))
 				return FALSE;
-			if((phandler->current.location & (LOCATION_ONFIELD | LOCATION_REMOVED))) {
-				// effects which can be activated while face-down:
-				// 1. effects with EFFECT_FLAG_SET_AVAILABLE
-				// 2. events with FLIP_SET_AVAILABLE
-				if(!phandler->is_position(POS_FACEUP) && !is_flag(EFFECT_FLAG_SET_AVAILABLE) && (code != EVENT_FLIP || !(e.event_value & (FLIP_SET_AVAILABLE >> 16))))
+			if(!neglect_faceup && (phandler->current.location & (LOCATION_ONFIELD | LOCATION_REMOVED))) {
+				if(!phandler->is_position(POS_FACEUP) && !is_flag(EFFECT_FLAG_SET_AVAILABLE))
 					return FALSE;
 				if(phandler->is_position(POS_FACEUP) && !phandler->is_status(STATUS_EFFECT_ENABLED))
 					return FALSE;
 			}
-			if(!(type & (EFFECT_TYPE_FLIP | EFFECT_TYPE_TRIGGER_F)) 
-					&& !((type & EFFECT_TYPE_SINGLE) && (code == EVENT_TO_GRAVE || code == EVENT_DESTROYED || code == EVENT_SPSUMMON_SUCCESS || code == EVENT_TO_HAND || code == EVENT_REMOVE))) {
+			if(!(type & (EFFECT_TYPE_FLIP | EFFECT_TYPE_TRIGGER_F)) && !((type & EFFECT_TYPE_TRIGGER_O) && (type & EFFECT_TYPE_SINGLE))) {
 				if((code < 1132 || code > 1149) && pduel->game_field->infos.phase == PHASE_DAMAGE && !is_flag(EFFECT_FLAG_DAMAGE_STEP))
 					return FALSE;
 				if((code < 1134 || code > 1136) && pduel->game_field->infos.phase == PHASE_DAMAGE_CAL && !is_flag(EFFECT_FLAG_DAMAGE_CAL))
@@ -265,7 +275,14 @@ int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_con
 			}
 			if(phandler->current.location == LOCATION_OVERLAY)
 				return FALSE;
-			if((type & EFFECT_TYPE_FIELD) && (phandler->current.controler != playerid) && !is_flag(EFFECT_FLAG_BOTH_SIDE))
+			if(phandler->current.location == LOCATION_DECK
+				|| pduel->game_field->core.duel_rule >= 5 && phandler->current.location == LOCATION_EXTRA && (phandler->current.position & POS_FACEDOWN)) {
+				if((type & EFFECT_TYPE_SINGLE) && code != EVENT_TO_DECK)
+					return FALSE;
+				if((type & EFFECT_TYPE_FIELD) && !(range & (LOCATION_DECK | LOCATION_EXTRA)))
+					return FALSE;
+			}
+			if((type & EFFECT_TYPE_FIELD) && (phandler->current.controler != playerid) && !is_flag(EFFECT_FLAG_BOTH_SIDE | EFFECT_FLAG_EVENT_PLAYER))
 				return FALSE;
 			if(phandler->is_status(STATUS_FORBIDDEN))
 				return FALSE;
@@ -273,7 +290,7 @@ int32 effect::is_activateable(uint8 playerid, const tevent& e, int32 neglect_con
 				return FALSE;
 		} else {
 			card* phandler = get_handler();
-			if(!is_flag(EFFECT_FLAG_AVAILABLE_BD) && (type & EFFECT_TYPE_FIELD) && phandler->is_status(STATUS_BATTLE_DESTROYED))
+			if((type & EFFECT_TYPE_FIELD) && phandler->is_status(STATUS_BATTLE_DESTROYED))
 				return FALSE;
 			if(((type & EFFECT_TYPE_FIELD) || ((type & EFFECT_TYPE_SINGLE) && is_flag(EFFECT_FLAG_SINGLE_RANGE))) && (phandler->current.location & LOCATION_ONFIELD)
 			        && (!phandler->is_position(POS_FACEUP) || !phandler->is_status(STATUS_EFFECT_ENABLED)))
@@ -422,13 +439,15 @@ int32 effect::is_activate_check(uint8 playerid, const tevent& e, int32 neglect_c
 	pduel->game_field->restore_lp_cost();
 	return result;
 }
-// check if pcard is the target of the field effect this
 int32 effect::is_target(card* pcard) {
 	if(type & EFFECT_TYPE_ACTIONS)
 		return FALSE;
 	if(type & (EFFECT_TYPE_SINGLE | EFFECT_TYPE_EQUIP | EFFECT_TYPE_XMATERIAL) && !(type & EFFECT_TYPE_FIELD))
 		return TRUE;
-	if(pcard && !is_flag(EFFECT_FLAG_SET_AVAILABLE) && (pcard->current.location & LOCATION_ONFIELD)
+	if((type & EFFECT_TYPE_TARGET) && !(type & EFFECT_TYPE_FIELD)) {
+		return is_fit_target_function(pcard);
+	}
+	if(!is_flag(EFFECT_FLAG_SET_AVAILABLE) && (pcard->current.location & LOCATION_ONFIELD)
 			&& !pcard->is_position(POS_FACEUP))
 		return FALSE;
 	if(!is_flag(EFFECT_FLAG_IGNORE_RANGE)) {
@@ -452,6 +471,9 @@ int32 effect::is_target(card* pcard) {
 			}
 		}
 	}
+	return is_fit_target_function(pcard);
+}
+int32 effect::is_fit_target_function(card* pcard) {
 	if(target) {
 		pduel->lua->add_param(this, PARAM_TYPE_EFFECT);
 		pduel->lua->add_param(pcard, PARAM_TYPE_CARD);
@@ -490,9 +512,8 @@ int32 effect::is_player_effect_target(card* pcard) {
 }
 int32 effect::is_immuned(card* pcard) {
 	effect_set_v effects = pcard->immune_effect;
-	effect* peffect;
 	for (int32 i = 0; i < effects.size(); ++i) {
-		peffect = effects.at(i);
+		effect* peffect = effects.at(i);
 		if(peffect->value) {
 			pduel->lua->add_param(this, PARAM_TYPE_EFFECT);
 			pduel->lua->add_param(pcard, PARAM_TYPE_CARD);
@@ -517,24 +538,23 @@ int32 effect::is_chainable(uint8 tp) {
 		} else if(sp < pduel->game_field->core.current_chain.rbegin()->triggering_effect->get_speed())
 			return FALSE;
 	}
-	for(auto it = pduel->game_field->core.chain_limit.begin(); it != pduel->game_field->core.chain_limit.end(); ++it) {
+	for(const auto& ch_lim : pduel->game_field->core.chain_limit) {
 		pduel->lua->add_param(this, PARAM_TYPE_EFFECT);
-		pduel->lua->add_param(it->player, PARAM_TYPE_INT);
+		pduel->lua->add_param(ch_lim.player, PARAM_TYPE_INT);
 		pduel->lua->add_param(tp, PARAM_TYPE_INT);
-		if(!pduel->lua->check_condition(it->function, 3))
+		if(!pduel->lua->check_condition(ch_lim.function, 3))
 			return FALSE;
 	}
-	for(auto it = pduel->game_field->core.chain_limit_p.begin(); it != pduel->game_field->core.chain_limit_p.end(); ++it) {
+	for(const auto& ch_lim_p : pduel->game_field->core.chain_limit_p) {
 		pduel->lua->add_param(this, PARAM_TYPE_EFFECT);
-		pduel->lua->add_param(it->player, PARAM_TYPE_INT);
+		pduel->lua->add_param(ch_lim_p.player, PARAM_TYPE_INT);
 		pduel->lua->add_param(tp, PARAM_TYPE_INT);
-		if(!pduel->lua->check_condition(it->function, 3))
+		if(!pduel->lua->check_condition(ch_lim_p.function, 3))
 			return FALSE;
 	}
 	return TRUE;
 }
 //return: this can be reset by reset_level or not
-//RESET_CODE can only reset single effects without EFFECT_FLAG_SINGLE_RANGE
 //RESET_DISABLE is valid only when owner == handler
 int32 effect::reset(uint32 reset_level, uint32 reset_type) {
 	switch (reset_type) {
@@ -566,8 +586,7 @@ int32 effect::reset(uint32 reset_level, uint32 reset_type) {
 		break;
 	}
 	case RESET_CODE: {
-		return (code == reset_level) && (type & EFFECT_TYPE_SINGLE) && !(type & EFFECT_TYPE_ACTIONS) 
-			&& !is_flag(EFFECT_FLAG_SINGLE_RANGE);
+		return (code == reset_level) && (type & EFFECT_TYPE_SINGLE) && !(type & EFFECT_TYPE_ACTIONS);
 		break;
 	}
 	case RESET_COPY: {
@@ -582,7 +601,8 @@ void effect::dec_count(uint32 playerid) {
 		return;
 	if(count_limit == 0)
 		return;
-	count_limit -= 1;
+	if(count_code == 0 || is_flag(EFFECT_FLAG_NO_TURN_RESET))
+		count_limit -= 1;
 	if(count_code) {
 		uint32 code = count_code & 0xfffffff;
 		if(code == 1)
@@ -667,6 +687,9 @@ int32 effect::check_value_condition(uint32 extraargs) {
 		return (int32)value;
 	}
 }
+void* effect::get_label_object() {
+	return pduel->lua->get_ref_object(label_object);
+}
 int32 effect::get_speed() {
 	if(!(type & EFFECT_TYPE_ACTIONS))
 		return 0;
@@ -689,9 +712,29 @@ int32 effect::get_speed() {
 	}
 	return 0;
 }
+effect* effect::clone() {
+	effect* ceffect = pduel->new_effect();
+	int32 ref = ceffect->ref_handle;
+	*ceffect = *this;
+	ceffect->ref_handle = ref;
+	ceffect->handler = 0;
+	if(condition)
+		ceffect->condition = pduel->lua->clone_function_ref(condition);
+	if(cost)
+		ceffect->cost = pduel->lua->clone_function_ref(cost);
+	if(target)
+		ceffect->target = pduel->lua->clone_function_ref(target);
+	if(operation)
+		ceffect->operation = pduel->lua->clone_function_ref(operation);
+	if(value && is_flag(EFFECT_FLAG_FUNC_VALUE))
+		ceffect->value = pduel->lua->clone_function_ref(value);
+	return ceffect;
+}
 card* effect::get_owner() const {
+	if(active_handler)
+		return active_handler;
 	if(type & EFFECT_TYPE_XMATERIAL)
-		return active_handler ? active_handler : handler->overlay_target;
+		return handler->overlay_target;
 	return owner;
 }
 uint8 effect::get_owner_player() {
@@ -700,8 +743,10 @@ uint8 effect::get_owner_player() {
 	return get_owner()->current.controler;
 }
 card* effect::get_handler() const {
+	if(active_handler)
+		return active_handler;
 	if(type & EFFECT_TYPE_XMATERIAL)
-		return active_handler ? active_handler : handler->overlay_target;
+		return handler->overlay_target;
 	return handler;
 }
 uint8 effect::get_handler_player() {
@@ -722,5 +767,22 @@ int32 effect::in_range(const chain& ch) {
 void effect::set_activate_location() {
 	card* phandler = get_handler();
 	active_location = phandler->current.location;
-	//active_sequence = phandler->current.sequence;
+	active_sequence = phandler->current.sequence;
+}
+void effect::set_active_type() {
+	card* phandler = get_handler();
+	active_type = phandler->get_type();
+	if(active_type & TYPE_TRAPMONSTER)
+		active_type &= ~TYPE_TRAP;
+}
+uint32 effect::get_active_type() {
+	if(type & 0x7f0) {
+		if(active_type)
+			return active_type;
+		else if((type & EFFECT_TYPE_ACTIVATE) && (get_handler()->data.type & TYPE_PENDULUM))
+			return TYPE_PENDULUM + TYPE_SPELL;
+		else
+			return get_handler()->get_type();
+	} else
+		return owner->get_type();
 }

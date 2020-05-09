@@ -1,30 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ocgcore", "ocgcore\ocgcore.vcxproj", "{63635A2D-8303-46F7-8C8B-D1C36655F820}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C7DFD3BA-8990-4312-A454-FCCADB81218B} = {C7DFD3BA-8990-4312-A454-FCCADB81218B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "lua\lua.vcxproj", "{C7DFD3BA-8990-4312-A454-FCCADB81218B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Debug|x64.ActiveCfg = Debug|x64
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Debug|x64.Build.0 = Debug|x64
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Debug|x86.ActiveCfg = Debug|Win32
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Debug|x86.Build.0 = Debug|Win32
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Release|Any CPU.ActiveCfg = Release|Win32
 		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Release|x64.ActiveCfg = Release|x64
 		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Release|x64.Build.0 = Release|x64
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Release|x86.ActiveCfg = Release|Win32
-		{63635A2D-8303-46F7-8C8B-D1C36655F820}.Release|x86.Build.0 = Release|Win32
+		{C7DFD3BA-8990-4312-A454-FCCADB81218B}.Release|x64.ActiveCfg = Release|x64
+		{C7DFD3BA-8990-4312-A454-FCCADB81218B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

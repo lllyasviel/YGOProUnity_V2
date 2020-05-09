@@ -226,8 +226,6 @@ namespace Percy
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         static extern void set_message_handler(MessageHandler f);
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        static extern void set_chat_handler(MessageHandler f);
-        [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         static extern void set_script_reader(ScriptReader f);
         static smallYgopro.cardHandler card_handler;
         public static void set_card_api(smallYgopro.cardHandler h)
@@ -240,7 +238,6 @@ namespace Percy
         {
             chat_handler = h;
             set_message_handler(OnMessageHandler);
-            set_chat_handler(OnMessageHandler);
         }
         private static UInt32 OnCardReader(UInt32 code, CardData* pData)
         {
