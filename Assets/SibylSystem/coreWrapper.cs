@@ -213,6 +213,11 @@ namespace Percy
         public int LScale;
         public int RScale;
     }
+    public struct ScriptData
+    {
+        public IntPtr buffer;
+        public int len;
+    }
     unsafe static class dll
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -232,6 +237,18 @@ namespace Percy
         {
             card_handler = h;
             set_card_reader(OnCardReader);
+        }
+        static smallYgopro.scriptHandler script_handler;
+        public static void set_script_api(smallYgopro.scriptHandler h)
+        {
+            script_handler = h;
+            set_script_reader(OnScriptHandler);
+        }
+        private static IntPtr OnScriptHandler(string scriptName, int* len)
+        {
+            ScriptData ret = script_handler(scriptName);
+            *len = ret.len;
+            return ret.buffer;
         }
         static smallYgopro.chatHandler chat_handler;
         public static void set_chat_api(smallYgopro.chatHandler h)
@@ -302,6 +319,7 @@ namespace Percy
 
         //public
         public delegate CardData cardHandler(long code);
+        public delegate ScriptData scriptHandler(string name);
         public delegate void chatHandler(string str);
         chatHandler cast;
 
@@ -315,10 +333,11 @@ namespace Percy
             }
         }
 
-        public smallYgopro(Action<byte[]> HowToSendBufferToPlayer,cardHandler HowToReadCard,chatHandler HowToShowLog)
+        public smallYgopro(Action<byte[]> HowToSendBufferToPlayer,cardHandler HowToReadCard, scriptHandler HowToReadScript,chatHandler HowToShowLog)
         {
             sendToPlayer = HowToSendBufferToPlayer;
             dll.set_card_api(HowToReadCard);
+            dll.set_script_api(HowToReadScript);
             dll.set_chat_api(HowToShowLog);
             cast = HowToShowLog;
             Random ran = new Random(Environment.TickCount);
@@ -341,7 +360,7 @@ namespace Percy
             var reult = 0;
             for (int i = 0; i < 10; i++)
             {
-                reult =dll.preload_script(duel, getPtrString(path), path.Length);
+                reult =dll.preload_script(duel, getPtrString(path), 0);
                 if (reult > 0)
                 {
                     break;
@@ -366,7 +385,7 @@ namespace Percy
             var reult = 0;
             for (int i = 0; i < 10; i++)
             {
-                reult =dll.preload_script(duel, getPtrString(aiScript), aiScript.Length);
+                reult =dll.preload_script(duel, getPtrString(aiScript), 0);
                 if (reult > 0)
                 {
                     break;
@@ -423,8 +442,8 @@ namespace Percy
 
         private IntPtr getPtrString(string path)
         {
-            IntPtr ptrFileName = Marshal.AllocHGlobal(path.Length + 1);
             byte[] s = System.Text.Encoding.UTF8.GetBytes(path);
+            IntPtr ptrFileName = Marshal.AllocHGlobal(s.Length + 1);
             Marshal.Copy(s, 0, ptrFileName, s.Length);
             return ptrFileName;
         }

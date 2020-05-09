@@ -15,10 +15,13 @@ public class PrecyOcg
 
     static string error = "Error occurred.";
 
+    static IntPtr _buffer;
+
     public PrecyOcg()
     {
+        _buffer = Marshal.AllocHGlobal(1024 * 256); // 256 KiB
         error = InterString.Get("Error occurred! @nError occurred! @nError occurred! @nError occurred! @nError occurred! @nError occurred! @nYGOPro1旧版的录像崩溃了！您可以选择使用永不崩溃的新版录像。");
-        ygopro = new Percy.smallYgopro(receiveHandler, cardHandler, chatHandler);
+        ygopro = new Percy.smallYgopro(receiveHandler, cardHandler, scriptHandler, chatHandler);
         ygopro.m_log = (a) => { Program.DEBUGLOG(a); };
     }
 
@@ -41,14 +44,13 @@ public class PrecyOcg
         if (Program.I().ocgcore.isShowed == false)
         {
             Program.I().room.mode = 0;
-            Program.I().ocgcore.MasterRule = 3;
             godMode = true;
             prepareOcgcore();
             Program.I().ocgcore.isFirst = true;
             Program.I().ocgcore.returnServant = Program.I().puzzleMode;
             if (!ygopro.startPuzzle(path))
             {
-                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试，文件名中不能包含中文。"));
+                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试。"));
                 return;
             }
             else
@@ -73,7 +75,7 @@ public class PrecyOcg
             Program.I().ocgcore.returnServant = Program.I().aiRoom;
             if (!ygopro.startAI(playerDek, aiDeck, aiScript, playerGo, unrand, life, god, rule))
             {
-                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试，文件名中不能包含中文。"));
+                Program.I().cardDescription.RMSshow_none(InterString.Get("游戏内部出错，请重试。"));
                 return;
             }
             else
@@ -124,6 +126,23 @@ public class PrecyOcg
         retuvalue.Setcode = card.Setcode;
         retuvalue.Type = card.Type;
         return retuvalue;
+    }
+
+    Percy.ScriptData scriptHandler(String filename)
+    {
+        //string filename = GetScriptFilename(scriptName);
+        Percy.ScriptData ret;
+        if (!File.Exists(filename))
+        {
+            ret.buffer = IntPtr.Zero;
+            ret.len = 0;
+            return ret;
+        }
+        byte[] content = File.ReadAllBytes(filename);
+        Marshal.Copy(content, 0, _buffer, content.Length);
+        ret.buffer = _buffer;
+        ret.len = content.Length;
+        return ret;
     }
 
     void chatHandler(string result) 

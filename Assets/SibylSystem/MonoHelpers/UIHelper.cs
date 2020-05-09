@@ -235,15 +235,6 @@ public static class UIHelper
         return result;
     }
 
-
-    internal static IntPtr getPtrString(string path)
-    {
-        IntPtr ptrFileName = Marshal.AllocHGlobal(path.Length + 1);
-        byte[] s = System.Text.Encoding.UTF8.GetBytes(path);
-        Marshal.Copy(s, 0, ptrFileName, s.Length);
-        return ptrFileName;
-    }
-
     public static T getByName<T>(GameObject father,string name) where T:Component
     {
         T return_value = null;
