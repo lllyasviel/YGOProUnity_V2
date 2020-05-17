@@ -841,7 +841,7 @@ namespace Percy
 
             MemoryStream ms = new MemoryStream(result);
             BinaryReader reader = new BinaryReader(ms);
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
                 int len = reader.ReadInt32();
                 if (len == 4)
