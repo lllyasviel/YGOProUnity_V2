@@ -212,6 +212,7 @@ namespace Percy
         public int Defense;
         public int LScale;
         public int RScale;
+        public int LinkMarker;
     }
     public struct ScriptData
     {
