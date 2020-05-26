@@ -1056,8 +1056,8 @@ namespace Percy
                     {
                         int code = currentReader.ReadInt32();
                         int p = currentReader.ReadByte();
-                        //currentWriter.Write(((int)(p == player ? code : 0)));
-                        //currentWriter.Write((byte)p);
+                        currentWriter.Write(((int)(p == player ? code : 0)));
+                        currentWriter.Write((byte)p);
                         move(3);
                     }
                     returnValue = true;
