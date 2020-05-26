@@ -623,6 +623,7 @@ namespace Percy
             BinaryMaster master = new BinaryMaster();
             master.writer.Write((char)GameMessage.Start);
             master.writer.Write((byte)0);
+            master.writer.Write((byte)(yrp.opt >> 16));
             master.writer.Write(yrp.StartLp);
             master.writer.Write(yrp.StartLp);
             master.writer.Write((UInt16)dll.query_field_count(duel, 0, 0x1));

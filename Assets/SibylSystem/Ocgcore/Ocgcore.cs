@@ -1317,7 +1317,7 @@ public class Ocgcore : ServantWithCardDescription
                 gameInfo.swaped = false;
                 isObserver = ((playertype & 0xf0) > 0) ? true : false;
                 if (r.BaseStream.Length > 17) // dumb fix for yrp3d replay older than v1.034.9
-                    r.ReadByte(); // duel_rule
+                    MasterRule = r.ReadByte(); // duel_rule
                 life_0 = r.ReadInt32();
                 life_1 = r.ReadInt32();
                 lpLimit = life_0;
