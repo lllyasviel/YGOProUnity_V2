@@ -22,7 +22,7 @@ public class selectReplay : WindowServantSP
         UIHelper.registEvent(gameObject, "delete_", onDelete);
         UIHelper.registEvent(gameObject, "yrp_", onYrp);
         UIHelper.registEvent(gameObject, "ydk_", onYdk);
-        UIHelper.registEvent(gameObject, "god_", Program.gugugu);
+        UIHelper.registEvent(gameObject, "god_", onGod);
         UIHelper.registEvent(gameObject, "value_", onValue);
         setSortLable();
         superScrollView.install();
@@ -505,10 +505,10 @@ public class selectReplay : WindowServantSP
                 {
                     superScrollView.add(fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 6));
                 }
-                //if (fileInfos[i].Name.Length > 4 && fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".yrp")
-                //{
-                //    superScrollView.add(fileInfos[i].Name);
-                //}
+                if (fileInfos[i].Name.Length > 4 && fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".yrp")
+                {
+                    superScrollView.add(fileInfos[i].Name);
+                }
             }
         }
     }
