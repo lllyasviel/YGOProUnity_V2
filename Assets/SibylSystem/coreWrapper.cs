@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -559,7 +559,8 @@ namespace Percy
             yrp3dbuilder = new BinaryWriter(stream);
             sendToPlayer(yrp.getNamePacket());
             dll.end_duel(duel);
-            duel = dll.create_duel(yrp.Seed);
+            Meisui.Random.MersenneTwister mtrnd = new Meisui.Random.MersenneTwister(yrp.Seed);
+            duel = dll.create_duel(mtrnd.genrand_Int32());
             godMode = true;
             isFirst = true;
             dll.set_player_info(duel, 0, yrp.StartLp, yrp.StartHand, yrp.DrawCount);
