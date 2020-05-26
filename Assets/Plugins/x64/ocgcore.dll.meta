@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 2800a17deb540c24aab0d0ea18e7477d
-timeCreated: 1554978284
+guid: ef07bdaac40ef61449519f888dcf0c42
+timeCreated: 1590482239
 licenseType: Pro
 PluginImporter:
   serializedVersion: 2
@@ -22,8 +22,8 @@ PluginImporter:
           Exclude OSXIntel: 0
           Exclude OSXIntel64: 0
           Exclude OSXUniversal: 0
-          Exclude Win: 0
-          Exclude Win64: 1
+          Exclude Win: 1
+          Exclude Win64: 0
     data:
       first:
         '': Editor
@@ -44,36 +44,36 @@ PluginImporter:
       second:
         enabled: 1
         settings:
-          CPU: x86
+          CPU: x86_64
           DefaultValueInitialized: true
     data:
       first:
         Facebook: Win
-      second:
-        enabled: 1
-        settings:
-          CPU: AnyCPU
-    data:
-      first:
-        Facebook: Win64
       second:
         enabled: 0
         settings:
           CPU: None
     data:
       first:
+        Facebook: Win64
+      second:
+        enabled: 1
+        settings:
+          CPU: AnyCPU
+    data:
+      first:
         Standalone: Linux
       second:
         enabled: 1
         settings:
-          CPU: x86
+          CPU: None
     data:
       first:
         Standalone: Linux64
       second:
         enabled: 1
         settings:
-          CPU: None
+          CPU: x86_64
     data:
       first:
         Standalone: LinuxUniversal
@@ -87,14 +87,14 @@ PluginImporter:
       second:
         enabled: 1
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         Standalone: OSXIntel64
       second:
         enabled: 1
         settings:
-          CPU: None
+          CPU: AnyCPU
     data:
       first:
         Standalone: OSXUniversal
@@ -106,16 +106,16 @@ PluginImporter:
       first:
         Standalone: Win
       second:
-        enabled: 1
+        enabled: 0
         settings:
-          CPU: AnyCPU
+          CPU: None
     data:
       first:
         Standalone: Win64
       second:
-        enabled: 0
+        enabled: 1
         settings:
-          CPU: None
+          CPU: AnyCPU
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -47,6 +47,7 @@ texture/
 config/
 bin/
 Release/
+Debug/
 AI_core_vs2017solution/core.VC.db
 AI_core_vs2017solution/core.VC.VC.opendb
 AI_core_vs2017solution/System.Servicemodel.Faltexception.dll
