@@ -4290,9 +4290,7 @@ int32 field::solve_chain(uint16 step, uint32 chainend_arg1, uint32 chainend_arg2
 			core.units.begin()->step = 9;
 			return FALSE;
 		}
-		for(auto& oeit : effects.oath)
-			if(oeit.second == peffect)
-				oeit.second = 0;
+		release_oath_relation(peffect);
 		break_effect();
 		core.chain_solving = TRUE;
 		raise_event((card*)0, EVENT_CHAIN_SOLVING, peffect, 0, cait->triggering_player, cait->triggering_player, cait->chain_count);
@@ -4413,6 +4411,9 @@ int32 field::solve_chain(uint16 step, uint32 chainend_arg1, uint32 chainend_arg2
 			core.chain_limit.clear();
 			return FALSE;
 		}
+		if(core.summoning_card)
+			core.subunits.push_back(core.reserved);
+		core.summoning_card = 0;
 		core.units.begin()->step = -1;
 		return FALSE;
 	}
@@ -4435,6 +4436,7 @@ int32 field::solve_chain(uint16 step, uint32 chainend_arg1, uint32 chainend_arg2
 		reset_chain();
 		if(core.summoning_card || core.effect_damage_step == 1)
 			core.subunits.push_back(core.reserved);
+		core.summoning_card = 0;
 		return FALSE;
 	}
 	case 13: {
