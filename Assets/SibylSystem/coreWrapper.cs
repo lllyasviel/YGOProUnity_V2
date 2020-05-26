@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -531,12 +531,12 @@ namespace Percy
             for (int i = deck_player.Main.Count - 1; i >= 0; i--)
             {
                dll.new_card(duel, (uint)deck_player.Main[i],
-                    (byte)playerId, (byte)playerId, (byte)CardLocation.Deck, 0, 0);
+                    (byte)playerId, (byte)playerId, (byte)CardLocation.Deck, 0, (byte)CardPosition.FaceDownDefence);
             }
             for (int i = 0; i < deck_player.Extra.Count; i++)
             {
                dll.new_card(duel, (uint)deck_player.Extra[i],
-                    (byte)playerId, (byte)playerId, (byte)CardLocation.Extra, 0, 0);
+                    (byte)playerId, (byte)playerId, (byte)CardLocation.Extra, 0, (byte)CardPosition.FaceDownDefence);
             }
         }
 
@@ -568,11 +568,11 @@ namespace Percy
             {
                 foreach (var item in yrp.playerData[0].main)
                 {
-                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Deck, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Deck, 0, (byte)CardPosition.FaceDownDefence);
                 }
                 foreach (var item in yrp.playerData[0].extra)
                 {
-                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Extra, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Extra, 0, (byte)CardPosition.FaceDownDefence);
                 }
                 foreach (var item in yrp.playerData[1].main)
                 {
@@ -585,11 +585,11 @@ namespace Percy
 
                 foreach (var item in yrp.playerData[2].main)
                 {
-                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Deck, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Deck, 0, (byte)CardPosition.FaceDownDefence);
                 }
                 foreach (var item in yrp.playerData[2].extra)
                 {
-                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Extra, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Extra, 0, (byte)CardPosition.FaceDownDefence);
                 }
                 foreach (var item in yrp.playerData[3].main)
                 {
@@ -604,20 +604,20 @@ namespace Percy
             {
                 foreach (var item in yrp.playerData[0].main)
                 {
-                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Deck, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Deck, 0, (byte)CardPosition.FaceDownDefence);
                 }
                 foreach (var item in yrp.playerData[0].extra)
                 {
-                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Extra, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)0, (byte)0, (byte)CardLocation.Extra, 0, (byte)CardPosition.FaceDownDefence);
                 }
 
                 foreach (var item in yrp.playerData[1].main)
                 {
-                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Deck, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Deck, 0, (byte)CardPosition.FaceDownDefence);
                 }
                 foreach (var item in yrp.playerData[1].extra)
                 {
-                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Extra, 0, 0);
+                    dll.new_card(duel, (uint)item, (byte)1, (byte)1, (byte)CardLocation.Extra, 0, (byte)CardPosition.FaceDownDefence);
                 }
             }
             BinaryMaster master = new BinaryMaster();
