@@ -200,10 +200,12 @@ public static class TcpHelper
                     Program.I().shiftToServant(Program.I().selectServer);
                 }
                 Program.I().cardDescription.RMSshow_none(InterString.Get("连接被断开。"));
+                packagesInRecord.Clear();
             }
             else
             {
                 Program.I().cardDescription.RMSshow_none(InterString.Get("对方离开游戏，您现在可以截图。"));
+                packagesInRecord.Clear();
                 Program.I().ocgcore.forceMSquit();
             }
 
@@ -402,7 +404,7 @@ public static class TcpHelper
         Send(message);
     }
 
-    static List<Package> packagesInRecord = new List<Package>();
+    public static List<Package> packagesInRecord = new List<Package>();
 
     public static List<Package> readPackagesInRecord(string path)
     {
@@ -482,6 +484,10 @@ public static class TcpHelper
                         startI = packagesInRecord.Count;
                     }
                     packagesInRecord.Insert(startI, Program.I().ocgcore.getNamePacket());
+                    if (File.Exists("replay/" + lastRecordName + ".yrp3d"))
+                    {
+                        File.Delete("replay/" + lastRecordName + ".yrp3d");
+                    }
                     lastRecordName = UIHelper.getTimeString();
                     FileStream stream = File.Create("replay/" + lastRecordName + ".yrp3d");
                     BinaryWriter writer = new BinaryWriter(stream);
@@ -496,7 +502,7 @@ public static class TcpHelper
                     stream.Close();
                 }
             }
-            packagesInRecord.Clear();
+            //packagesInRecord.Clear();
         }
         catch (System.Exception e)
         {

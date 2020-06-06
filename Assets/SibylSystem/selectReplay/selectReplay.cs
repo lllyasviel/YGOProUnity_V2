@@ -128,13 +128,13 @@ public class selectReplay : WindowServantSP
                  new messageSystemValue { hint = "no", value = "no" });
     }
 
-    byte[] getYRPbuffer(string path)
+    List<byte[]> getYRPbuffer(string path)
     {
         if (path.Substring(path.Length - 4, 4) == ".yrp")
         {
-            return File.ReadAllBytes(path);
+            return new List<byte[]> { File.ReadAllBytes(path) };
         }
-        byte[] returnValue = null;
+        var returnValue = new List<byte[]>();
         try
         {
             var collection = TcpHelper.readPackagesInRecord(path);
@@ -142,22 +142,15 @@ public class selectReplay : WindowServantSP
             {
                 if (item.Fuction == (int)YGOSharp.OCGWrapper.Enums.GameMessage.sibyl_replay)
                 {
-                    returnValue = item.Data.reader.ReadToEnd();
-                    break;
+                    byte[] replay = item.Data.reader.ReadToEnd();
+                    // TODO: don't include other replays
+                    returnValue.Add(replay);
                 }
             }
-
         }
         catch (Exception e) 
         {
             Debug.Log(e);
-        }
-        if (returnValue != null)
-        {
-            if (returnValue.Length < 50)
-            {
-                returnValue = null;
-            }
         }
         return returnValue;
     }
@@ -266,7 +259,7 @@ public class selectReplay : WindowServantSP
             }
             else
             {
-                yrp = getYRP(getYRPbuffer("replay/" + superScrollView.selectedString + ".yrp3d"));
+                yrp = getYRP(getYRPbuffer("replay/" + superScrollView.selectedString + ".yrp3d")[0]);
             }
             for (int i = 0; i < yrp.playerData.Count; i++)  
             {
@@ -287,11 +280,13 @@ public class selectReplay : WindowServantSP
             if (yrp.playerData.Count == 0)
             {
                 RMSshow_none(InterString.Get("录像没有录制完整。"));
+                RMSshow_none(InterString.Get("MATCH局中可能只有最后一局决斗才包含卡组信息。"));
             }
         }
         catch (Exception)
         {
             RMSshow_none(InterString.Get("录像没有录制完整。"));
+            RMSshow_none(InterString.Get("MATCH局中可能只有最后一局决斗才包含卡组信息。"));
         }
     }
 
@@ -305,18 +300,24 @@ public class selectReplay : WindowServantSP
         {
             if (File.Exists("replay/" + superScrollView.selectedString + ".yrp3d"))  
             {
-                File.WriteAllBytes("replay/" + superScrollView.selectedString + ".yrp", getYRPbuffer("replay/" + superScrollView.selectedString + ".yrp3d"));
-                RMSshow_none(InterString.Get("录像入库：[?]", "replay/" + superScrollView.selectedString + ".yrp"));
+                var replays = getYRPbuffer("replay/" + superScrollView.selectedString + ".yrp3d");
+                for(int i = 1; i <= replays.Count; i++) {
+                    string filename = "replay/" + superScrollView.selectedString + "-Game" + i + ".yrp";
+                    File.WriteAllBytes(filename, replays[i - 1]);
+                    RMSshow_none(InterString.Get("录像入库：[?]", filename));
+                }
                 printFile();
             }
             else
             {
                 RMSshow_none(InterString.Get("录像没有录制完整。"));
+                RMSshow_none(InterString.Get("MATCH局中可能只有最后一局决斗才包含旧版录像信息。"));
             }
         }
         catch (Exception)
         {
             RMSshow_none(InterString.Get("录像没有录制完整。"));
+            RMSshow_none(InterString.Get("MATCH局中可能只有最后一局决斗才包含旧版录像信息。"));
         }
     }
 
@@ -375,7 +376,7 @@ public class selectReplay : WindowServantSP
                 FileInfo[] fileInfos = (new DirectoryInfo("replay")).GetFiles();
                 for (int i = 0; i < fileInfos.Length; i++)
                 {
-                    if (fileInfos[i].Name.Length == 21)
+                    if (fileInfos[i].Name.Length == 21 || fileInfos[i].Name.Length == 25)
                     {
                         if (fileInfos[i].Name[2] == '-')
                         {
@@ -429,7 +430,8 @@ public class selectReplay : WindowServantSP
                     if (precy != null)
                         precy.dispose();
                     precy = new PrecyOcg();
-                    var collections = TcpHelper.getPackages(precy.ygopro.getYRP3dBuffer(getYRP(getYRPbuffer("replay/" + name + ".yrp3d"))));
+                    var replays = getYRPbuffer("replay/" + name + ".yrp3d");
+                    var collections = TcpHelper.getPackages(precy.ygopro.getYRP3dBuffer(getYRP(replays[replays.Count - 1])));
                     pushCollection(collections);
                 }
                 else
@@ -457,6 +459,7 @@ public class selectReplay : WindowServantSP
         catch (Exception)   
         {
             RMSshow_none(InterString.Get("录像没有录制完整。"));
+            RMSshow_none(InterString.Get("MATCH局中可能只有最后一局决斗才包含旧版录像信息。"));
         }
     }
 

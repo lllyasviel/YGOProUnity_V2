@@ -2703,6 +2703,7 @@ public class Ocgcore : ServantWithCardDescription
                     }
                     File.Move("replay/" + TcpHelper.lastRecordName + ".yrp3d", "replay/" + winCaculator.input.value + ".yrp3d");
                 }
+                TcpHelper.lastRecordName = "";
             }
             catch (Exception e)   
             {
