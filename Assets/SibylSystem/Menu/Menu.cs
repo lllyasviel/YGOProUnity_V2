@@ -6,6 +6,8 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.Networking;
 
 public class Menu : WindowServantSP 
 {
@@ -21,7 +23,7 @@ public class Menu : WindowServantSP
         UIHelper.registEvent(gameObject, "single_", onClickPizzle);
         UIHelper.registEvent(gameObject, "ai_", Program.gugugu);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
-        //(new Thread(up)).Start();
+        Program.I().StartCoroutine(checkUpdate());
     }
 
     public override void show()
@@ -35,42 +37,49 @@ public class Menu : WindowServantSP
         base.hide();
     }
 
-    static int Version = 0;
     string upurl = "";
-    void up()
+    string uptxt = "";
+    IEnumerator checkUpdate()
     {
+        yield return new WaitForSeconds(1);
+        var verFile = File.ReadAllLines("config/ver.txt", Encoding.UTF8);
+        if (verFile.Length != 2 || !Uri.IsWellFormedUriString(verFile[1], UriKind.Absolute))
+        {
+            Program.PrintToChat(InterString.Get("YGOPro2 自动更新：[ff5555]未设置更新服务器，无法检查更新。[-]@n请从官网重新下载安装完整版以获得更新。"));
+            yield break;
+        }
+        string ver = verFile[0];
+        string url = verFile[1];
+        UnityWebRequest www = UnityWebRequest.Get(url);
+        yield return www.Send();
         try
         {
-            string url = "http://ygoforge.com/update.asp";
-            WebClient wc = new WebClient();
-            Stream s = wc.OpenRead(url);
-            StreamReader sr = new StreamReader(s, Encoding.UTF8);
-            string result = sr.ReadToEnd();
-            sr.Close();
-            s.Close();
+            string result = www.downloadHandler.text;
             string[] lines = result.Replace("\r", "").Split("\n");
-            if (lines.Length > 0)
+            string[] mats = lines[0].Split(":.:");
+            if (ver != mats[0])
             {
-                string[] mats = lines[0].Split(":.:");
-                if (mats.Length == 2)
+                upurl = mats[1];
+                for(int i = 1; i < lines.Length; i++)
                 {
-                    if (Version.ToString() != mats[0])
-                    {
-                        upurl = mats[1];
-                    }
+                    uptxt += lines[i] + "\n";
                 }
+            }
+            else
+            {
+                Program.PrintToChat(InterString.Get("YGOPro2 自动更新：[55ff55]当前已是最新版本。[-]"));
             }
         }
         catch (System.Exception e)
         {
-            UnityEngine.Debug.Log(e);
+            Program.PrintToChat(InterString.Get("YGOPro2 自动更新：[ff5555]检查更新失败！[-]"));
         }
     }
 
     public override void ES_RMS(string hashCode, List<messageSystemValue> result)
     {
         base.ES_RMS(hashCode, result);
-        if (hashCode == "RMSshow_onlyYes")
+        if (hashCode == "update" && result[0].value == "1")
         {
             Application.OpenURL(upurl);
         }
@@ -83,7 +92,8 @@ public class Menu : WindowServantSP
         if (upurl != "" && outed == false)
         {
             outed = true;
-            RMSshow_onlyYes("RMSshow_onlyYes", InterString.Get("发现更新!@n你可以免费下载"), null);
+            RMSshow_yesOrNo("update", InterString.Get("[b]发现更新！[/b]") + "\n" + uptxt + "\n" + InterString.Get("是否打开下载页面？"),
+                new messageSystemValue { value = "1", hint = "yes" }, new messageSystemValue { value = "0", hint = "no" });
         }
         Menu.checkCommend();
     }
