@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -428,9 +429,33 @@ public class GameField : OCGobject
                         {
                             tex = UIHelper.getTexture2D("picture/field/" + code.ToString() + ".png");
                         }
-                        else
+                        else if (File.Exists("picture/field/" + code.ToString() + ".jpg"))
                         {
                             tex = UIHelper.getTexture2D("picture/field/" + code.ToString() + ".jpg");
+                        }
+                        else
+                        {
+                            tex = null;
+                            bool found = false;
+                            foreach (ZipFile zip in GameZipManager.Zips)
+                            {
+                                foreach (string file in zip.EntryFileNames)
+                                {
+                                    string file1 = file.ToLower();
+                                    if (file1.EndsWith(code.ToString() + ".jpg") && file1.Contains("field"))
+                                    {
+                                        MemoryStream ms = new MemoryStream();
+                                        ZipEntry e = zip[file];
+                                        e.Extract(ms);
+                                        tex = new Texture2D(1024, 600);
+                                        tex.LoadImage(ms.ToArray());
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (found)
+                                    break;
+                            }
                         }
                         if (tex != null)
                         {

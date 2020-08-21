@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using Ionic.Zip;
+using System.Text;
 
 public class Program : MonoBehaviour
 {
@@ -286,8 +288,55 @@ public class Program : MonoBehaviour
         go(300, () =>
         {
             InterString.initialize("config/translation.conf");
+
+            var fileInfos = (new DirectoryInfo("data")).GetFiles();
+            for (int i = 0; i < fileInfos.Length; i++)
+            {
+                if (fileInfos[i].Name.Length > 4)
+                {
+                    if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".zip")
+                    {
+                        GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("data/" + fileInfos[i].Name));
+                    }
+                }
+            }
+            fileInfos = (new DirectoryInfo("expansions")).GetFiles();
+            for (int i = 0; i < fileInfos.Length; i++)
+            {
+                if (fileInfos[i].Name.Length > 4)
+                {
+                    if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".ypk")
+                    {
+                        GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("expansions/" + fileInfos[i].Name));
+                    }
+                }
+            }
+
             GameTextureManager.initialize();
             Config.initialize("config/config.conf");
+
+            foreach (ZipFile zip in GameZipManager.Zips)
+            {
+                foreach (string file in zip.EntryFileNames)
+                {
+                    if (file.EndsWith(".conf"))
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        ZipEntry e = zip[file];
+                        e.Extract(ms);
+                        GameStringManager.initializeContent(Encoding.UTF8.GetString(ms.ToArray()));
+                    }
+                    if (file.EndsWith(".cdb"))
+                    {
+                        ZipEntry e = zip[file];
+                        string tempfile = Path.Combine(Path.GetTempPath(), file);
+                        e.Extract(Path.GetTempPath(), ExtractExistingFileAction.OverwriteSilently);
+                        YGOSharp.CardsManager.initialize(tempfile);
+                        File.Delete(tempfile);
+                    }
+                }
+            }
+
             GameStringManager.initialize("config/strings.conf");
             if (File.Exists("cdb/strings.conf"))
             {
@@ -297,9 +346,10 @@ public class Program : MonoBehaviour
             {
                 GameStringManager.initialize("diy/strings.conf");
             }
+
             YGOSharp.BanlistManager.initialize("config/lflist.conf");
 
-            var fileInfos = (new DirectoryInfo("cdb")).GetFiles();
+            fileInfos = (new DirectoryInfo("cdb")).GetFiles();
             for (int i = 0; i < fileInfos.Length; i++)
             {
                 if (fileInfos[i].Name.Length > 4)

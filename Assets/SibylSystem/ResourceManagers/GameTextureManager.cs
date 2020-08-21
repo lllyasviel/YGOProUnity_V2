@@ -6,6 +6,8 @@ using System.IO;
 using System.Threading;
 using UnityEngine;
 using YGOSharp.OCGWrapper.Enums;
+using Ionic.Zip;
+using System.Text;
 
 public enum GameTextureType
 {
@@ -718,17 +720,43 @@ public class GameTextureManager
         }
         if (!File.Exists(path))
         {
-            if (pic.code > 0)
+            bool found = false;
+            foreach (ZipFile zip in GameZipManager.Zips)
             {
-                pic.u_data = unknown;
+                foreach (string file in zip.EntryFileNames)
+                {
+                    string file1 = file.ToLower();
+                    if (file1.EndsWith(pic.code.ToString() + ".jpg") && !file1.Contains("field"))
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        ZipEntry e = zip[file];
+                        e.Extract(ms);
+                        pic.data = ms.ToArray();
+                        if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
+                        {
+                            loadedList.Add(hashPic(pic.code, pic.type), pic);
+                        }
+                        found = true;
+                        break;
+                    }
+                }
+                if (found)
+                    break;
             }
-            else
+            if (!found)
             {
-                pic.u_data = myBack;
-            }
-            if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-            {
-                loadedList.Add(hashPic(pic.code, pic.type), pic);
+                if (pic.code > 0)
+                {
+                    pic.u_data = unknown;
+                }
+                else
+                {
+                    pic.u_data = myBack;
+                }
+                if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
+                {
+                    loadedList.Add(hashPic(pic.code, pic.type), pic);
+                }
             }
         }
         else

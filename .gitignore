@@ -37,7 +37,9 @@ sysinfo.txt
 # ygopro
 ai/
 cdb/
+data/
 deck/
+expansions/
 pack/
 picture/
 puzzle/
@@ -54,3 +56,4 @@ AI_core_vs2017solution/System.Servicemodel.Faltexception.dll
 [Ll]ibrary_/
 AI_core_vs2017solution/.vs
 commamd.shell
+Windbot/

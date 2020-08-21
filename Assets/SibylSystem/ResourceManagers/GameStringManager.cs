@@ -37,6 +37,11 @@ public static class GameStringManager
     public static void initialize(string path)
     {
         string text = System.IO.File.ReadAllText(path);
+        initializeContent(text);
+    }
+
+    public static void initializeContent(string text)
+    {
         string st = text.Replace("\r", "");
         string[] lines = st.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
         foreach (string line in lines)

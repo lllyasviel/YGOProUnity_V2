@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -129,20 +130,40 @@ public class PrecyOcg
         return retuvalue;
     }
 
-    Percy.ScriptData scriptHandler(String filename)
+    Percy.ScriptData scriptHandler(string filename)
     {
         //string filename = GetScriptFilename(scriptName);
+        byte[] content;
         Percy.ScriptData ret;
-        if (!File.Exists(filename))
+        ret.buffer = IntPtr.Zero;
+        ret.len = 0;
+        bool found = false;
+        string filename2 = filename.TrimStart('.', '/');
+        foreach (ZipFile zip in GameZipManager.Zips)
         {
-            ret.buffer = IntPtr.Zero;
-            ret.len = 0;
-            return ret;
+            if (zip.ContainsEntry(filename2))
+            {
+                MemoryStream ms = new MemoryStream();
+                ZipEntry e = zip[filename2];
+                e.Extract(ms);
+                content = ms.ToArray();
+                Marshal.Copy(content, 0, _buffer, content.Length);
+                ret.buffer = _buffer;
+                ret.len = content.Length;
+                found = true;
+                break;
+            }
         }
-        byte[] content = File.ReadAllBytes(filename);
-        Marshal.Copy(content, 0, _buffer, content.Length);
-        ret.buffer = _buffer;
-        ret.len = content.Length;
+        if (!found)
+        {
+            if (File.Exists(filename))
+            {
+                content = File.ReadAllBytes(filename);
+                Marshal.Copy(content, 0, _buffer, content.Length);
+                ret.buffer = _buffer;
+                ret.len = content.Length;
+            }
+        }
         return ret;
     }
 
