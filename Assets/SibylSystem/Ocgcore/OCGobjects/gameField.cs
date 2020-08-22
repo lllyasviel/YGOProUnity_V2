@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using YGOSharp.OCGWrapper.Enums;
 
@@ -424,38 +425,35 @@ public class GameField : OCGobject
                     fieldCode[player] = code;
                     if (code > 0)
                     {
-                        Texture2D tex;
-                        if (File.Exists("picture/field/" + code.ToString() + ".png"))  
+                        Texture2D tex = null;
+                        bool found = false;
+                        foreach (ZipFile zip in GameZipManager.Zips)
+                        {
+                            if (zip.Name.ToLower().EndsWith("script.zip"))
+                                continue;
+                            foreach (string file in zip.EntryFileNames)
+                            {
+                                if (Regex.IsMatch(file.ToLower(), "field/" + code.ToString() + "\\.(jpg|png)$"))
+                                {
+                                    MemoryStream ms = new MemoryStream();
+                                    ZipEntry e = zip[file];
+                                    e.Extract(ms);
+                                    tex = new Texture2D(1024, 600);
+                                    tex.LoadImage(ms.ToArray());
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (found)
+                                break;
+                        }
+                        if (tex == null)
                         {
                             tex = UIHelper.getTexture2D("picture/field/" + code.ToString() + ".png");
                         }
-                        else if (File.Exists("picture/field/" + code.ToString() + ".jpg"))
+                        if (tex == null)
                         {
                             tex = UIHelper.getTexture2D("picture/field/" + code.ToString() + ".jpg");
-                        }
-                        else
-                        {
-                            tex = null;
-                            bool found = false;
-                            foreach (ZipFile zip in GameZipManager.Zips)
-                            {
-                                foreach (string file in zip.EntryFileNames)
-                                {
-                                    string file1 = file.ToLower();
-                                    if (file1.EndsWith(code.ToString() + ".jpg") && file1.Contains("field"))
-                                    {
-                                        MemoryStream ms = new MemoryStream();
-                                        ZipEntry e = zip[file];
-                                        e.Extract(ms);
-                                        tex = new Texture2D(1024, 600);
-                                        tex.LoadImage(ms.ToArray());
-                                        found = true;
-                                        break;
-                                    }
-                                }
-                                if (found)
-                                    break;
-                            }
                         }
                         if (tex != null)
                         {

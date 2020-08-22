@@ -8,6 +8,7 @@ using UnityEngine;
 using YGOSharp.OCGWrapper.Enums;
 using Ionic.Zip;
 using System.Text;
+using System.Text.RegularExpressions;
 
 public enum GameTextureType
 {
@@ -47,6 +48,32 @@ public class GameTextureManager
                     }
                 }
             }
+            init(bitmap);
+        }
+
+        public BitmapHelper(MemoryStream stream)
+        {
+            Bitmap bitmap;
+            try
+            {
+                bitmap = (Bitmap)Image.FromStream(stream);
+            }
+            catch (Exception)
+            {
+                bitmap = new Bitmap(10, 10);
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int w = 0; w < 10; w++)
+                    {
+                        bitmap.SetPixel(i, w, System.Drawing.Color.White);
+                    }
+                }
+            }
+            init(bitmap);
+        }
+
+        private void init(Bitmap bitmap)
+        {
             var bmpData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             IntPtr ptr = bmpData.Scan0;
             int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
@@ -67,6 +94,7 @@ public class GameTextureManager
             bitmap.UnlockBits(bmpData);
             bitmap.Dispose();
         }
+
         public System.Drawing.Color GetPixel(int a, int b)
         {
             return colors[a, b];
@@ -269,12 +297,94 @@ public class GameTextureManager
         }
     }
 
+    private static BitmapHelper getCloseup(PictureResource pic)
+    {
+        BitmapHelper bitmap = null;
+        bool found = false;
+        string code = pic.code.ToString();
+        foreach (ZipFile zip in GameZipManager.Zips)
+        {
+            if (zip.Name.ToLower().EndsWith("script.zip"))
+                continue;
+            foreach (string file in zip.EntryFileNames)
+            {
+                if (Regex.IsMatch(file.ToLower(), "closeup/" + code + "\\.png$"))
+                {
+                    MemoryStream ms = new MemoryStream();
+                    ZipEntry e = zip[file];
+                    e.Extract(ms);
+                    bitmap = new BitmapHelper(ms);
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+                break;
+        }
+        if (!found)
+        {
+            string path = "picture/closeup/" + code + ".png";
+            if (File.Exists(path))
+            {
+                bitmap = new BitmapHelper(path);
+            }
+        }
+        return bitmap;
+    }
+
+    private static byte[] getPicture(PictureResource pic, out bool EightEdition)
+    {
+        EightEdition = false;
+        string code = pic.code.ToString();
+        foreach (ZipFile zip in GameZipManager.Zips)
+        {
+            if (zip.Name.ToLower().EndsWith("script.zip"))
+                continue;
+            foreach (string file in zip.EntryFileNames)
+            {
+                if (Regex.IsMatch(file.ToLower(), "pics/"+code+ "\\.(jpg|png)$"))
+                {
+                    MemoryStream ms = new MemoryStream();
+                    ZipEntry e = zip[file];
+                    e.Extract(ms);
+                    return ms.ToArray();
+                }
+            }
+        }
+        string path = "picture/card/" + code + ".png";
+        if (!File.Exists(path))
+        {
+            path = "picture/card/" + code + ".jpg";
+        }
+        if (!File.Exists(path))
+        {
+            EightEdition = true;
+            path = "picture/cardIn8thEdition/" + code + ".png";
+        }
+        if (!File.Exists(path))
+        {
+            EightEdition = true;
+            path = "picture/cardIn8thEdition/" + code + ".jpg";
+        }
+        if (File.Exists(path))
+        {
+            using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                file.Seek(0, SeekOrigin.Begin);
+                var data = new byte[file.Length];
+                file.Read(data, 0, (int)file.Length);
+                return data;
+            }
+        }
+        return new byte[0];
+    }
+
     private static void ProcessingCardFeature(PictureResource pic)
     {
-        if (File.Exists("picture/closeup/" + pic.code.ToString() + ".png"))
+        bool EightEdition = false;
+        BitmapHelper bitmap = getCloseup(pic);
+        if (bitmap != null)
         {
-            string path = "picture/closeup/" + pic.code.ToString() + ".png";
-            BitmapHelper bitmap = new BitmapHelper(path);
             int left;
             int right;
             int up;
@@ -311,18 +421,8 @@ public class GameTextureManager
         }
         else
         {
-            string path = "picture/card/" + pic.code.ToString() + ".png";
-            if (!File.Exists(path))
-            {
-                path = "picture/card/" + pic.code.ToString() + ".jpg";
-            }
-            bool Iam8 = false;
-            if (!File.Exists(path))
-            {
-                Iam8 = true;
-                path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
-            }
-            if (!File.Exists(path))
+            var data = getPicture(pic, out EightEdition);
+            if (data.Length == 0)
             {
                 pic.hashed_data = new float[10, 10, 4];
                 for (int w = 0; w < 10; w++)
@@ -342,7 +442,9 @@ public class GameTextureManager
             }
             else
             {
-                pic.hashed_data = getCuttedPic(path, pic.pCard,Iam8);
+                MemoryStream stream = new MemoryStream(data);
+                bitmap = new BitmapHelper(stream);
+                pic.hashed_data = getCuttedPic(bitmap, pic.pCard, EightEdition);
                 int width = pic.hashed_data.GetLength(0);
                 int height = pic.hashed_data.GetLength(1);
                 int size = (int)(height * 0.8);
@@ -440,9 +542,8 @@ public class GameTextureManager
         }
     }
 
-    private static float[,,] getCuttedPic(string path,bool pCard,bool EightEdition)
+    private static float[,,] getCuttedPic(BitmapHelper bitmap, bool pCard, bool EightEdition)
     {
-        BitmapHelper bitmap = new BitmapHelper(path);
         int left = 0, top = 0, right = bitmap.colors.GetLength(0), buttom = bitmap.colors.GetLength(1);
         //right is width and buttom is height now
         if (EightEdition)   
@@ -569,36 +670,24 @@ public class GameTextureManager
 
     private static void ProcessingVerticleDrawing(PictureResource pic)
     {
-        string path = "picture/closeup/" + pic.code.ToString() + ".png";
-        if (!File.Exists(path))
+        var bitmap = getCloseup(pic);
+        if (bitmap == null)
         {
-            path = "picture/card/" + pic.code.ToString() + ".png";
-            if (!File.Exists(path))
-            {
-                path = "picture/card/" + pic.code.ToString() + ".jpg";
-            }
-            bool Iam8 = false;
-            if (!File.Exists(path))
-            {
-                Iam8 = true;
-                path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
-            }
-            if (!File.Exists(path))
-            {
-                path = "texture/duel/unknown.jpg";
-            }
-            if (!File.Exists(path))
+            bool EightEdition;
+            var data = getPicture(pic, out EightEdition);
+            if (data.Length == 0)
             {
                 return;
             }
-            pic.hashed_data = getCuttedPic(path, pic.pCard,Iam8);
+            MemoryStream stream = new MemoryStream(data);
+            bitmap = new BitmapHelper(stream);
+            pic.hashed_data = getCuttedPic(bitmap, pic.pCard, EightEdition);
             softVtype(pic, 0.5f);
             pic.k = 1;
             //pic.autoMade = true;
         }
         else
         {
-            BitmapHelper bitmap = new BitmapHelper(path);
             int left;
             int right;
             int up;
@@ -709,66 +798,26 @@ public class GameTextureManager
 
     private static void ProcessingCardPicture(PictureResource pic)
     {
-        string path = "picture/card/" + pic.code.ToString() + ".png";
-        if (!File.Exists(path))
+        bool EightEdition;
+        var data = getPicture(pic, out EightEdition);
+        if (data.Length > 0)
         {
-            path = "picture/card/" + pic.code.ToString() + ".jpg";
-        }
-        if (!File.Exists(path))
-        {
-            path = "picture/cardIn8thEdition/" + pic.code.ToString() + ".jpg";
-        }
-        if (!File.Exists(path))
-        {
-            bool found = false;
-            foreach (ZipFile zip in GameZipManager.Zips)
+            pic.data = data;
+            if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
             {
-                foreach (string file in zip.EntryFileNames)
-                {
-                    string file1 = file.ToLower();
-                    if (file1.EndsWith(pic.code.ToString() + ".jpg") && !file1.Contains("field"))
-                    {
-                        MemoryStream ms = new MemoryStream();
-                        ZipEntry e = zip[file];
-                        e.Extract(ms);
-                        pic.data = ms.ToArray();
-                        if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-                        {
-                            loadedList.Add(hashPic(pic.code, pic.type), pic);
-                        }
-                        found = true;
-                        break;
-                    }
-                }
-                if (found)
-                    break;
-            }
-            if (!found)
-            {
-                if (pic.code > 0)
-                {
-                    pic.u_data = unknown;
-                }
-                else
-                {
-                    pic.u_data = myBack;
-                }
-                if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-                {
-                    loadedList.Add(hashPic(pic.code, pic.type), pic);
-                }
+                loadedList.Add(hashPic(pic.code, pic.type), pic);
             }
         }
         else
         {
-            byte[] data;
-            using (FileStream file = new FileStream(path, FileMode.Open, FileAccess.Read))
+            if (pic.code > 0)
             {
-                file.Seek(0, SeekOrigin.Begin);
-                data = new byte[file.Length];
-                file.Read(data, 0, (int)file.Length);
+                pic.u_data = unknown;
             }
-            pic.data = data;
+            else
+            {
+                pic.u_data = myBack;
+            }
             if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
             {
                 loadedList.Add(hashPic(pic.code, pic.type), pic);

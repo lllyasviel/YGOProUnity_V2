@@ -324,6 +324,8 @@ public class Program : MonoBehaviour
 
             foreach (ZipFile zip in GameZipManager.Zips)
             {
+                if (zip.Name.ToLower().EndsWith("script.zip"))
+                    continue;
                 foreach (string file in zip.EntryFileNames)
                 {
                     if (file.ToLower().EndsWith(".conf"))
