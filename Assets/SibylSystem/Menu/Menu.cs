@@ -14,7 +14,6 @@ public class Menu : WindowServantSP
     //GameObject screen;
     public override void initialize()
     {
-        string hint = File.ReadAllText("config/hint.conf");
         createWindow(Program.I().new_ui_menu);
         UIHelper.registEvent(gameObject, "setting_", onClickSetting);
         UIHelper.registEvent(gameObject, "deck_", onClickSelectDeck);

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 public class SelectServer : WindowServantSP
 {
@@ -13,21 +14,23 @@ public class SelectServer : WindowServantSP
     UIInput inputPsw;
     UIInput inputVersion;
 
+    public string name = "";
+
     public override void initialize()
     {
         createWindow(Program.I().new_ui_selectServer);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
         UIHelper.registEvent(gameObject, "face_", onClickFace);
         UIHelper.registEvent(gameObject, "join_", onClickJoin);
-        UIHelper.getByName<UIInput>(gameObject, "name_").value = Config.Get("name","一秒一喵机会");
+        name = Config.Get("name", "一秒一喵机会");
+        UIHelper.getByName<UIInput>(gameObject, "name_").value = name;
         list = UIHelper.getByName<UIPopupList>(gameObject, "history_");
         UIHelper.registEvent(gameObject,"history_", onSelected);
-        name = Config.Get("name", "一秒一喵机会");
         inputIP = UIHelper.getByName<UIInput>(gameObject, "ip_");
         inputPort = UIHelper.getByName<UIInput>(gameObject, "port_");
         inputPsw = UIHelper.getByName<UIInput>(gameObject, "psw_");
         inputVersion = UIHelper.getByName<UIInput>(gameObject, "version_");
-        set_version("0x" + String.Format("{0:X}", Config.ClientVersion));
+        inputVersion.value = "0x" + String.Format("{0:X}", Config.ClientVersion);
         SetActiveFalse();
     }
 
@@ -41,20 +44,10 @@ public class SelectServer : WindowServantSP
 
     private void readString(string str)
     {
-        str = str.Substring(1, str.Length - 1);
-        string version = "", remain = "";
+        string remain = "";
+        string ip = "", port = "", psw = "";
         string[] splited;
-        splited = str.Split(")");
-        try
-        {
-            version = splited[0];
-            remain = splited[1];
-        }
-        catch (Exception)
-        {
-        }
-        splited = remain.Split(":");
-        string ip = "";
+        splited = str.Split(":");
         try
         {
             ip = splited[0];
@@ -64,7 +57,6 @@ public class SelectServer : WindowServantSP
         {
         }
         splited = remain.Split(" ");
-        string psw = "", port = "";
         try
         {
             port = splited[0];
@@ -76,7 +68,6 @@ public class SelectServer : WindowServantSP
         inputIP.value = ip;
         inputPort.value = port;
         inputPsw.value = psw;
-        //inputVersion.value = version;
     }
 
     public override void show()
@@ -104,6 +95,7 @@ public class SelectServer : WindowServantSP
         string[] lines = txtString.Replace("\r", "").Split("\n");
         for (int i = 0; i < lines.Length; i++)
         {
+            lines[i] = Regex.Replace(lines[i], "^\\(.*\\)", ""); // remove old version
             if (i == 0)
             {
                 if (first)
@@ -127,11 +119,6 @@ public class SelectServer : WindowServantSP
         }
     }
 
-    public void set_version(string str)
-    {
-        UIHelper.getByName<UIInput>(gameObject, "version_").value = str;
-    }
-
     void onClickJoin()
     {
         if (!isShowed)
@@ -150,7 +137,7 @@ public class SelectServer : WindowServantSP
     {
         name = Name;
         Config.Set("name", name);
-        if (ipString == "" || portString == "" || versionString == "")
+        if (ipString == "" || portString == "")
         {
             RMSshow_onlyYes("", InterString.Get("非法输入！请检查输入的主机名。"), null);
         }
@@ -158,7 +145,7 @@ public class SelectServer : WindowServantSP
         {
             if (name != "")
             {
-                string fantasty = "(" + versionString + ")" + ipString + ":" + portString + " " + pswString;
+                string fantasty = ipString + ":" + portString + " " + pswString;
                 list.items.Remove(fantasty);
                 list.items.Insert(0, fantasty);
                 list.value = fantasty;
@@ -183,8 +170,6 @@ public class SelectServer : WindowServantSP
     }
 
     GameObject faceShow = null;
-
-    public string name = "";
 
     void onClickFace()
     {
