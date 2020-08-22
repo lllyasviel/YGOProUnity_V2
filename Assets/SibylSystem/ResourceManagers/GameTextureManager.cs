@@ -381,6 +381,10 @@ public class GameTextureManager
 
     private static void ProcessingCardFeature(PictureResource pic)
     {
+        if (loadedList.ContainsKey(hashPic(pic.code, pic.type)))
+        {
+            return;
+        }
         bool EightEdition = false;
         BitmapHelper bitmap = getCloseup(pic);
         if (bitmap != null)
@@ -414,10 +418,7 @@ public class GameTextureManager
             }
             caculateK(pic);
 
-            if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-            {
-                loadedList.Add(hashPic(pic.code, pic.type), pic);
-            }
+            loadedList.Add(hashPic(pic.code, pic.type), pic);
         }
         else
         {
@@ -435,10 +436,7 @@ public class GameTextureManager
                         pic.hashed_data[w, h, 3] = 0;
                     }
                 }
-                if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-                {
-                    loadedList.Add(hashPic(pic.code, pic.type), pic);
-                }
+                loadedList.Add(hashPic(pic.code, pic.type), pic);
             }
             else
             {
@@ -472,10 +470,7 @@ public class GameTextureManager
                         pic.hashed_data[w, h, 3] = a * 0.7f;
                     }
                 }
-                if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-                {
-                    loadedList.Add(hashPic(pic.code, pic.type), pic);
-                }
+                loadedList.Add(hashPic(pic.code, pic.type), pic);
             }
         }
     }
@@ -670,6 +665,10 @@ public class GameTextureManager
 
     private static void ProcessingVerticleDrawing(PictureResource pic)
     {
+        if (loadedList.ContainsKey(hashPic(pic.code, pic.type)))
+        {
+            return;
+        }
         var bitmap = getCloseup(pic);
         if (bitmap == null)
         {
@@ -740,10 +739,7 @@ public class GameTextureManager
             caculateK(pic);
         }
 
-        if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-        {
-            loadedList.Add(hashPic(pic.code, pic.type), pic);
-        }
+        loadedList.Add(hashPic(pic.code, pic.type), pic);
     }
 
     private static void softVtype(PictureResource pic, float si)
@@ -798,15 +794,17 @@ public class GameTextureManager
 
     private static void ProcessingCardPicture(PictureResource pic)
     {
+        if (loadedList.ContainsKey(hashPic(pic.code, pic.type)))
+        {
+            return;
+        }
+
         bool EightEdition;
         var data = getPicture(pic, out EightEdition);
         if (data.Length > 0)
         {
             pic.data = data;
-            if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-            {
-                loadedList.Add(hashPic(pic.code, pic.type), pic);
-            }
+            loadedList.Add(hashPic(pic.code, pic.type), pic);
         }
         else
         {
@@ -818,10 +816,7 @@ public class GameTextureManager
             {
                 pic.u_data = myBack;
             }
-            if (!loadedList.ContainsKey(hashPic(pic.code, pic.type)))
-            {
-                loadedList.Add(hashPic(pic.code, pic.type), pic);
-            }
+            loadedList.Add(hashPic(pic.code, pic.type), pic);
         }
     }
 
