@@ -288,45 +288,52 @@ public class Program : MonoBehaviour
         go(300, () =>
         {
             InterString.initialize("config/translation.conf");
-
-            var fileInfos = (new DirectoryInfo("data")).GetFiles();
-            for (int i = 0; i < fileInfos.Length; i++)
-            {
-                if (fileInfos[i].Name.Length > 4)
-                {
-                    if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".zip")
-                    {
-                        GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("data/" + fileInfos[i].Name));
-                    }
-                }
-            }
-            fileInfos = (new DirectoryInfo("expansions")).GetFiles();
-            for (int i = 0; i < fileInfos.Length; i++)
-            {
-                if (fileInfos[i].Name.Length > 4)
-                {
-                    if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".ypk")
-                    {
-                        GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("expansions/" + fileInfos[i].Name));
-                    }
-                }
-            }
-
             GameTextureManager.initialize();
             Config.initialize("config/config.conf");
+
+            if (!Directory.Exists("expansions"))
+            {
+                Directory.CreateDirectory("expansions");
+            }
+
+            var fileInfos = (new DirectoryInfo("expansions")).GetFiles();
+            foreach (FileInfo file in fileInfos)
+            {
+                if (file.Name.ToLower().EndsWith(".ypk"))
+                {
+                    GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("expansions/" + file.Name));
+                }
+                if (file.Name.ToLower().EndsWith(".conf"))
+                {
+                    GameStringManager.initialize("expansions/" + file.Name);
+                }
+                if (file.Name.ToLower().EndsWith(".cdb"))
+                {
+                    YGOSharp.CardsManager.initialize("expansions/" + file.Name);
+                }
+            }
+
+            fileInfos = (new DirectoryInfo("data")).GetFiles();
+            foreach (FileInfo file in fileInfos)
+            {
+                if (file.Name.ToLower().EndsWith(".zip"))
+                {
+                    GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("data/" + file.Name));
+                }
+            }
 
             foreach (ZipFile zip in GameZipManager.Zips)
             {
                 foreach (string file in zip.EntryFileNames)
                 {
-                    if (file.EndsWith(".conf"))
+                    if (file.ToLower().EndsWith(".conf"))
                     {
                         MemoryStream ms = new MemoryStream();
                         ZipEntry e = zip[file];
                         e.Extract(ms);
                         GameStringManager.initializeContent(Encoding.UTF8.GetString(ms.ToArray()));
                     }
-                    if (file.EndsWith(".cdb"))
+                    if (file.ToLower().EndsWith(".cdb"))
                     {
                         ZipEntry e = zip[file];
                         string tempfile = Path.Combine(Path.GetTempPath(), file);
@@ -337,56 +344,18 @@ public class Program : MonoBehaviour
                 }
             }
 
-            GameStringManager.initialize("config/strings.conf");
-            if (File.Exists("cdb/strings.conf"))
-            {
-                GameStringManager.initialize("cdb/strings.conf");
-            }
-            if (File.Exists("diy/strings.conf"))
-            {
-                GameStringManager.initialize("diy/strings.conf");
-            }
-
-            YGOSharp.BanlistManager.initialize("config/lflist.conf");
-
-            fileInfos = (new DirectoryInfo("cdb")).GetFiles();
-            for (int i = 0; i < fileInfos.Length; i++)
-            {
-                if (fileInfos[i].Name.Length > 4)
-                {
-                    if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".cdb")
-                    {
-                        YGOSharp.CardsManager.initialize("cdb/" + fileInfos[i].Name);
-                    }
-                }
-            }
-
-            if (Directory.Exists("diy"))
-            {
-                fileInfos = (new DirectoryInfo("diy")).GetFiles();
-                for (int i = 0; i < fileInfos.Length; i++)
-                {
-                    if (fileInfos[i].Name.Length > 4)
-                    {
-                        if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".cdb")
-                        {
-                            YGOSharp.CardsManager.initialize("diy/" + fileInfos[i].Name);
-                        }
-                    }
-                }
-            }
+            GameStringManager.initialize("data/strings.conf");
+            YGOSharp.CardsManager.initialize("data/cards.cdb");
+            YGOSharp.BanlistManager.initialize("data/lflist.conf");
 
             if (Directory.Exists("pack"))
             {
                 fileInfos = (new DirectoryInfo("pack")).GetFiles();
-                for (int i = 0; i < fileInfos.Length; i++)
+                foreach (FileInfo file in fileInfos)
                 {
-                    if (fileInfos[i].Name.Length > 3)
+                    if (file.Name.ToLower().EndsWith(".db"))
                     {
-                        if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 3, 3) == ".db")
-                        {
-                            YGOSharp.PacksManager.initialize("pack/" + fileInfos[i].Name);
-                        }
+                        YGOSharp.PacksManager.initialize("pack/" + file.Name);
                     }
                 }
                 YGOSharp.PacksManager.initializeSec();
@@ -1039,6 +1008,10 @@ public class Program : MonoBehaviour
             //adeUnityEngine.Debug.Log(e);
         }
         Menu.deleteShell();
+        foreach (ZipFile zip in GameZipManager.Zips)
+        {
+            zip.Dispose();
+        }
     }
 
     public void quit()

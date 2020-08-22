@@ -67,10 +67,13 @@ public static class GameStringManager
                         a.content += mats[i] + " ";
                     }
                     a.content = a.content.Substring(0, a.content.Length - 1);
-                    hashedStrings.Add(a);
-                    if (a.region == "setname")
+                    if (get(a.region, a.hashCode) == "")
                     {
-                        xilies.Add(a);
+                        hashedStrings.Add(a);
+                        if (a.region == "setname")
+                        {
+                            xilies.Add(a);
+                        }
                     }
                 }
             }
