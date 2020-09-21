@@ -147,7 +147,11 @@ public class Book : WindowServant2D
                 }
             }
             opString += master.managedString.TrimEnd('\n');
-            if (master.strings.Count > 0)
+            if (Program.I().ocgcore.cantCheckGrave)
+            {
+                labop.text = InterString.Get("不能查看对手使用过的卡");
+            }
+            else if (master.strings.Count > 0)
             {
                 labop.text = InterString.Get("[ff5555]对手使用过：@n[?][-]", opString);
             }
