@@ -313,12 +313,47 @@ public class Program : MonoBehaviour
                 }
             }
 
-            fileInfos = (new DirectoryInfo("data")).GetFiles();
-            foreach (FileInfo file in fileInfos)
+            if (Directory.Exists("cdb"))
             {
-                if (file.Name.ToLower().EndsWith(".zip"))
+                fileInfos = (new DirectoryInfo("cdb")).GetFiles();
+                foreach (FileInfo file in fileInfos)
                 {
-                    GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("data/" + file.Name));
+                    if (file.Name.ToLower().EndsWith(".conf"))
+                    {
+                        GameStringManager.initialize("cdb/" + file.Name);
+                    }
+                    if (file.Name.ToLower().EndsWith(".cdb"))
+                    {
+                        YGOSharp.CardsManager.initialize("cdb/" + file.Name);
+                    }
+                }
+            }
+
+            if (Directory.Exists("diy"))
+            {
+                fileInfos = (new DirectoryInfo("diy")).GetFiles();
+                foreach (FileInfo file in fileInfos)
+                {
+                    if (file.Name.ToLower().EndsWith(".conf"))
+                    {
+                        GameStringManager.initialize("diy/" + file.Name);
+                    }
+                    if (file.Name.ToLower().EndsWith(".cdb"))
+                    {
+                        YGOSharp.CardsManager.initialize("diy/" + file.Name);
+                    }
+                }
+            }
+
+            if (Directory.Exists("data"))
+            {
+                fileInfos = (new DirectoryInfo("data")).GetFiles();
+                foreach (FileInfo file in fileInfos)
+                {
+                    if (file.Name.ToLower().EndsWith(".zip"))
+                    {
+                        GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("data/" + file.Name));
+                    }
                 }
             }
 
@@ -346,9 +381,8 @@ public class Program : MonoBehaviour
                 }
             }
 
-            GameStringManager.initialize("data/strings.conf");
-            YGOSharp.CardsManager.initialize("data/cards.cdb");
-            YGOSharp.BanlistManager.initialize("data/lflist.conf");
+            GameStringManager.initialize("config/strings.conf");
+            YGOSharp.BanlistManager.initialize("config/lflist.conf");
 
             if (Directory.Exists("pack"))
             {
