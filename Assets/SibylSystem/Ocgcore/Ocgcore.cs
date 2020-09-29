@@ -3960,6 +3960,8 @@ public class Ocgcore : ServantWithCardDescription
                 binaryMaster = new BinaryMaster();
                 player = r.ReadByte();
                 min = r.ReadByte();
+                //TODO: can cancel
+                if (min == 0) min = 1;
                 int _field = ~r.ReadInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
                 {
