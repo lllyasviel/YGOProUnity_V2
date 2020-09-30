@@ -957,11 +957,11 @@ int32 field::check_event(uint32 code, tevent * pe) {
 }
 int32 field::check_event_c(effect* peffect, uint8 playerid, int32 neglect_con, int32 neglect_cost, int32 copy_info, tevent* pe) {
 	if(peffect->code == EVENT_FREE_CHAIN) {
-		return peffect->is_activate_ready(playerid, nil_event, neglect_con, neglect_cost, FALSE);
+		return peffect->is_activate_ready(core.reason_effect, playerid, nil_event, neglect_con, neglect_cost, FALSE);
 	}
 	for(const auto& ev : core.point_event) {
 		if(ev.event_code == peffect->code &&
-		        peffect->is_activate_ready(playerid, ev, neglect_con, neglect_cost, FALSE)) {
+		        peffect->is_activate_ready(core.reason_effect, playerid, ev, neglect_con, neglect_cost, FALSE)) {
 			if(pe)
 				*pe = ev;
 			if(copy_info && !pduel->lua->no_action && core.current_chain.size()) {
@@ -972,7 +972,7 @@ int32 field::check_event_c(effect* peffect, uint8 playerid, int32 neglect_con, i
 	}
 	for(const auto& ev : core.instant_event) {
 		if(ev.event_code == peffect->code &&
-		        peffect->is_activate_ready(playerid, ev, neglect_con, neglect_cost, FALSE)) {
+		        peffect->is_activate_ready(core.reason_effect, playerid, ev, neglect_con, neglect_cost, FALSE)) {
 			if(pe)
 				*pe = ev;
 			if(copy_info && !pduel->lua->no_action && core.current_chain.size()) {
@@ -1820,7 +1820,7 @@ int32 field::process_instant_event() {
 				}
 			}
 		}
-		if(ev.event_code == EVENT_ADJUST || ((ev.event_code & 0xf000) == EVENT_PHASE_START))
+		if(ev.event_code == EVENT_ADJUST || ev.event_code == EVENT_BREAK_EFFECT || ((ev.event_code & 0xf000) == EVENT_PHASE_START))
 			continue;
 		//triggers
 		pr = effects.trigger_f_effect.equal_range(ev.event_code);
@@ -2549,7 +2549,12 @@ int32 field::process_battle_command(uint16 step) {
 				core.units.begin()->step = 5;
 				return FALSE;
 			}
-			add_process(PROCESSOR_SELECT_YESNO, 0, 0, 0, infos.turn_player, 31);
+			if(is_player_affected_by_effect(infos.turn_player, EFFECT_PATRICIAN_OF_DARKNESS)) {
+				add_process(PROCESSOR_SELECT_EFFECTYN, 0, 0, (group*)core.attacker, 1 - infos.turn_player, 31);
+			}
+			else {
+				add_process(PROCESSOR_SELECT_YESNO, 0, 0, 0, infos.turn_player, 31);
+			}
 			return FALSE;
 		}
 		// no target and not direct attackable
@@ -2588,11 +2593,12 @@ int32 field::process_battle_command(uint16 step) {
 			returns.ivalue[0] = -2;
 		} else {
 			if(core.select_cards.size()) {
+				auto opposel = is_player_affected_by_effect(infos.turn_player, EFFECT_PATRICIAN_OF_DARKNESS);
 				pduel->write_buffer8(MSG_HINT);
 				pduel->write_buffer8(HINT_SELECTMSG);
-				pduel->write_buffer8(infos.turn_player);
+				pduel->write_buffer8(opposel ? 1 - infos.turn_player : infos.turn_player);
 				pduel->write_buffer32(549);
-				add_process(PROCESSOR_SELECT_CARD, 0, 0, 0, infos.turn_player + (core.attack_cancelable ? 0x20000 : 0), 0x10001);
+				add_process(PROCESSOR_SELECT_CARD, 0, 0, 0, opposel ? 1 - infos.turn_player : infos.turn_player + (core.attack_cancelable ? 0x20000 : 0), 0x10001);
 			} else {
 				core.units.begin()->arg3 = TRUE;
 				core.units.begin()->step = 6;
