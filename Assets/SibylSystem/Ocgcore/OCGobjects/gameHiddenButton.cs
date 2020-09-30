@@ -59,6 +59,11 @@ public class gameHiddenButton : OCGobject
 
     void showAll()
     {
+        if (location == CardLocation.Grave && Program.I().ocgcore.cantCheckGrave)
+        {
+            Program.I().cardDescription.RMSshow_none(InterString.Get("不能确认墓地里的卡"));
+            return;
+        }
         bool allShow = true;
         for (int i = 0; i < Program.I().ocgcore.cards.Count; i++) if (Program.I().ocgcore.cards[i].gameObject.activeInHierarchy)
             {
@@ -151,6 +156,10 @@ public class gameHiddenButton : OCGobject
     void excite()
     {
         excited = true;
+        if (location == CardLocation.Grave && Program.I().ocgcore.cantCheckGrave)
+        {
+            return;
+        }
         YGOSharp.Card data = null;
         string tailString = "";
         uint con = 0;
