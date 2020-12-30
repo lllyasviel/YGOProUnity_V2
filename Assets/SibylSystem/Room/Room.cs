@@ -19,22 +19,16 @@ public class Room : WindowServantSP
 
     void onSelected()
     {
-        Config.Set("deckInUse", superScrollView.selectedString);
-
-        if (selftype < realPlayers.Length)
+        if (selftype < realPlayers.Length && realPlayers[selftype] != null && realPlayers[selftype].getIfPreped())
         {
-            if (realPlayers[selftype] != null)
-            {
-                if (realPlayers[selftype].getIfPreped() == true)
-                {
-                    TcpHelper.CtosMessage_HsNotReady();
-                    TcpHelper.CtosMessage_UpdateDeck(new YGOSharp.Deck("deck/" + Config.Get("deckInUse","wizard") + ".ydk"));
-                    TcpHelper.CtosMessage_HsReady();
-                }
-            }
+            TcpHelper.CtosMessage_HsNotReady();
+            TcpHelper.CtosMessage_UpdateDeck(new YGOSharp.Deck("deck/" + superScrollView.selectedString + ".ydk"));
+            TcpHelper.CtosMessage_HsReady();
         }
-
-
+        else
+        {
+            Config.Set("deckInUse", superScrollView.selectedString);
+        }
     }
 
     void printFile()
@@ -688,6 +682,7 @@ public class Room : WindowServantSP
 
     void realize()
     {
+        Config.Set("deckInUse", superScrollView.selectedString);
         string description = "";
         if (mode == 0)
         {
