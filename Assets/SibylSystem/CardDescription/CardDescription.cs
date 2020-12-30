@@ -121,8 +121,16 @@ public class CardDescription : Servant
     {
         try
         {
-            underSprite.width = int.Parse(Config.Get("CA","200"));
-            picSprite.height = int.Parse(Config.Get("CB","100"));
+            var ca = int.Parse(Config.Get("CA", "230"));
+            var cb = int.Parse(Config.Get("CB", "270"));
+            if (cb > Screen.height)
+            {
+                // some dumb ass repack the program and set the pic size so large that small screen users can't realize there is card description under it.
+                cb = Screen.height / 2;
+                ca = (int)(cb * 0.68) + 50;
+            }
+            underSprite.width = ca;
+            picSprite.height =  cb; 
         }
         catch (System.Exception e)
         {
