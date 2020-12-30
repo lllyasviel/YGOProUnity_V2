@@ -95,7 +95,7 @@ public class Menu : WindowServantSP
         if (Program.noAccess && !msgPermissionShowed)
         {
             msgPermissionShowed = true;
-            Program.PrintToChat(InterString.Get("[b][FF0000]NO ACCESS!! NO ACCESS!! NO ACCESS!![-][/b]") + "\n" + InterString.Get("访问程序目录出错，保存卡组等功能无法使用。@n请将 YGOPro2 安装到其他文件夹，或以管理员身份运行。"));
+            Program.PrintToChat(InterString.Get("[b][FF0000]NO ACCESS!! NO ACCESS!! NO ACCESS!![-][/b]") + "\n" + InterString.Get("访问程序目录出错，软件大部分功能将无法使用。@n请将 YGOPro2 安装到其他文件夹，或以管理员身份运行。"));
         }
         else if (upurl != "" && !msgUpdateShowed)
         {
