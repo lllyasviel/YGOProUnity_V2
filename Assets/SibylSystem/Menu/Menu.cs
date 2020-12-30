@@ -50,6 +50,8 @@ public class Menu : WindowServantSP
         string ver = verFile[0];
         string url = verFile[1];
         UnityWebRequest www = UnityWebRequest.Get(url);
+        www.SetRequestHeader("Cache-Control", "max-age=0, no-cache, no-store");
+        www.SetRequestHeader("Pragma", "no-cache");
         yield return www.Send();
         try
         {
