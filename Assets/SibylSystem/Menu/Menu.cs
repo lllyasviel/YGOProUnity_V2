@@ -86,17 +86,23 @@ public class Menu : WindowServantSP
         }
     }
 
-    bool outed = false;
+    bool msgUpdateShowed = false;
+    bool msgPermissionShowed = false;
     public override void preFrameFunction()
     {
         base.preFrameFunction();
-        if (upurl != "" && outed == false)
+        Menu.checkCommend();
+        if (Program.noAccess && !msgPermissionShowed)
         {
-            outed = true;
+            msgPermissionShowed = true;
+            Program.PrintToChat(InterString.Get("[b][FF0000]NO ACCESS!! NO ACCESS!! NO ACCESS!![-][/b]") + "\n" + InterString.Get("访问程序目录出错，保存卡组等功能无法使用。@n请将 YGOPro2 安装到其他文件夹，或以管理员身份运行。"));
+        }
+        else if (upurl != "" && !msgUpdateShowed)
+        {
+            msgUpdateShowed = true;
             RMSshow_yesOrNo("update", InterString.Get("[b]发现更新！[/b]") + "\n" + uptxt + "\n" + InterString.Get("是否打开下载页面？"),
                 new messageSystemValue { value = "1", hint = "yes" }, new messageSystemValue { value = "0", hint = "no" });
         }
-        Menu.checkCommend();
     }
 
     void onClickExit()
@@ -182,6 +188,7 @@ public class Menu : WindowServantSP
             }
             catch (System.Exception e)
             {
+                Program.noAccess = true;
                 UnityEngine.Debug.Log(e);
             }
             string all = "";
@@ -232,6 +239,7 @@ public class Menu : WindowServantSP
             }
             catch (System.Exception e)
             {
+                Program.noAccess = true;
                 UnityEngine.Debug.Log(e);
             }
             try
@@ -246,6 +254,7 @@ public class Menu : WindowServantSP
             }
             catch (System.Exception e)
             {
+                Program.noAccess = true;
                 UnityEngine.Debug.Log(e);
             }
         }

@@ -145,6 +145,14 @@ public static class Config
         {
             all += translations[i].original + "->" + translations[i].translated + "\r\n";
         }
-        File.WriteAllText(path, all);
+        try
+        {
+            File.WriteAllText(path, all);
+        }
+        catch (Exception e)
+        {
+            Program.noAccess = true;
+            UnityEngine.Debug.Log(e);
+        }
     }
 }

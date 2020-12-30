@@ -66,7 +66,14 @@ public static class InterString
         }
         else if (original != "")
         {
-            File.AppendAllText(path, original + "->" + original + "\r\n");
+            try
+            {
+                File.AppendAllText(path, original + "->" + original + "\r\n");
+            }
+            catch
+            {
+                Program.noAccess = true;
+            }
             translations.Add(original, original);
             return original.Replace("@n", "\r\n").Replace("@ui", "");
         }

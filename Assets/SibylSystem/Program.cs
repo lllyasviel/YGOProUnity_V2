@@ -293,23 +293,34 @@ public class Program : MonoBehaviour
 
             if (!Directory.Exists("expansions"))
             {
-                Directory.CreateDirectory("expansions");
+                try
+                {
+                    Directory.CreateDirectory("expansions");
+                }
+                catch
+                {
+                }
             }
 
-            var fileInfos = (new DirectoryInfo("expansions")).GetFiles();
-            foreach (FileInfo file in fileInfos)
+            var fileInfos = new FileInfo[0];
+
+            if (Directory.Exists("expansions"))
             {
-                if (file.Name.ToLower().EndsWith(".ypk"))
+                fileInfos = (new DirectoryInfo("expansions")).GetFiles();
+                foreach (FileInfo file in fileInfos)
                 {
-                    GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("expansions/" + file.Name));
-                }
-                if (file.Name.ToLower().EndsWith(".conf"))
-                {
-                    GameStringManager.initialize("expansions/" + file.Name);
-                }
-                if (file.Name.ToLower().EndsWith(".cdb"))
-                {
-                    YGOSharp.CardsManager.initialize("expansions/" + file.Name);
+                    if (file.Name.ToLower().EndsWith(".ypk"))
+                    {
+                        GameZipManager.Zips.Add(new Ionic.Zip.ZipFile("expansions/" + file.Name));
+                    }
+                    if (file.Name.ToLower().EndsWith(".conf"))
+                    {
+                        GameStringManager.initialize("expansions/" + file.Name);
+                    }
+                    if (file.Name.ToLower().EndsWith(".cdb"))
+                    {
+                        YGOSharp.CardsManager.initialize("expansions/" + file.Name);
+                    }
                 }
             }
 
@@ -1024,6 +1035,8 @@ public class Program : MonoBehaviour
     public static bool MonsterCloud = false;
     public static float fieldSize = 1;
     public static bool longField = false;
+
+    public static bool noAccess = false;
 
     void OnApplicationQuit()
     {
