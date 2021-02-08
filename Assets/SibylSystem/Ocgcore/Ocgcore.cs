@@ -3972,7 +3972,7 @@ public class Ocgcore : ServantWithCardDescription
                 //TODO: can cancel
                 if (min == 0) min = 1;
                 uint _field = ~r.ReadUInt32();
-                if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true)
+                if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true || (GameMessage)p.Fuction == GameMessage.SelectDisfield)
                 {
                     
                     ES_min = min;
@@ -4042,15 +4042,29 @@ public class Ocgcore : ServantWithCardDescription
                     }
 
                     }
-                    if (Es_selectMSGHintType == 3)
+                    if ((GameMessage)p.Fuction == GameMessage.SelectPlace)
                     {
-                        if (Es_selectMSGHintPlayer == 0)
+                        if (Es_selectMSGHintType == 3)
                         {
-                            gameField.setHint(InterString.Get("请为我方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
+                            if (Es_selectMSGHintPlayer == 0)
+                            {
+                                gameField.setHint(InterString.Get("请为我方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
+                            }
+                            else
+                            {
+                                gameField.setHint(InterString.Get("请为对方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ES_selectHint != "")
+                        {
+                            gameField.setHint(ES_selectHint);
                         }
                         else
                         {
-                            gameField.setHint(InterString.Get("请为对方的「[?]」选择位置。", YGOSharp.CardsManager.Get(Es_selectMSGHintData).Name));
+                            gameField.setHint(GameStringManager.get_unsafe(570));
                         }
                     }
                 }
