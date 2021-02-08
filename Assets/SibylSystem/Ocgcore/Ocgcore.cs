@@ -3974,74 +3974,73 @@ public class Ocgcore : ServantWithCardDescription
                 uint _field = ~r.ReadUInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true || (GameMessage)p.Fuction == GameMessage.SelectDisfield)
                 {
-                    
                     ES_min = min;
                     for (int i = 0; i < min; i++)
                     {
                         byte[] resp = new byte[3];
                         uint filter;
 
-                    for (int j=0; j<2; j++)
-                    {
-                        resp = new byte[3];
-                        filter = 0;
-                        uint field;
+                        for (int j = 0; j < 2; j++)
+                        {
+                            resp = new byte[3];
+                            filter = 0;
+                            uint field;
 
-                        if (j==0)
-                        {
-                            resp[0] = (byte)player;
-                            field = _field & 0xffff;
-                        }
-                        else
-                        {
-                            resp[0] = (byte)(1 - player);
-                            field = _field >> 16;
-                        }
-
-                        if ((field & 0x7f) != 0)
-                        {
-                            resp[1] = (byte)CardLocation.MonsterZone;
-                            filter = field & 0x7f;
-                            for (int k = 0; k < 6; k++)
+                            if (j == 0)
                             {
-                                if ((filter & (1u << k)) != 0)
+                                resp[0] = (byte)player;
+                                field = _field & 0xffff;
+                            }
+                            else
+                            {
+                                resp[0] = (byte)(1 - player);
+                                field = _field >> 16;
+                            }
+
+                            if ((field & 0x7f) != 0)
+                            {
+                                resp[1] = (byte)CardLocation.MonsterZone;
+                                filter = field & 0x7f;
+                                for (int k = 0; k < 6; k++)
                                 {
-                                    resp[2] = (byte)k;
+                                    if ((filter & (1u << k)) != 0)
+                                    {
+                                        resp[2] = (byte)k;
+                                        createPlaceSelector(resp);
+                                    }
+                                }
+                            }
+                            if ((field & 0x1f00) != 0)
+                            {
+                                resp[1] = (byte)CardLocation.SpellZone;
+                                filter = (field >> 8) & 0x1f;
+                                for (int k = 0; k < 5; k++)
+                                {
+                                    if ((filter & (1u << k)) != 0)
+                                    {
+                                        resp[2] = (byte)k;
+                                        createPlaceSelector(resp);
+                                    }
+                                }
+                            }
+                            if ((field & 0xc000) != 0)
+                            {
+                                resp[1] = (byte)CardLocation.SpellZone;
+                                filter = (field >> 14) & 0x3;
+                                if ((filter & 0x2) != 0)
+                                {
+                                    resp[2] = 7;
+                                    createPlaceSelector(resp);
+                                }
+                                if ((filter & 0x1) != 0)
+                                {
+                                    resp[2] = 6;
                                     createPlaceSelector(resp);
                                 }
                             }
                         }
-                        if ((field & 0x1f00) != 0)
-                        {
-                            resp[1] = (byte)CardLocation.SpellZone;
-                            filter = (field >> 8) & 0x1f;
-                            for (int k = 0; k < 5; k++)
-                            {
-                                if ((filter & (1u << k)) != 0)
-                                {
-                                    resp[2] = (byte)k;
-                                    createPlaceSelector(resp);
-                                }
-                            }
-                        }
-                        if ((field & 0xc000) != 0)
-                        {
-                            resp[1] = (byte)CardLocation.SpellZone;
-                            filter = (field >> 14) & 0x3;
-                            if ((filter & 0x2) != 0)
-                            {
-                                resp[2] = 7;
-                                createPlaceSelector(resp);
-                            }
-                            if ((filter & 0x1) != 0)
-                            {
-                                resp[2] = 6;
-                                createPlaceSelector(resp);
-                            }
-                        }
                     }
 
-                    }
                     if ((GameMessage)p.Fuction == GameMessage.SelectPlace)
                     {
                         if (Es_selectMSGHintType == 3)
