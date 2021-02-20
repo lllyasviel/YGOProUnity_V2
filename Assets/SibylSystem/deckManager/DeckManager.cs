@@ -642,6 +642,7 @@ public class DeckManager : ServantWithCardDescription
                     getBanFilter(),
                     currentBanlist,
                     getTypeFilter(),
+                    getTypeFilter2(),
                     getRaceFilter(),
                     getAttributeFilter(),
                     getCatagoryFilter()
@@ -712,6 +713,23 @@ public class DeckManager : ServantWithCardDescription
         if (UIPopupList_main.value == GameStringManager.get_unsafe(1312))
         {
             returnValue = (UInt32)CardType.Monster;
+        }
+        if (UIPopupList_main.value == GameStringManager.get_unsafe(1313))
+        {
+            returnValue = (UInt32)CardType.Spell;
+        }
+        if (UIPopupList_main.value == GameStringManager.get_unsafe(1314))
+        {
+            returnValue = (UInt32)CardType.Trap;
+        }
+        return returnValue;
+    }
+
+    UInt32 getTypeFilter2()
+    {
+        UInt32 returnValue = 0;
+        if (UIPopupList_main.value == GameStringManager.get_unsafe(1312))
+        {
             if (ifType(GameStringManager.get_unsafe(1054)))
             {
                 returnValue |= (UInt32)CardType.Monster + (UInt32)CardType.Normal;
@@ -775,7 +793,6 @@ public class DeckManager : ServantWithCardDescription
         }
         if (UIPopupList_main.value == GameStringManager.get_unsafe(1313))
         {
-            returnValue = (UInt32)CardType.Spell;
             if (ifType(GameStringManager.get_unsafe(1054)))
             {
                 returnValue |= (UInt32)CardType.Spell;
@@ -803,7 +820,6 @@ public class DeckManager : ServantWithCardDescription
         }
         if (UIPopupList_main.value == GameStringManager.get_unsafe(1314))
         {
-            returnValue = (UInt32)CardType.Trap;
             if (ifType(GameStringManager.get_unsafe(1054)))
             {
                 returnValue |= (UInt32)CardType.Trap;

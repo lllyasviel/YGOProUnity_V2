@@ -105,6 +105,7 @@ namespace YGOSharp
             int getBAN,
             Banlist banlist,
             uint getTypeFilter,
+            uint getTypeFilter2,
             uint getRaceFilter,
             uint getAttributeFilter,
             uint getCatagoryFilter
@@ -123,7 +124,10 @@ namespace YGOSharp
                         || card.Id.ToString() == getName
                         )
                     {
-                        if (((card.Type & getTypeFilter)) == getTypeFilter || getTypeFilter == 0)
+                        if (((card.Type & getTypeFilter) == getTypeFilter || getTypeFilter == 0)
+                            && ((card.Type == getTypeFilter2
+                                || getTypeFilter == (UInt32)CardType.Monster) && (card.Type & getTypeFilter2) == getTypeFilter2
+                                || getTypeFilter2 == 0))
                         {
                             if ((card.Race & getRaceFilter) >0 || getRaceFilter == 0)
                             {
