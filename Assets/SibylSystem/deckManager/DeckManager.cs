@@ -302,7 +302,7 @@ public class DeckManager : ServantWithCardDescription
         }
         catch (Exception)
         {
-            RMSshow_none(InterString.Get("卡组非法！"));
+            RMSshow_none(InterString.Get("保存失败！"));
             return false;
         }
     }
