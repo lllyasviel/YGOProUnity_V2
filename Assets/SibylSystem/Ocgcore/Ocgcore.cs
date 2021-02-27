@@ -4011,7 +4011,7 @@ public class Ocgcore : ServantWithCardDescription
                             {
                                 resp[1] = (byte)CardLocation.MonsterZone;
                                 filter = field & 0x7f;
-                                for (int k = 0; k < 6; k++)
+                                for (int k = 0; k < 7; k++)
                                 {
                                     if ((filter & (1u << k)) != 0)
                                     {
