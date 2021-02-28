@@ -1250,15 +1250,19 @@ public class Ocgcore : ServantWithCardDescription
                 name_1 = r.ReadUnicode(50);
                 name_1_tag = r.ReadUnicode(50);
                 name_1_c = r.ReadUnicode(50);
-                if (isFirst)
+                bool isTag = !(name_0_tag == "---" && name_1_tag == "---" && name_0 == name_0_c && name_1 == name_1_c);
+                if (isTag)
                 {
-                    name_0_c = name_0;
-                    name_1_c = name_1_tag;
-                }
-                else
-                {
-                    name_0_c = name_0_tag;
-                    name_1_c = name_1;
+                    if (isFirst)
+                    {
+                        name_0_c = name_0;
+                        name_1_c = name_1_tag;
+                    }
+                    else
+                    {
+                        name_0_c = name_0_tag;
+                        name_1_c = name_1;
+                    }
                 }
                 if (r.BaseStream.Position < r.BaseStream.Length)
                 {
