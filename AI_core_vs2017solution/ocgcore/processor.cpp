@@ -1820,7 +1820,7 @@ int32 field::process_instant_event() {
 				}
 			}
 		}
-		if(ev.event_code == EVENT_ADJUST || ev.event_code == EVENT_BREAK_EFFECT || ((ev.event_code & 0xf000) == EVENT_PHASE_START))
+		if(ev.event_code == EVENT_ADJUST || ev.event_code == EVENT_BREAK_EFFECT || ((ev.event_code & 0xf000) == EVENT_PHASE_START) && ((ev.event_code & EVENT_CUSTOM) == 0))
 			continue;
 		//triggers
 		pr = effects.trigger_f_effect.equal_range(ev.event_code);
@@ -3338,7 +3338,7 @@ void field::calculate_battle_damage(effect** pdamchange, card** preason_card, ui
 				if(eset.size()) {
 					pierce = true;
 					uint8 dp[2] = {};
-					for(uint32 i = 0; i < eset.size(); ++i)
+					for(int32 i = 0; i < eset.size(); ++i)
 						dp[1 - eset[i]->get_handler_player()] = 1;
 					if(dp[0])
 						core.battle_damage[0] = a - d;
@@ -3435,7 +3435,7 @@ void field::calculate_battle_damage(effect** pdamchange, card** preason_card, ui
 						bool double_dam = false;
 						bool half_dam = false;
 						int32 dam_value = -1;
-						for(uint32 i = 0; i < eset.size(); ++i) {
+						for(int32 i = 0; i < eset.size(); ++i) {
 							int32 val = -1;
 							if(!eset[i]->is_flag(EFFECT_FLAG_PLAYER_TARGET)) {
 								pduel->lua->add_param(p, PARAM_TYPE_INT);
@@ -3555,7 +3555,7 @@ void field::calculate_battle_damage(effect** pdamchange, card** preason_card, ui
 			bool double_dam = false;
 			bool half_dam = false;
 			int32 dam_value = -1;
-			for(uint32 i = 0; i < eset.size(); ++i) {
+			for(int32 i = 0; i < eset.size(); ++i) {
 				int32 val = -1;
 				if(!eset[i]->is_flag(EFFECT_FLAG_PLAYER_TARGET)) {
 					pduel->lua->add_param(p, PARAM_TYPE_INT);
@@ -4095,7 +4095,7 @@ int32 field::add_chain(uint16 step) {
 		pduel->write_buffer8(MSG_HINT);
 		pduel->write_buffer8(HINT_OPSELECTED);
 		pduel->write_buffer8(playerid);
-		pduel->write_buffer32(core.select_options[returns.ivalue[0]]);
+		pduel->write_buffer32(core.select_options.size() > 1 ? core.select_options[returns.ivalue[0]] : 65);
 		clit.triggering_effect = peffect;
 		clit.evt = ch.evt;
 		phandler->create_relation(clit);
@@ -4538,7 +4538,7 @@ int32 field::refresh_location_info(uint16 step) {
 		filter_field_effect(EFFECT_DISABLE_FIELD, &eset);
 		for (int32 i = 0; i < eset.size(); ++i) {
 			uint32 value = eset[i]->get_value();
-			if(value && !eset[i]->is_flag(EFFECT_FLAG_REPEAT)) {
+			if(value) {
 				player[0].disabled_location |= value & 0x1f7f;
 				player[1].disabled_location |= (value >> 16) & 0x1f7f;
 			} else

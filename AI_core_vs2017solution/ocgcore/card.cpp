@@ -116,7 +116,8 @@ uint32 card::get_infos(byte* buf, int32 query_flag, int32 use_cache) {
 		if(query_flag & QUERY_BASE_ATTACK) q_cache.base_attack = *p++ = get_base_attack();
 		if(query_flag & QUERY_BASE_DEFENSE) q_cache.base_defense = *p++ = get_base_defense();
 		if(query_flag & QUERY_REASON) q_cache.reason = *p++ = current.reason;
-	} else {
+	}
+	else {
 		if((query_flag & QUERY_ALIAS) && ((uint32)(tdata = get_code()) != q_cache.alias)) {
 			q_cache.alias = tdata;
 			*p++ = tdata;
@@ -202,7 +203,8 @@ uint32 card::get_infos(byte* buf, int32 query_flag, int32 use_cache) {
 			q_cache.link = *p++ = get_link();
 			q_cache.link_marker = *p++ = get_link_marker();
 		}
-	} else {
+	}
+	else {
 		if((query_flag & QUERY_LSCALE) && ((uint32)(tdata = get_lscale()) != q_cache.lscale)) {
 			q_cache.lscale = tdata;
 			*p++ = tdata;
@@ -1899,8 +1901,10 @@ void card::reset(uint32 id, uint32 reset_type) {
 			battled_cards.clear();
 			reset_effect_count();
 			auto pr = field_effect.equal_range(EFFECT_DISABLE_FIELD);
-			for(; pr.first != pr.second; ++pr.first)
-				pr.first->second->value = 0;
+			for(; pr.first != pr.second; ++pr.first){
+				if(!pr.first->second->is_flag(EFFECT_FLAG_FUNC_VALUE))
+					pr.first->second->value = 0;
+			}
 		}
 		if(id & (RESET_TODECK | RESET_TOHAND | RESET_TOGRAVE | RESET_REMOVE | RESET_TEMP_REMOVE
 			| RESET_OVERLAY | RESET_MSCHANGE | RESET_TOFIELD  | RESET_TURN_SET)) {
