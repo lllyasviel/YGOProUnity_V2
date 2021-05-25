@@ -251,7 +251,7 @@ public class GameStringHelper
 
         try
         {
-            if ((data.Type & 0x1) > 0)
+            if ((data.Type & (int)CardType.Monster) > 0)
             {
                 re += "[ff8000]";
                 re += "["+secondType(data.Type)+"]";
@@ -336,16 +336,63 @@ public class GameStringHelper
                     re += "[sup]LINK[/sup]" + data.Level.ToString();
                 }
             }
-            else if ((data.Type & 0x2) > 0)
+            else if ((data.Type & ((int)CardType.Spell + (int)CardType.Trap)) > 0)
             {
-                re += "[7FFF00]";
+                re += (data.Type & (int)CardType.Spell) > 0 ? "[7FFF00]" : "[DDA0DD]";
                 re += secondType(data.Type);
                 if (data.LScale > 0) re += fen + data.LScale.ToString() + "[sup]P[/sup]";
-            }
-            else if ((data.Type & 0x4) > 0)
-            {
-                re += "[dda0dd]";
-                re += secondType(data.Type);
+
+                YGOSharp.Card original = YGOSharp.CardsManager.GetCard(data.Id);
+
+                if ((original.Type & (int)CardType.Monster) > 0)
+                {
+                    re += "\n";
+                    re += "[999999]";
+                    re += "[" + secondType(original.Type) + "]";
+
+                    if ((original.Type & (int)CardType.Link) == 0)
+                    {
+                        if ((original.Type & (int)CardType.Xyz) > 0)
+                        {
+                            re += " " + race(original.Race) + fen + attribute(original.Attribute) + fen + original.Level.ToString() + "[sup]☆[/sup]";
+                        }
+                        else
+                        {
+                            re += " " + race(original.Race) + fen + attribute(original.Attribute) + fen + original.Level.ToString() + "[sup]★[/sup]";
+                        }
+                    }
+                    else
+                    {
+                        re += " " + race(original.Race) + fen + attribute(original.Attribute);
+                    }
+
+                    if (original.LScale > 0) re += fen + original.LScale.ToString() + "[sup]P[/sup]";
+                    re += "\n";
+                    if (original.Attack < 0)
+                    {
+                        re += "[sup]ATK[/sup]?  ";
+                    }
+                    else
+                    {
+                        re += "[sup]ATK[/sup]" + original.Attack.ToString() + "  ";
+                    }
+                    if ((original.Type & (int)CardType.Link) == 0)
+                    {
+                        if (original.Defense < 0)
+                        {
+                            re += "[sup]DEF[/sup]?";
+                        }
+                        else
+                        {
+                            re += "[sup]DEF[/sup]" + original.Defense.ToString();
+                        }
+                    }
+                    else
+                    {
+                        re += "[sup]LINK[/sup]" + original.Level.ToString();
+                    }
+                    re += "[-]";
+                }
             }
             else
             {
