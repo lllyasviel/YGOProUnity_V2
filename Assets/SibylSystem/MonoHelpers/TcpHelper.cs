@@ -765,6 +765,7 @@ public static class BinaryExtensions
         {
             int status = r.ReadInt32();
             cardToRefresh.disabled = (status & 0x0001) == 0x0001;
+            cardToRefresh.SemiNomiSummoned = (status & 0x0008) == 0x0008;
         }
         if ((flag & (int)Query.LScale) != 0)
             data.LScale = r.ReadInt32();

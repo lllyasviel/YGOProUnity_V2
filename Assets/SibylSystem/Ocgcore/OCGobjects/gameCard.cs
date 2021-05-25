@@ -232,6 +232,7 @@ public class gameCard : OCGobject
     GameObject nagaSign = null; 
 
     public bool disabled = false;
+    public bool SemiNomiSummoned = false;
 
     public enum flashType
     {
@@ -1036,39 +1037,32 @@ public class gameCard : OCGobject
         {
             loaded_controller = (int)p.controller;
             loaded_location = (int)p.location;
-            set_text("");
-            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Deck) > 0)
+            string loc = "";
+            if ((p.location & (UInt32)CardLocation.Deck) > 0)
             {
-                set_text(GameStringHelper.kazu);
+                loc = GameStringHelper.kazu;
             }
-            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Extra) > 0)
+            if ((p.location & (UInt32)CardLocation.Extra) > 0)
             {
-                set_text(GameStringHelper.ewai);
+                loc = GameStringHelper.ewai;
             }
-            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Grave) > 0)
+            if ((p.location & (UInt32)CardLocation.Grave) > 0)
             {
-                set_text(GameStringHelper.mudi);
+                loc = GameStringHelper.mudi;
             }
-            if (p.controller == 0 && (p.location & (UInt32)CardLocation.Removed) > 0)
+            if ((p.location & (UInt32)CardLocation.Removed) > 0)
             {
-                set_text(GameStringHelper.chuwai);
+                loc = GameStringHelper.chuwai;
             }
-            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Deck) > 0)
+            if (!SemiNomiSummoned && (data.Type & 0x68020C0) > 0 && (p.location & ((UInt32)CardLocation.Grave + (UInt32)CardLocation.Removed)) > 0)
             {
-                set_text("<#ff8888>" + GameStringHelper.kazu + "</color>");
+                loc = GameStringHelper.SemiNomi;
             }
-            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Extra) > 0)
+            if (p.controller == 1 && loc != "")
             {
-                set_text("<#ff8888>" + GameStringHelper.ewai + "</color>");
+                loc = "<#ff8888>" + loc + "</color>";
             }
-            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Grave) > 0)
-            {
-                set_text("<#ff8888>" + GameStringHelper.mudi + "</color>");
-            }
-            if (p.controller == 1 && (p.location & (UInt32)CardLocation.Removed) > 0)
-            {
-                set_text("<#ff8888>" + GameStringHelper.chuwai + "</color>");
-            }
+            set_text(loc);
         }
     }
 

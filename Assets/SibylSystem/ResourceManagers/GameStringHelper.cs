@@ -31,6 +31,7 @@ public class GameStringHelper
     public static string mudi = "";
     public static string chuwai = "";
     public static string ewai = "";
+    public static string SemiNomi = "";
 
     public static bool differ(long a, long b)
     {

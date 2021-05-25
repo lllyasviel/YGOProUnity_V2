@@ -50,6 +50,7 @@ public static class InterString
         GameStringHelper.mudi = Get("墓地");
         GameStringHelper.chuwai = Get("除外");
         GameStringHelper.ewai = Get("额外");
+        GameStringHelper.SemiNomi = Get("未正规召唤");
         //GameStringHelper.diefang = Get("叠放");
         GameStringHelper._wofang = Get("我方");
         GameStringHelper._duifang = Get("对方");
