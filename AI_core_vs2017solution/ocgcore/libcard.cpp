@@ -383,6 +383,16 @@ int32 scriptlib::card_get_origin_rscale(lua_State *L) {
 	lua_pushinteger(L, pcard->data.rscale);
 	return 1;
 }
+int32 scriptlib::card_get_current_scale(lua_State *L) {
+	check_param_count(L, 1);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**)lua_touserdata(L, 1);
+	if(pcard->current.pzone && pcard->current.sequence == (pcard->pduel->game_field->core.duel_rule >= 4 ? 0 : 6))
+		lua_pushinteger(L, pcard->get_lscale());
+	else
+		lua_pushinteger(L, pcard->get_rscale());
+	return 1;
+}
 int32 scriptlib::card_is_link_marker(lua_State *L) {
 	check_param_count(L, 2);
 	check_param(L, PARAM_TYPE_CARD, 1);
@@ -553,6 +563,18 @@ int32 scriptlib::card_get_link_attribute(lua_State *L) {
 	lua_pushinteger(L, pcard->get_link_attribute(playerid));
 	return 1;
 }
+int32 scriptlib::card_get_attribute_in_grave(lua_State *L) {
+	check_param_count(L, 1);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**)lua_touserdata(L, 1);
+	int32 playerid = PLAYER_NONE;
+	if(lua_gettop(L) > 1 && !lua_isnil(L, 2))
+		playerid = (int32)lua_tointeger(L, 2);
+	else
+		playerid = pcard->pduel->game_field->core.reason_player;
+	lua_pushinteger(L, pcard->get_grave_attribute(playerid));
+	return 1;
+}
 int32 scriptlib::card_get_race(lua_State *L) {
 	check_param_count(L, 1);
 	check_param(L, PARAM_TYPE_CARD, 1);
@@ -580,6 +602,18 @@ int32 scriptlib::card_get_link_race(lua_State *L) {
 	else
 		playerid = pcard->pduel->game_field->core.reason_player;
 	lua_pushinteger(L, pcard->get_link_race(playerid));
+	return 1;
+}
+int32 scriptlib::card_get_race_in_grave(lua_State *L) {
+	check_param_count(L, 1);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**)lua_touserdata(L, 1);
+	int32 playerid = PLAYER_NONE;
+	if(lua_gettop(L) > 1 && !lua_isnil(L, 2))
+		playerid = (int32)lua_tointeger(L, 2);
+	else
+		playerid = pcard->pduel->game_field->core.reason_player;
+	lua_pushinteger(L, pcard->get_grave_race(playerid));
 	return 1;
 }
 int32 scriptlib::card_get_attack(lua_State *L) {
@@ -1137,6 +1171,13 @@ int32 scriptlib::card_is_link_attribute(lua_State *L) {
 		lua_pushboolean(L, 1);
 	else
 		lua_pushboolean(L, 0);
+	return 1;
+}
+int32 scriptlib::card_is_extra_deck_monster(lua_State *L) {
+	check_param_count(L, 1);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**) lua_touserdata(L, 1);
+	lua_pushboolean(L, pcard->is_extra_deck_monster());
 	return 1;
 }
 int32 scriptlib::card_is_reason(lua_State *L) {
@@ -2737,9 +2778,10 @@ int32 scriptlib::card_enable_counter_permit(lua_State *L) {
 	peffect->owner = pcard;
 	peffect->type = EFFECT_TYPE_SINGLE;
 	peffect->code = EFFECT_COUNTER_PERMIT | countertype;
-	peffect->value = prange;
+	peffect->flag[0] = EFFECT_FLAG_SINGLE_RANGE;
+	peffect->range = prange;
 	if(lua_gettop(L) > 3 && lua_isfunction(L, 4))
-		peffect->target = interpreter::get_function_handle(L, 4);
+		peffect->condition = interpreter::get_function_handle(L, 4);
 	pcard->add_effect(peffect);
 	return 0;
 }
@@ -2771,13 +2813,11 @@ int32 scriptlib::card_is_can_turn_set(lua_State *L) {
 	return 1;
 }
 int32 scriptlib::card_is_can_add_counter(lua_State *L) {
-	check_param_count(L, 2);
+	check_param_count(L, 3);
 	check_param(L, PARAM_TYPE_CARD, 1);
 	card* pcard = *(card**) lua_touserdata(L, 1);
 	uint32 countertype = (uint32)lua_tointeger(L, 2);
-	uint32 count = 0;
-	if(lua_gettop(L) > 2)
-		count = (uint32)lua_tointeger(L, 3);
+	uint32 count = (uint32)lua_tointeger(L, 3);
 	uint8 singly = FALSE;
 	if(lua_gettop(L) > 3)
 		singly = lua_toboolean(L, 4);
@@ -2798,6 +2838,14 @@ int32 scriptlib::card_is_can_remove_counter(lua_State *L) {
 	uint32 count = (uint32)lua_tointeger(L, 4);
 	uint32 reason = (uint32)lua_tointeger(L, 5);
 	lua_pushboolean(L, pcard->pduel->game_field->is_player_can_remove_counter(playerid, pcard, 0, 0, countertype, count, reason));
+	return 1;
+}
+int32 scriptlib::card_is_can_have_counter(lua_State* L) {
+	check_param_count(L, 2);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**)lua_touserdata(L, 1);
+	uint32 countertype = (uint32)lua_tointeger(L, 2);
+	lua_pushboolean(L, pcard->is_can_have_counter(countertype));
 	return 1;
 }
 int32 scriptlib::card_is_can_overlay(lua_State *L) {
@@ -3204,6 +3252,7 @@ static const struct luaL_Reg cardlib[] = {
 	{ "GetOriginalLeftScale", scriptlib::card_get_origin_lscale },
 	{ "GetRightScale", scriptlib::card_get_rscale },
 	{ "GetOriginalRightScale", scriptlib::card_get_origin_rscale },
+	{ "GetCurrentScale", scriptlib::card_get_current_scale },
 	{ "IsLinkMarker", scriptlib::card_is_link_marker },
 	{ "GetLinkedGroup", scriptlib::card_get_linked_group },
 	{ "GetLinkedGroupCount", scriptlib::card_get_linked_group_count },
@@ -3221,9 +3270,11 @@ static const struct luaL_Reg cardlib[] = {
 	{ "GetOriginalAttribute", scriptlib::card_get_origin_attribute },
 	{ "GetFusionAttribute", scriptlib::card_get_fusion_attribute },
 	{ "GetLinkAttribute", scriptlib::card_get_link_attribute },
+	{ "GetAttributeInGrave", scriptlib::card_get_attribute_in_grave },
 	{ "GetRace", scriptlib::card_get_race },
 	{ "GetOriginalRace", scriptlib::card_get_origin_race },
 	{ "GetLinkRace", scriptlib::card_get_link_race },
+	{ "GetRaceInGrave", scriptlib::card_get_race_in_grave },
 	{ "GetAttack", scriptlib::card_get_attack },
 	{ "GetBaseAttack", scriptlib::card_get_origin_attack },
 	{ "GetTextAttack", scriptlib::card_get_text_attack },
@@ -3277,6 +3328,7 @@ static const struct luaL_Reg cardlib[] = {
 	{ "IsAttribute", scriptlib::card_is_attribute },
 	{ "IsFusionAttribute", scriptlib::card_is_fusion_attribute },
 	{ "IsLinkAttribute", scriptlib::card_is_link_attribute },
+	{ "IsExtraDeckMonster", scriptlib::card_is_extra_deck_monster },
 	{ "IsReason", scriptlib::card_is_reason },
 	{ "IsSummonType", scriptlib::card_is_summon_type },
 	{ "IsSummonLocation", scriptlib::card_is_summon_location },
@@ -3406,6 +3458,7 @@ static const struct luaL_Reg cardlib[] = {
 	{ "IsCanTurnSet", scriptlib::card_is_can_turn_set },
 	{ "IsCanAddCounter", scriptlib::card_is_can_add_counter },
 	{ "IsCanRemoveCounter", scriptlib::card_is_can_remove_counter },
+	{ "IsCanHaveCounter", scriptlib::card_is_can_have_counter },
 	{ "IsCanOverlay", scriptlib::card_is_can_overlay },
 	{ "IsCanBeFusionMaterial", scriptlib::card_is_can_be_fusion_material },
 	{ "IsCanBeSynchroMaterial", scriptlib::card_is_can_be_synchro_material },

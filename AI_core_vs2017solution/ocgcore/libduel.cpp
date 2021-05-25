@@ -865,11 +865,13 @@ int32 scriptlib::duel_move_sequence(lua_State *L) {
 	int32 seq = (int32)lua_tointeger(L, 2);
 	duel* pduel = pcard->pduel;
 	int32 playerid = pcard->current.controler;
-	pduel->game_field->move_card(playerid, pcard, pcard->current.location, seq);
-	pduel->game_field->raise_single_event(pcard, 0, EVENT_MOVE, pduel->game_field->core.reason_effect, 0, pduel->game_field->core.reason_player, playerid, 0);
-	pduel->game_field->raise_event(pcard, EVENT_MOVE, pduel->game_field->core.reason_effect, 0, pduel->game_field->core.reason_player, playerid, 0);
-	pduel->game_field->process_single_event();
-	pduel->game_field->process_instant_event();
+	if(pcard->is_affect_by_effect(pduel->game_field->core.reason_effect)) {
+		pduel->game_field->move_card(playerid, pcard, pcard->current.location, seq);
+		pduel->game_field->raise_single_event(pcard, 0, EVENT_MOVE, pduel->game_field->core.reason_effect, 0, pduel->game_field->core.reason_player, playerid, 0);
+		pduel->game_field->raise_event(pcard, EVENT_MOVE, pduel->game_field->core.reason_effect, 0, pduel->game_field->core.reason_player, playerid, 0);
+		pduel->game_field->process_single_event();
+		pduel->game_field->process_instant_event();
+	}
 	return 0;
 }
 int32 scriptlib::duel_swap_sequence(lua_State *L) {
@@ -3106,11 +3108,16 @@ int32 scriptlib::duel_get_fusion_material(lua_State *L) {
 	int32 playerid = (int32)lua_tointeger(L, 1);
 	if(playerid != 0 && playerid != 1)
 		return 0;
+	uint32 location = LOCATION_HAND + LOCATION_MZONE;
+	if(lua_gettop(L) >= 2)
+		location = (uint32)lua_tointeger(L, 2);
 	duel* pduel = interpreter::get_duel_info(L);
-	group* pgroup = pduel->new_group();
-	pduel->game_field->get_fusion_material(playerid, &pgroup->container);
-	interpreter::group2value(L, pgroup);
-	return 1;
+	group* pgroupall = pduel->new_group();
+	group* pgroupbase = pduel->new_group();
+	pduel->game_field->get_fusion_material(playerid, &pgroupall->container, &pgroupbase->container, location);
+	interpreter::group2value(L, pgroupall);
+	interpreter::group2value(L, pgroupbase);
+	return 2;
 }
 int32 scriptlib::duel_is_summon_cancelable(lua_State *L) {
 	duel* pduel = interpreter::get_duel_info(L);
