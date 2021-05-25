@@ -88,6 +88,15 @@ namespace YGOSharp
             }
         }
 
+        internal static void updateSetNames()
+        {
+            foreach (var item in _cards)
+            {
+                Card card = item.Value;
+                card.strSetName = GameStringHelper.getSetName(card.Setcode);
+            }
+        }
+
         internal static List<Card> searchAdvanced(
             string getName,
             int getLevel,

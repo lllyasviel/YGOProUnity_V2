@@ -138,7 +138,6 @@ namespace YGOSharp
             {
                 this.Str[ii] = reader.GetString(14 + ii);
             }
-            this.strSetName = GameStringHelper.getSetName(Setcode);
         }
 
         public Card()
