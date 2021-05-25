@@ -2149,6 +2149,12 @@ public class Ocgcore : ServantWithCardDescription
                 {
                     printDuelLog(InterString.Get("卡片展示：[?]", UIHelper.getSuperName(YGOSharp.CardsManager.Get(data).Name, data)));
                 }
+                if (type == 11)
+                {
+                    if (player == 1)
+                        data = (data >> 16) | (data << 16);
+                    printDuelLog(InterString.Get("区域选择：[?]", GameStringHelper.zone(data)));
+                }
                 break;
             case GameMessage.MissedEffect:
                 r.ReadInt32();
@@ -2895,6 +2901,12 @@ public class Ocgcore : ServantWithCardDescription
                 if (type == 10)
                 {
                     animation_show_card_code(data);
+                }
+                if (type == 11)
+                {
+                    if (localPlayer(player) == 1)
+                        data = (data >> 16) | (data << 16);
+                    RMSshow_none(InterString.Get("区域选择：[?]", GameStringHelper.zone(data)));
                 }
                 break;
             case GameMessage.MissedEffect:

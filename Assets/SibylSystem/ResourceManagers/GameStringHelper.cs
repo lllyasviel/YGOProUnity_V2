@@ -77,6 +77,53 @@ public class GameStringHelper
         return r;
     }
 
+    public static string zone(long data)
+    {
+        List<string> strs = new List<string>();
+        for (long filter = 0x1L; filter <= (0x1L << 32); filter <<= 1)
+        {
+            string str = "";
+            long s = filter & data;
+            if (s != 0)
+            {
+                if ((s & 0x60) != 0)
+                {
+                    str += GameStringManager.get_unsafe(1081);
+                    data &= ~0x600000;
+                }
+                else if ((s & 0xffff) != 0)
+                    str += GameStringManager.get_unsafe(102);
+                else if ((s & 0xffff0000) != 0)
+                {
+                    str += GameStringManager.get_unsafe(103);
+                    s >>= 16;
+                }
+                if ((s & 0x1f) != 0)
+                    str += GameStringManager.get_unsafe(1002);
+                else if ((s & 0xff00) != 0)
+                {
+                    s >>= 8;
+                    if ((s & 0x1f) != 0)
+                        str += GameStringManager.get_unsafe(1003);
+                    else if ((s & 0x20) != 0)
+                        str += GameStringManager.get_unsafe(1008);
+                    else if ((s & 0xc0) != 0)
+                        str += GameStringManager.get_unsafe(1009);
+                }
+                int seq = 1;
+                for (int i = 0x1; i < 0x100; i <<= 1)
+                {
+                    if ((s & i) != 0)
+                        break;
+                    ++seq;
+                }
+                str += "(" + seq.ToString() + ")";
+                strs.Add(str);
+            }
+        }
+        return String.Join(", ", strs.ToArray());
+    }
+
     public static string mainType(long a)
     {
         string r = "";
