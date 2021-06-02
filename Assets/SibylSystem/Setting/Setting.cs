@@ -53,7 +53,7 @@ public class Setting : WindowServant2D
         {
             if (collection[i].name.Length > 0 && collection[i].name[0] == '*')
             {
-                if (collection[i].name== "*mouseParticle" || collection[i].name == "*showOff" || collection[i].name == "*Efield") 
+                if (collection[i].name== "*mouseParticle" || collection[i].name == "*showOff" || collection[i].name == "*Efield" || collection[i].name == "*Ewin") 
                 {
                     collection[i].value = UIHelper.fromStringToBool(Config.Get(collection[i].name, "1"));
                 }

@@ -32,6 +32,7 @@ public class LAZYsetting : MonoBehaviour {
     public UIToggle Vactt;
     public UIToggle Vlink;
     public UIToggle Vfield;
+    public UIToggle Vwin;
     public UIToggle resize;
 
     public UIToggle hand;

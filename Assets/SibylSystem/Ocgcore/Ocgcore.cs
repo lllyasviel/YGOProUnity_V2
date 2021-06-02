@@ -2648,20 +2648,24 @@ public class Ocgcore : ServantWithCardDescription
                     EventDelegate.Execute(UIHelper.getByName<UIButton>(toolBar, "stop_").onClick);
                 }
             }
-            UIHelper.playSound("explode", 0.4f);
-            float real = (Program.fieldSize - 1) * 0.9f + 1f;
             RMSshow_clear();
-            GameObject explode = create(result == duelResult.win ? Program.I().mod_winExplode : Program.I().mod_loseExplode);
-            var co = explode.AddComponent<animation_screen_lock>();
-            co.screen_point = Program.camera_game_main.WorldToScreenPoint(new Vector3(0, 0, -5.65f * real));
-            co.screen_point.z = 2;
-            explode.transform.position = Camera.main.ScreenToWorldPoint(co.screen_point);
+            float real = (Program.fieldSize - 1) * 0.9f + 1f;
+            var point = Program.camera_game_main.WorldToScreenPoint(new Vector3(0, 0, -5.65f * real));
+            point.z = 2;
+            if (Program.I().setting.setting.Vwin.value)
+            {
+                UIHelper.playSound("explode", 0.4f);
+                GameObject explode = create(result == duelResult.win ? Program.I().mod_winExplode : Program.I().mod_loseExplode);
+                var co = explode.AddComponent<animation_screen_lock>();
+                co.screen_point = point;
+                explode.transform.position = Camera.main.ScreenToWorldPoint(point);
+            }
             if (condition == Condition.record)
             {
                 winCaculator = create
                 (
                 Program.I().New_winCaculatorRecord,
-                Program.camera_main_2d.ScreenToWorldPoint(co.screen_point),
+                Program.camera_main_2d.ScreenToWorldPoint(point),
                 new Vector3(0, 0, 0),
                 true,
                 Program.ui_main_2d,
@@ -2674,7 +2678,7 @@ public class Ocgcore : ServantWithCardDescription
                 winCaculator = create
                 (
                 Program.I().New_winCaculator,
-                Program.camera_main_2d.ScreenToWorldPoint(co.screen_point),
+                Program.camera_main_2d.ScreenToWorldPoint(point),
                 new Vector3(0, 0, 0),
                 true,
                 Program.ui_main_2d,
