@@ -1048,6 +1048,7 @@ void field::swap_deck_and_grave(uint8 playerid) {
 			++clit;
 	}
 	for(auto& pcard : player[playerid].list_grave) {
+		pcard->current.position = POS_FACEUP;
 		pcard->current.location = LOCATION_GRAVE;
 		pcard->current.reason = REASON_EFFECT;
 		pcard->current.reason_effect = core.reason_effect;
@@ -1057,6 +1058,7 @@ void field::swap_deck_and_grave(uint8 playerid) {
 		pcard->reset(RESET_TOGRAVE, RESET_EVENT);
 	}
 	for(auto& pcard : player[playerid].list_main) {
+		pcard->current.position = POS_FACEDOWN_DEFENSE;
 		pcard->current.location = LOCATION_DECK;
 		pcard->current.reason = REASON_EFFECT;
 		pcard->current.reason_effect = core.reason_effect;
@@ -1066,6 +1068,7 @@ void field::swap_deck_and_grave(uint8 playerid) {
 		pcard->reset(RESET_TODECK, RESET_EVENT);
 	}
 	for(auto& pcard : ex) {
+		pcard->current.position = POS_FACEDOWN_DEFENSE;
 		pcard->current.location = LOCATION_EXTRA;
 		pcard->current.reason = REASON_EFFECT;
 		pcard->current.reason_effect = core.reason_effect;
@@ -1074,7 +1077,7 @@ void field::swap_deck_and_grave(uint8 playerid) {
 		pcard->enable_field_effect(true);
 		pcard->reset(RESET_TODECK, RESET_EVENT);
 	}
-	player[playerid].list_extra.insert(player[playerid].list_extra.end(), ex.begin(), ex.end());
+	player[playerid].list_extra.insert(player[playerid].list_extra.end() - player[playerid].extra_p_count, ex.begin(), ex.end());
 	reset_sequence(playerid, LOCATION_GRAVE);
 	reset_sequence(playerid, LOCATION_EXTRA);
 	pduel->write_buffer8(MSG_SWAP_GRAVE_DECK);
@@ -3057,7 +3060,7 @@ int32 field::is_player_can_spsummon(effect* reason_effect, uint32 sumtype, uint8
 		return FALSE;
 	}
 	restore_lp_cost();
-	if(sumpos & POS_FACEDOWN && is_player_affected_by_effect(playerid, EFFECT_DEVINE_LIGHT))
+	if(sumpos & POS_FACEDOWN && is_player_affected_by_effect(playerid, EFFECT_DIVINE_LIGHT))
 		sumpos = (sumpos & POS_FACEUP) | ((sumpos & POS_FACEDOWN) >> 1);
 	effect_set eset;
 	filter_player_effect(playerid, EFFECT_CANNOT_SPECIAL_SUMMON, &eset);
