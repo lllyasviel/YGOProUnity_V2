@@ -26,7 +26,7 @@ public class phaser : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Program.InputGetMouseButton_0)  
+        if (Program.InputGetMouseButtonUp_0)
         {
             if (Program.pointedCollider== colliderMp2)  
             {
