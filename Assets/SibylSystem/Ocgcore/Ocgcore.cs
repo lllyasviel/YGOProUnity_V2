@@ -2352,7 +2352,10 @@ public class Ocgcore : ServantWithCardDescription
                             {
                                 if (cards[i].p.controller == player)
                                 {
-                                    cards[i].p.location = (UInt32)CardLocation.Deck;
+                                    if(cards[i].IsExtraCard())
+                                        cards[i].p.location = (UInt32)CardLocation.Extra;
+                                    else
+                                        cards[i].p.location = (UInt32)CardLocation.Deck;
                                 }
                             }
                         }

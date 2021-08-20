@@ -258,6 +258,11 @@ public class gameCard : OCGobject
 
     FlashingController MouseFlash;
 
+    public bool IsExtraCard()
+    {
+        return data.IsExtraCard();
+    }
+
     void RefreshFunction_decoration()
     {
         for (int i = 0; i < cardDecorations.Count; i++)
