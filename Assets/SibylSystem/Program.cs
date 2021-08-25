@@ -412,9 +412,89 @@ public class Program : MonoBehaviour
 
             initializeALLservants();
             loadResources();
-
+            readParams();
         });
 
+    }
+
+    void readParams()
+    {
+        var args = Environment.GetCommandLineArgs();
+        string nick = null;
+        string host = null;
+        string port = null;
+        string password = null;
+        string deck = null;
+        string replay = null;
+        string puzzle = null;
+        bool join = false;
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i].ToLower() == "-n" && args.Length > i + 1)
+            {
+                nick = args[++i];
+                if (nick.Contains(" "))
+                    nick = "\"" + nick + "\"";
+            }
+            if (args[i].ToLower() == "-h" && args.Length > i + 1)
+            {
+                host = args[++i];
+            }
+            if (args[i].ToLower() == "-p" && args.Length > i + 1)
+            {
+                port = args[++i];
+            }
+            if (args[i].ToLower() == "-w" && args.Length > i + 1)
+            {
+                password = args[++i];
+                if (password.Contains(" "))
+                    password = "\"" + password + "\"";
+            }
+            if (args[i].ToLower() == "-d" && args.Length > i + 1)
+            {
+                deck = args[++i];
+                if (deck.Contains(" "))
+                    deck = "\"" + deck + "\"";
+            }
+            if (args[i].ToLower() == "-r" && args.Length > i + 1)
+            {
+                replay = args[++i];
+                if (replay.Contains(" "))
+                    replay = "\"" + replay + "\"";
+            }
+            if (args[i].ToLower() == "-s" && args.Length > i + 1)
+            {
+                puzzle = args[++i];
+                if (puzzle.Contains(" "))
+                    puzzle = "\"" + puzzle + "\"";
+            }
+            if (args[i].ToLower() == "-j")
+            {
+                join = true;
+                Config.Set("deckInUse", deck);
+            }
+        }
+        string cmdFile = "commamd.shell";
+        if (join)
+        {
+            File.WriteAllText(cmdFile, "online " + nick + " " + host + " " + port + " 0x233 " + password, Encoding.UTF8);
+            Program.exitOnReturn = true;
+        }
+        else if (deck != null)
+        {
+            File.WriteAllText(cmdFile, "edit " + deck, Encoding.UTF8);
+            Program.exitOnReturn = true;
+        }
+        else if (replay != null)
+        {
+            File.WriteAllText(cmdFile, "replay " + replay, Encoding.UTF8);
+            Program.exitOnReturn = true;
+        }
+        else if (puzzle != null)
+        {
+            File.WriteAllText(cmdFile, "puzzle " + puzzle, Encoding.UTF8);
+            Program.exitOnReturn = true;
+        }
     }
 
     public GameObject mouseParticle;
@@ -1039,6 +1119,8 @@ public class Program : MonoBehaviour
     public static bool longField = false;
 
     public static bool noAccess = false;
+
+    public static bool exitOnReturn = false;
 
     void OnApplicationQuit()
     {

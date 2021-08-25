@@ -26,7 +26,7 @@ public class AIRoom : WindowServantSP
         UIHelper.registEvent(gameObject, "aideck_", onSave);
         UIHelper.registEvent(gameObject, "rank_", onSave);
         UIHelper.registEvent(gameObject, "start_", onStart);
-        UIHelper.registEvent(gameObject, "exit_", ()=> { Program.I().shiftToServant(Program.I().menu); });
+        UIHelper.registEvent(gameObject, "exit_", onClickExit);
         UIHelper.trySetLableText(gameObject,"percyHint",InterString.Get("人机模式"));
         superScrollView.install();
         SetActiveFalse();
@@ -41,6 +41,14 @@ public class AIRoom : WindowServantSP
     {
         Config.Set("list_aideck", list_aideck.value);
         Config.Set("list_airank", list_airank.value);
+    }
+
+    void onClickExit()
+    {
+        if (Program.exitOnReturn)
+            Program.I().menu.onClickExit();
+        else
+            Program.I().shiftToServant(Program.I().menu);
     }
 
     void onStart()

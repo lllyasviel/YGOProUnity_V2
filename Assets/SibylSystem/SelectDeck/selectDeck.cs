@@ -62,6 +62,14 @@ public class selectDeck : WindowServantSP
         KF_editDeck(superScrollView.selectedString);
     }
 
+    void returnToSelect()
+    {
+        if (Program.exitOnReturn)
+            Program.I().menu.onClickExit();
+        else
+            Program.I().shiftToServant(Program.I().selectDeck);
+    }
+
     string preString = "";
 
     public override void preFrameFunction()
@@ -100,7 +108,7 @@ public class selectDeck : WindowServantSP
                         );
                     }
                     else {
-                        Program.I().shiftToServant(Program.I().selectDeck);
+                        returnToSelect();
                     }
                 };
         }
@@ -115,12 +123,12 @@ public class selectDeck : WindowServantSP
             {
                 if (Program.I().deckManager.onSave())
                 {
-                    Program.I().shiftToServant(Program.I().selectDeck);
+                    returnToSelect();
                 }
             }
             if (result[0].value == "no")
             {
-                Program.I().shiftToServant(Program.I().selectDeck);
+                returnToSelect();
             }
         }
         if (hashCode == "onNew")
@@ -508,7 +516,10 @@ public class selectDeck : WindowServantSP
 
     void onClickExit()
     {
-        Program.I().shiftToServant(Program.I().menu);
+        if (Program.exitOnReturn)
+            Program.I().menu.onClickExit();
+        else
+            Program.I().shiftToServant(Program.I().menu);
     }
 
 }

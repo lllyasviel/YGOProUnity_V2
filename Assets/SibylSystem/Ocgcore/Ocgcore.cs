@@ -758,7 +758,11 @@ public class Ocgcore : ServantWithCardDescription
     public void returnTo()
     {
         TcpHelper.SaveRecord();
-        if (returnServant != null)
+        if (Program.exitOnReturn)
+        {
+            Program.I().menu.onClickExit();
+        }
+        else if (returnServant != null)
         {
             Program.I().shiftToServant(returnServant);
         }
