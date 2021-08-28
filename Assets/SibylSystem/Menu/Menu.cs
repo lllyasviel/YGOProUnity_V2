@@ -105,7 +105,7 @@ public class Menu : WindowServantSP
         }
     }
 
-    void onClickExit()
+    public void onClickExit()
     {
         Program.I().quit();
         Program.Running = false;
@@ -194,8 +194,20 @@ public class Menu : WindowServantSP
             string all = "";
             try
             {
-                all = File.ReadAllText("commamd.shell",Encoding.UTF8);
-                string[] mats = all.Split(" ");
+                all = File.ReadAllText("commamd.shell", Encoding.UTF8);
+                char[] parmChars = all.ToCharArray();
+                bool inQuote = false;
+                for (int index = 0; index < parmChars.Length; index++)
+                {
+                    if (parmChars[index] == '"')
+                    {
+                        inQuote = !inQuote;
+                        parmChars[index] = '\n';
+                    }
+                    if (!inQuote && parmChars[index] == ' ')
+                        parmChars[index] = '\n';
+                }
+                string[] mats = (new string(parmChars)).Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 if (mats.Length > 0)
                 {
                     switch (mats[0])

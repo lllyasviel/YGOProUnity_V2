@@ -519,7 +519,10 @@ public class selectReplay : WindowServantSP
 
     void onClickExit()
     {
-        Program.I().shiftToServant(Program.I().menu);
+        if (Program.exitOnReturn)
+            Program.I().menu.onClickExit();
+        else
+            Program.I().shiftToServant(Program.I().menu);
     }
 
 }
