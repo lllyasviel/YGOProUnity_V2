@@ -23,7 +23,7 @@ public class BackGroundPic : Servant
     public override void applyShowArrangement()
     {
         UIRoot root = Program.ui_back_ground_2d.GetComponent<UIRoot>();
-        float s = root.activeHeight / Screen.height;
+        float s = (float)root.activeHeight / Screen.height;
         var tex = backGround.GetComponent<UITexture>().mainTexture;
         float ss = (float)tex.height / (float)tex.width;
         int width = (int)(Screen.width * s);
