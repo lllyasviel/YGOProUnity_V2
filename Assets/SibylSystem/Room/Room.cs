@@ -19,15 +19,12 @@ public class Room : WindowServantSP
 
     void onSelected()
     {
+        Config.Set("deckInUse", superScrollView.selectedString);
         if (selftype < realPlayers.Length && realPlayers[selftype] != null && realPlayers[selftype].getIfPreped())
         {
             TcpHelper.CtosMessage_HsNotReady();
             TcpHelper.CtosMessage_UpdateDeck(new YGOSharp.Deck("deck/" + superScrollView.selectedString + ".ydk"));
             TcpHelper.CtosMessage_HsReady();
-        }
-        else
-        {
-            Config.Set("deckInUse", superScrollView.selectedString);
         }
     }
 

@@ -259,6 +259,8 @@ public static class TcpHelper
     public static YGOSharp.Deck deck;
     public static void CtosMessage_UpdateDeck(YGOSharp.Deck deckFor)
     {
+        if (deckFor.Main.Count == 0)
+            return;
         deckStrings.Clear();
         deck = deckFor;
         Package message = new Package();
