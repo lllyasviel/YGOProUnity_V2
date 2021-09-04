@@ -101,10 +101,11 @@ public class DeckManager : ServantWithCardDescription
         UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1316));
         UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1317));
         UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1318));
-        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1240));
-        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1241));
-        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1242));
-        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1243));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1481));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1482));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1483));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1484));
+        UIPopupList_ban.AddItem(GameStringManager.get_unsafe(1485));
         clearAll();
         UIHelper.registEvent(UIPopupList_main.gameObject, onUIPopupList_main);
         UIHelper.registEvent(UIPopupList_second.gameObject, onUIPopupList_second);
@@ -857,21 +858,25 @@ public class DeckManager : ServantWithCardDescription
     int getOT()
     {
         int returnValue = -233;
-        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1240))
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1481))
         {
             returnValue = 1;
         }
-        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1241))
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1482))
         {
             returnValue = 2;
         }
-        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1242))
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1483))
         {
-            returnValue = 3;
+            returnValue = 8;
         }
-        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1243))
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1484))
         {
             returnValue = 4;
+        }
+        if (UIPopupList_ban.value == GameStringManager.get_unsafe(1485))
+        {
+            returnValue = 3;
         }
         return returnValue;
     }

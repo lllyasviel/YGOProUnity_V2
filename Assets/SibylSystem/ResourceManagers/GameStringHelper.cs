@@ -170,21 +170,14 @@ public class GameStringHelper
     public static string getName(YGOSharp.Card card)
     {
         string limitot = "";
-        switch(card.Ot)
-        {
-        case 1:
-            limitot = "[OCG] ";
-            break;
-        case 2:
-            limitot = "[TCG] ";
-            break;
-        case 3:
-            limitot = "[OCG/TCG] ";
-            break;
-        case 4:
-            limitot = "[Anime] ";
-            break;
-        }
+        if ((card.Ot & 0x1) > 0)
+            limitot += "[OCG]";
+        if ((card.Ot & 0x2) > 0)
+            limitot += "[TCG]";
+        if ((card.Ot & 0x4) > 0)
+            limitot += "[Custom]";
+        if ((card.Ot & 0x8) > 0)
+            limitot += InterString.Get("[简中]");
         string re = "";
         try
         {

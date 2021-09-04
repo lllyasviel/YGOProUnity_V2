@@ -716,6 +716,18 @@ public class Room : WindowServantSP
         }
         if (rule == 2)
         {
+            description += InterString.Get("(简中卡池)") + "\r\n";
+        }
+        if (rule == 3)
+        {
+            description += InterString.Get("(自制卡卡池)") + "\r\n";
+        }
+        if (rule == 4)
+        {
+            description += InterString.Get("(无独有卡卡池)") + "\r\n";
+        }
+        if (rule == 5)
+        {
             description += InterString.Get("(混合卡池)") + "\r\n";
         }
         if (no_check_deck)
