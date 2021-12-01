@@ -64,10 +64,7 @@ public class selectDeck : WindowServantSP
 
     void returnToSelect()
     {
-        if (Program.exitOnReturn)
-            Program.I().menu.onClickExit();
-        else
-            Program.I().shiftToServant(Program.I().selectDeck);
+        Program.I().shiftToServant(Program.I().selectDeck);
     }
 
     string preString = "";

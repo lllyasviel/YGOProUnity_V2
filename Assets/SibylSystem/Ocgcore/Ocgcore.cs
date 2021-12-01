@@ -758,7 +758,7 @@ public class Ocgcore : ServantWithCardDescription
     public void returnTo()
     {
         TcpHelper.SaveRecord();
-        if (Program.exitOnReturn)
+        if (Program.exitOnReturn && returnServant != Program.I().deckManager)
         {
             Program.I().menu.onClickExit();
         }
