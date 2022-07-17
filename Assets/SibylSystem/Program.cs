@@ -123,6 +123,7 @@ public class Program : MonoBehaviour
     public GameObject ES_multiple_option;
     public GameObject ES_input;
     public GameObject ES_position;
+    public GameObject ES_position3;
     public GameObject ES_Tp;
     public GameObject ES_Face;
     public GameObject ES_FS;

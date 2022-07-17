@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667546, g: 0.48427135, b: 0.5645225, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -181,7 +181,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -205,7 +205,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!4 &251477560
 Transform:
   m_ObjectHideFlags: 0
@@ -760,6 +760,10 @@ Prefab:
       propertyPath: mod_ocgcore_ss_link_mark
       value: 
       objectReference: {fileID: 193842, guid: 31f237d5f58cc3d44b8c6f489981cdbe, type: 2}
+    - target: {fileID: 11419100, guid: 995e2fa1a1156d248955c5fb98502585, type: 2}
+      propertyPath: ES_position3
+      value: 
+      objectReference: {fileID: 197414, guid: fcbf44955a2f3ab4cbe011937cb34887, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 995e2fa1a1156d248955c5fb98502585, type: 2}
   m_IsPrefabParent: 0
