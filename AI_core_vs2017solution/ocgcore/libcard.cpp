@@ -31,8 +31,7 @@ int32 scriptlib::card_get_origin_code(lua_State *L) {
 	check_param(L, PARAM_TYPE_CARD, 1);
 	card* pcard = *(card**) lua_touserdata(L, 1);
 	if(pcard->data.alias) {
-		int32 dif = pcard->data.code - pcard->data.alias;
-		if(dif > -10 && dif < 10)
+		if((pcard->data.alias < pcard->data.code + CARD_ARTWORK_VERSIONS_OFFSET) && (pcard->data.code < pcard->data.alias + CARD_ARTWORK_VERSIONS_OFFSET))
 			lua_pushinteger(L, pcard->data.alias);
 		else
 			lua_pushinteger(L, pcard->data.code);
@@ -1908,10 +1907,12 @@ int32 scriptlib::card_is_relate_to_effect(lua_State *L) {
 	return 1;
 }
 int32 scriptlib::card_is_relate_to_chain(lua_State *L) {
-	check_param_count(L, 2);
+	check_param_count(L, 1);
 	check_param(L, PARAM_TYPE_CARD, 1);
 	card* pcard = *(card**) lua_touserdata(L, 1);
-	uint32 chain_count = (uint32)lua_tointeger(L, 2);
+	uint32 chain_count = 0;
+	if(lua_gettop(L) >= 2)
+		chain_count = (uint32)lua_tointeger(L, 2);
 	duel* pduel = pcard->pduel;
 	if(chain_count > pduel->game_field->core.current_chain.size() || chain_count < 1)
 		chain_count = (uint32)pduel->game_field->core.current_chain.size();
@@ -2102,15 +2103,12 @@ int32 scriptlib::card_is_synchro_summonable(lua_State *L) {
 	if(lua_gettop(L) >= 5)
 		maxc = (int32)lua_tointeger(L, 5);
 	uint32 p = pcard->pduel->game_field->core.reason_player;
-	pcard->pduel->game_field->core.limit_tuner = tuner;
-	pcard->pduel->game_field->core.limit_syn = mg;
-	pcard->pduel->game_field->core.limit_syn_minc = minc;
-	pcard->pduel->game_field->core.limit_syn_maxc = maxc;
-	int32 res = pcard->is_special_summonable(p, SUMMON_TYPE_SYNCHRO);
-	pcard->pduel->game_field->core.limit_tuner = 0;
-	pcard->pduel->game_field->core.limit_syn = 0;
-	pcard->pduel->game_field->core.limit_syn_minc = 0;
-	pcard->pduel->game_field->core.limit_syn_maxc = 0;
+	material_info info;
+	info.limit_tuner = tuner;
+	info.limit_syn = mg;
+	info.limit_syn_minc = minc;
+	info.limit_syn_maxc = maxc;
+	int32 res = pcard->is_special_summonable(p, SUMMON_TYPE_SYNCHRO, info);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -2134,13 +2132,11 @@ int32 scriptlib::card_is_xyz_summonable(lua_State *L) {
 	if(lua_gettop(L) >= 4)
 		maxc = (int32)lua_tointeger(L, 4);
 	uint32 p = pcard->pduel->game_field->core.reason_player;
-	pcard->pduel->game_field->core.limit_xyz = materials;
-	pcard->pduel->game_field->core.limit_xyz_minc = minc;
-	pcard->pduel->game_field->core.limit_xyz_maxc = maxc;
-	int32 res = pcard->is_special_summonable(p, SUMMON_TYPE_XYZ);
-	pcard->pduel->game_field->core.limit_xyz = 0;
-	pcard->pduel->game_field->core.limit_xyz_minc = 0;
-	pcard->pduel->game_field->core.limit_xyz_maxc = 0;
+	material_info info;
+	info.limit_xyz = materials;
+	info.limit_xyz_minc = minc;
+	info.limit_xyz_maxc = maxc;
+	int32 res = pcard->is_special_summonable(p, SUMMON_TYPE_XYZ, info);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -2171,15 +2167,12 @@ int32 scriptlib::card_is_link_summonable(lua_State *L) {
 	if(lua_gettop(L) >= 5)
 		maxc = (int32)lua_tointeger(L, 5);
 	uint32 p = pcard->pduel->game_field->core.reason_player;
-	pcard->pduel->game_field->core.limit_link = materials;
-	pcard->pduel->game_field->core.limit_link_card = lcard;
-	pcard->pduel->game_field->core.limit_link_minc = minc;
-	pcard->pduel->game_field->core.limit_link_maxc = maxc;
-	int32 res = pcard->is_special_summonable(p, SUMMON_TYPE_LINK);
-	pcard->pduel->game_field->core.limit_link = 0;
-	pcard->pduel->game_field->core.limit_link_card = 0;
-	pcard->pduel->game_field->core.limit_link_minc = 0;
-	pcard->pduel->game_field->core.limit_link_maxc = 0;
+	material_info info;
+	info.limit_link = materials;
+	info.limit_link_card = lcard;
+	info.limit_link_minc = minc;
+	info.limit_link_maxc = maxc;
+	int32 res = pcard->is_special_summonable(p, SUMMON_TYPE_LINK, info);
 	lua_pushboolean(L, res);
 	return 1;
 }
@@ -2443,6 +2436,13 @@ int32 scriptlib::card_is_faceup(lua_State *L) {
 	check_param(L, PARAM_TYPE_CARD, 1);
 	card* pcard = *(card**) lua_touserdata(L, 1);
 	lua_pushboolean(L, pcard->is_position(POS_FACEUP));
+	return 1;
+}
+int32 scriptlib::card_is_faceup_ex(lua_State *L) {
+	check_param_count(L, 1);
+	check_param(L, PARAM_TYPE_CARD, 1);
+	card* pcard = *(card**) lua_touserdata(L, 1);
+	lua_pushboolean(L, pcard->is_position(POS_FACEUP) | (pcard->current.location & (LOCATION_HAND | LOCATION_GRAVE | LOCATION_DECK)));
 	return 1;
 }
 int32 scriptlib::card_is_attack_pos(lua_State *L) {
@@ -3430,6 +3430,7 @@ static const struct luaL_Reg cardlib[] = {
 	{ "IsAttackable", scriptlib::card_is_attackable },
 	{ "IsChainAttackable", scriptlib::card_is_chain_attackable },
 	{ "IsFaceup", scriptlib::card_is_faceup },
+	{ "IsFaceupEx", scriptlib::card_is_faceup_ex },
 	{ "IsAttackPos", scriptlib::card_is_attack_pos },
 	{ "IsFacedown", scriptlib::card_is_facedown },
 	{ "IsDefensePos", scriptlib::card_is_defense_pos },

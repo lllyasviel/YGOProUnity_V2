@@ -144,8 +144,7 @@ extern "C" DECL_DLLEXPORT void new_card(ptr pduel, uint32 code, uint8 owner, uin
 		if(!(location & LOCATION_ONFIELD) || (position & POS_FACEUP)) {
 			pcard->enable_field_effect(true);
 			ptduel->game_field->adjust_instant();
-		}
-		if(location & LOCATION_ONFIELD) {
+		} if(location & LOCATION_ONFIELD) {
 			if(location == LOCATION_MZONE)
 				pcard->set_status(STATUS_PROC_COMPLETE, TRUE);
 		}
@@ -197,12 +196,12 @@ extern "C" DECL_DLLEXPORT int32 query_card(ptr pduel, uint8 playerid, uint8 loca
 			lst = &ptduel->game_field->player[playerid].list_main;
 		if(!lst || sequence >= lst->size())
 			pcard = 0;
-		else {
+		else
 			pcard = (*lst)[sequence];
-		}
 	}
-	if(pcard)
+	if (pcard) {
 		return pcard->get_infos(buf, query_flag, use_cache);
+	}
 	else {
 		*((int32*)buf) = 4;
 		return 4;
@@ -266,7 +265,7 @@ extern "C" DECL_DLLEXPORT int32 query_field_card(ptr pduel, uint8 playerid, uint
 		}
 	}
 	else {
-		field::card_vector* lst = 0;
+		field::card_vector* lst = nullptr;
 		if(location == LOCATION_HAND)
 			lst = &player.list_hand;
 		else if(location == LOCATION_GRAVE)
@@ -277,6 +276,8 @@ extern "C" DECL_DLLEXPORT int32 query_field_card(ptr pduel, uint8 playerid, uint
 			lst = &player.list_extra;
 		else if(location == LOCATION_DECK)
 			lst = &player.list_main;
+		else
+			return 0;
 		for(auto& pcard : *lst) {
 			uint32 clen = pcard->get_infos(p, query_flag, use_cache);
 			p += clen;
