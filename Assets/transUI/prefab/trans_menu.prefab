@@ -2210,7 +2210,7 @@ MonoBehaviour:
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: f775853fdfd14bb47934543e95c3bae3, type: 3}
   mFont: {fileID: 0}
-  mText: YGOPro2 v2.4.a 1035.3
+  mText: YGOPro2 v2.4.b 1035.3
   mFontSize: 18
   mFontStyle: 0
   mAlignment: 1
