@@ -4010,8 +4010,12 @@ public class Ocgcore : ServantWithCardDescription
                 binaryMaster = new BinaryMaster();
                 player = r.ReadByte();
                 min = r.ReadByte();
-                //TODO: can cancel
-                if (min == 0) min = 1;
+                bool cancelable = false;
+                if (min == 0)
+                {
+                    cancelable = true;
+                    min = 1;
+                }
                 uint _field = ~r.ReadUInt32();
                 if (Program.I().setting.setting.hand.value == true || Program.I().setting.setting.handm.value == true || currentMessage == GameMessage.SelectDisfield)
                 {
@@ -4113,6 +4117,10 @@ public class Ocgcore : ServantWithCardDescription
                         {
                             gameField.setHint(GameStringManager.get_unsafe(570));
                         }
+                    }
+                    if (cancelable)
+                    {
+                        gameInfo.addHashedButton("cancelPlace", -1, superButtonType.no, InterString.Get("取消操作@ui"));
                     }
                 }
                 else
@@ -8354,6 +8362,11 @@ public class Ocgcore : ServantWithCardDescription
             GCS_swapALL();
             return;
         }
+        if (btn.hashString == "cancelPlace")
+        {
+            cancelSelectPlace();
+            return;
+        }
         switch (currentMessage)
         {
             case GameMessage.SelectBattleCmd:
@@ -8415,6 +8428,18 @@ public class Ocgcore : ServantWithCardDescription
         {
             realize(true);
         }
+    }
+
+    private void cancelSelectPlace()
+    {
+        clearAllSelectPlace();
+        BinaryMaster binaryMaster = new BinaryMaster();
+        byte[] resp = new byte[3];
+        resp[0] = (byte)localPlayer(0);
+        resp[1] = 0;
+        resp[2] = 0;
+        binaryMaster.writer.Write(resp);
+        sendReturn(binaryMaster.get());
     }
 
     private void clearAllShowed()
@@ -8958,6 +8983,10 @@ public class Ocgcore : ServantWithCardDescription
         {
             return;
         }
+        if (gameInfo.queryHashedButton("cancelPlace") == true)
+        {
+            return;
+        }
         rightExcited = true;
         //gameInfo.ignoreChain_set(true);
         base.ES_mouseDownRight();
@@ -9070,7 +9099,11 @@ public class Ocgcore : ServantWithCardDescription
             sendReturn(binaryMaster.get());
             return;
         }
-
+        if (gameInfo.queryHashedButton("cancelPlace") == true)
+        {
+            cancelSelectPlace();
+            return;
+        }
     }
 
     void animation_confirm(gameCard target)
