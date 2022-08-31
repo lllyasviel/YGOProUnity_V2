@@ -4064,6 +4064,13 @@ public class Ocgcore : ServantWithCardDescription
                                     }
                                 }
                             }
+                            if ((field & 0x2000) != 0)
+                            {
+                                resp[1] = (byte)CardLocation.SpellZone;
+                                filter = (field >> 8) & 0x20;
+                                resp[2] = 5;
+                                createPlaceSelector(resp);
+                            }
                             if ((field & 0xc000) != 0)
                             {
                                 resp[1] = (byte)CardLocation.SpellZone;
@@ -4148,6 +4155,12 @@ public class Ocgcore : ServantWithCardDescription
                             resp[1] = (byte)CardLocation.SpellZone;
                             filter = (field >> 8) & 0x1f;
                         }
+                        else if ((field & 0x2000) != 0)
+                        {
+                            resp[0] = (byte)player;
+                            resp[1] = (byte)CardLocation.SpellZone;
+                            filter = (field >> 8) & 0x20;
+                        }
                         else
                         {
                             resp[0] = (byte)player;
@@ -4169,6 +4182,10 @@ public class Ocgcore : ServantWithCardDescription
                                 {
                                     if ((filter & 0x20) != 0) resp[2] = 5;
                                     else if ((filter & 0x40) != 0) resp[2] = 6;
+                                }
+                                else
+                                {
+                                    if ((filter & 0x20) != 0) resp[2] = 5;
                                 }
                             }
                         }
