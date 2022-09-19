@@ -616,7 +616,7 @@ public class GameField : OCGobject
     {
         //temp
 
-        if (Program.I().ocgcore.MasterRule >= 4)
+        /*if (Program.I().ocgcore.MasterRule >= 4)
         {
             if (gps.location == (int)CardLocation.SpellZone)
             {
@@ -625,7 +625,7 @@ public class GameField : OCGobject
                     disabled = false;
                 }
             }
-        }
+        }*/
 
         field_disabled_container container = null;
 
