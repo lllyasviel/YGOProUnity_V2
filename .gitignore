@@ -35,18 +35,18 @@ sysinfo.txt
 *.unitypackage
 
 # ygopro
-ai/
-cdb/
-data/
-deck/
-expansions/
-pack/
-picture/
-puzzle/
-replay/
-script/
-texture/
-config/
+/ai
+/cdb
+/data
+/deck
+/expansions
+/pack
+/picture
+/puzzle
+/replay
+/script
+/texture
+/config
 bin/
 Release/
 Debug/
