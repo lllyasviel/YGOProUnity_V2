@@ -568,17 +568,30 @@ namespace YGOSharp
                                 Card c = CardsManager.GetCardRaw(Id);
                                 if (c != null)
                                 {
-                                    c.packShortNam = reader.GetString(1);
+                                    string temp = reader.GetString(1);
                                     c.packFullName = reader.GetString(2);
+                                    string[] mats = temp.Split("-");
+                                    if (mats.Length > 1)
+                                        c.packShortNam = mats[0];
+                                    else
+                                        c.packShortNam = c.packFullName.Length > 10 ? c.packFullName.Substring(0, 10) + "..." : c.packFullName;
                                     c.reality = reader.GetString(3);
-                                    string temp = reader.GetString(4);
-                                    string[] mats = temp.Split("/");
+                                    temp = reader.GetString(4);
+                                    mats = temp.Split("/");
                                     if (mats.Length == 3)
                                     {
                                         c.month = int.Parse(mats[0]);
                                         c.day = int.Parse(mats[1]);
                                         c.year = int.Parse(mats[2]);
                                     }
+                                    mats = temp.Split("-");
+                                    if (mats.Length == 3)
+                                    {
+                                        c.year = int.Parse(mats[0]);
+                                        c.month = int.Parse(mats[1]);
+                                        c.day = int.Parse(mats[2]);
+                                    }
+                                    c.packFullName = c.year + "-" + c.month.ToString().PadLeft(2, '0') + "-" + c.day.ToString().PadLeft(2, '0') + " " + c.packShortNam;
                                     if (!pacDic.ContainsKey(c.packFullName))    
                                     {
                                         pacDic.Add(c.packFullName, c.packShortNam);
