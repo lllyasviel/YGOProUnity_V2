@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
 using UnityEngine;
 
 public class AIRoom : WindowServantSP
@@ -8,47 +10,98 @@ public class AIRoom : WindowServantSP
     #region ui
     UIselectableList superScrollView = null;
     string sort = "sortByTimeDeck";
-    string suiji = "";
+    System.Diagnostics.Process serverProcess;
+    System.Diagnostics.Process botProcess;
 
-    UIPopupList list_aideck;
-    UIPopupList list_airank;
+    public class BotInfo
+    {
+        public string name;
+        public string command;
+        public string desc;
+        public string[] flags;
+    }
+    private IList<BotInfo> Bots = new List<BotInfo>();
+    private void ReadBots(string confPath)
+    {
+        StreamReader reader = new StreamReader(new FileStream(confPath, FileMode.Open, FileAccess.Read));
+        while (!reader.EndOfStream)
+        {
+            string line = reader.ReadLine().Trim();
+            if (line.Length > 0 && line[0] == '!')
+            {
+                BotInfo newBot = new BotInfo();
+                newBot.name = line.TrimStart('!');
+                newBot.command = reader.ReadLine().Trim();
+                newBot.desc = reader.ReadLine().Trim();
+                line = reader.ReadLine().Trim();
+                newBot.flags = line.Split(' ');
+                if (Array.IndexOf(newBot.flags, "SELECT_DECKFILE") < 0)
+                    Bots.Add(newBot);
+            }
+        }
+    }
+
+    private string GetRandomBot(string flag)
+    {
+        IList<BotInfo> foundBots = new List<BotInfo>();
+        foreach (var bot in Bots)
+        {
+            if (Array.IndexOf(bot.flags, flag) >= 0) foundBots.Add(bot);
+        }
+        if (foundBots.Count > 0)
+        {
+            System.Random rand = new System.Random();
+            BotInfo bot = foundBots[rand.Next(foundBots.Count)];
+            return bot.command;
+        }
+        return "";
+    }
 
     public override void initialize()
     {
-        suiji = InterString.Get("随机卡组");
         createWindow(Program.I().new_ui_aiRoom);
         superScrollView = gameObject.GetComponentInChildren<UIselectableList>();
         superScrollView.selectedAction = onSelected;
-        list_aideck = UIHelper.getByName<UIPopupList>(gameObject, "aideck_");
-        list_airank = UIHelper.getByName<UIPopupList>(gameObject, "rank_");
-        list_aideck.value = Config.Get("list_aideck", suiji);
-        list_airank.value = Config.Get("list_airank", "ai");
-        UIHelper.registEvent(gameObject, "aideck_", onSave);
-        UIHelper.registEvent(gameObject, "rank_", onSave);
         UIHelper.registEvent(gameObject, "start_", onStart);
         UIHelper.registEvent(gameObject, "exit_", onClickExit);
-        UIHelper.trySetLableText(gameObject,"percyHint",InterString.Get("人机模式"));
+        UIHelper.trySetLableText(gameObject, "percyHint", InterString.Get("人机模式"));
+        UIHelper.trySetLableText(gameObject, "botdesc_", InterString.Get("请选择对手。"));
         superScrollView.install();
+        ReadBots("config/bot.conf");
         SetActiveFalse();
     }
 
     void onSelected()
     {
-        Config.Set("deckInUse", superScrollView.selectedString);
+        int sel = superScrollView.selectedIndex;
+        if (sel >= 0 && sel < Bots.Count)
+            UIHelper.trySetLableText(gameObject, "botdesc_", Bots[sel].desc);
+        else
+            UIHelper.trySetLableText(gameObject, "botdesc_", InterString.Get("请选择对手。"));
     }
 
     void onSave()
     {
-        Config.Set("list_aideck", list_aideck.value);
-        Config.Set("list_airank", list_airank.value);
+        //Config.Set("list_aideck", list_aideck.value);
+        //Config.Set("list_airank", list_airank.value);
     }
 
     void onClickExit()
     {
+        killServerProcess();
         if (Program.exitOnReturn)
             Program.I().menu.onClickExit();
         else
             Program.I().shiftToServant(Program.I().menu);
+    }
+
+    public void killServerProcess()
+    {
+        if (serverProcess != null && !serverProcess.HasExited)
+        {
+            serverProcess.Kill();
+        }
+        serverProcess = null;
     }
 
     void onStart()
@@ -57,91 +110,33 @@ public class AIRoom : WindowServantSP
         {
             return;
         }
-        int l = 8000;
-        try
+        int sel = superScrollView.selectedIndex;
+        if (sel < 0 || sel >= Bots.Count)
         {
-            l = int.Parse(UIHelper.getByName<UIInput>(gameObject, "life_").value);
+            return;
         }
-        catch (Exception)
+
+        string aiCommand = Bots[sel].command;
+        Match match = Regex.Match(aiCommand, "Random=(\\w+)");
+        if (match.Success)
         {
+            string randomFlag = match.Groups[1].Value;
+            string command = GetRandomBot(randomFlag);
+            if (command != "")
+            {
+                aiCommand = command;
+            }
         }
-        string aideck = "";
-        if (Config.Get("list_aideck", suiji) == suiji)
-        {
-            aideck= "ai/ydk/" + list_aideck.items[UnityEngine.Random.Range(1, list_aideck.items.Count)] + ".ydk";
-        }
-        else
-        {
-            aideck = "ai/ydk/" + Config.Get("list_aideck", suiji) + ".ydk";
-        }
-        launch("deck/" + Config.Get("deckInUse", "miaowu") + ".ydk", aideck, "ai/" + Config.Get("list_airank", "ai") + ".lua", UIHelper.getByName<UIToggle>(gameObject, "first_").value, UIHelper.getByName<UIToggle>(gameObject, "unrand_").value, l, UIHelper.getByName<UIToggle>(gameObject, "god_").value, UIHelper.getByName<UIToggle>(gameObject, "mr4_").value ? 4 : 3);
+
+        launch(aiCommand, UIHelper.getByName<UIToggle>(gameObject, "lockhand_").value, UIHelper.getByName<UIToggle>(gameObject, "nocheck_").value, UIHelper.getByName<UIToggle>(gameObject, "noshuffle_").value);
     }
 
     void printFile()
     {
-        string deckInUse = Config.Get("deckInUse","miaowu");
         superScrollView.clear();
-        FileInfo[] fileInfos = (new DirectoryInfo("deck")).GetFiles();
-        if (Config.Get(sort,"1") == "1")
+        foreach (var bot in Bots)
         {
-            Array.Sort(fileInfos, UIHelper.CompareTime);
-        }
-        else
-        {
-            Array.Sort(fileInfos, UIHelper.CompareName);
-        }
-        for (int i = 0; i < fileInfos.Length; i++)
-        {
-            if (fileInfos[i].Name.Length > 4)
-            {
-                if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".ydk")
-                {
-                    if (fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 4) == deckInUse)
-                    {
-                        superScrollView.add(fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 4));
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < fileInfos.Length; i++)
-        {
-            if (fileInfos[i].Name.Length > 4)
-            {
-                if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".ydk")
-                {
-                    if (fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 4) != deckInUse)
-                    {
-                        superScrollView.add(fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 4));
-                    }
-                }
-            }
-        }
-        list_aideck.Clear();
-        fileInfos = (new DirectoryInfo("ai/ydk")).GetFiles();
-        Array.Sort(fileInfos, UIHelper.CompareName);
-        list_aideck.AddItem(suiji);
-        for (int i = 0; i < fileInfos.Length; i++)
-        {
-            if (fileInfos[i].Name.Length > 4)
-            {
-                if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".ydk")
-                {
-                    list_aideck.AddItem(fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 4));
-                }
-            }
-        }
-        list_airank.Clear();
-        fileInfos = (new DirectoryInfo("ai")).GetFiles();
-        Array.Sort(fileInfos, UIHelper.CompareName);
-        for (int i = 0; i < fileInfos.Length; i++)
-        {
-            if (fileInfos[i].Name.Length > 4)
-            {
-                if (fileInfos[i].Name.Substring(fileInfos[i].Name.Length - 4, 4) == ".lua")
-                {
-                    list_airank.AddItem(fileInfos[i].Name.Substring(0, fileInfos[i].Name.Length - 4));
-                }
-            }
+            superScrollView.add(bot.name);
         }
     }
 
@@ -149,8 +144,7 @@ public class AIRoom : WindowServantSP
     {
         base.show();
         printFile();
-        superScrollView.selectedString = Config.Get("deckInUse", "miaowu");
-        superScrollView.toTop();
+        onSelected();
         Program.charge();
     }
 
@@ -158,15 +152,36 @@ public class AIRoom : WindowServantSP
 
     PrecyOcg precy;
 
-    public void launch(string playerDek, string aiDeck, string aiScript, bool playerGo, bool suffle, int life,bool god,int rule)
+    public void launch(string command, bool lockhand, bool nocheck, bool noshuffle)
     {
-        if (precy != null)
-        {
-            precy.dispose();
-        }
-        precy = new PrecyOcg();
-        precy.startAI(playerDek, aiDeck, aiScript, playerGo, suffle, life, god,rule);
-        RMSshow_none(InterString.Get("AI模式还在开发中，您在AI模式下遇到的BUG不会在联机的时候出现。"));
+        killServerProcess();
+        command = command.Replace("'", "\"");
+        if (lockhand) command += " Hand=1";
+
+        serverProcess = new System.Diagnostics.Process();
+        serverProcess.StartInfo.UseShellExecute = false;
+        serverProcess.StartInfo.FileName = "AI.Server.exe";
+        serverProcess.StartInfo.Arguments = "7911 -1 5 0 F " + (nocheck ? "T" : "F") + " " + (noshuffle ? "T" : "F") + " 8000 5 1 0 0";
+        serverProcess.StartInfo.CreateNoWindow = true;
+        serverProcess.StartInfo.RedirectStandardOutput = true;
+        serverProcess.Start();
+        string port = serverProcess.StandardOutput.ReadLine();
+        command += " Port=" + port;
+
+        botProcess = new System.Diagnostics.Process();
+        botProcess.StartInfo.UseShellExecute = false;
+        botProcess.StartInfo.FileName = "WindBot/WindBot.exe";
+        botProcess.StartInfo.WorkingDirectory = "WindBot";
+        botProcess.StartInfo.Arguments = command;
+        botProcess.StartInfo.CreateNoWindow = true;
+        botProcess.StartInfo.RedirectStandardOutput = true;
+        botProcess.Start();
+        botProcess.StandardOutput.ReadLine();
+
+        string name = Config.Get("name", "一秒一咕机会");
+        Program.I().ocgcore.returnServant = Program.I().aiRoom;
+        (new Thread(() => { Thread.Sleep(500); TcpHelper.join("127.0.0.1", name, port, "", ""); })).Start();
+        RMSshow_none(InterString.Get("您在AI模式下遇到的BUG也极有可能会在联机的时候出现，所以请务必向我们报告。"));
     }
 
     public override void preFrameFunction()

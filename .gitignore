@@ -56,4 +56,5 @@ AI_core_vs2017solution/System.Servicemodel.Faltexception.dll
 [Ll]ibrary_/
 AI_core_vs2017solution/.vs
 commamd.shell
-Windbot/
+/Windbot
+/AI.Server.exe

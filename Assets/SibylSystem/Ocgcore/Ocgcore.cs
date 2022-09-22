@@ -766,6 +766,10 @@ public class Ocgcore : ServantWithCardDescription
         {
             Program.I().shiftToServant(returnServant);
         }
+        else
+        {
+            Program.I().shiftToServant(Program.I().selectServer);
+        }
     }
 
     public void onExit()
@@ -774,12 +778,12 @@ public class Ocgcore : ServantWithCardDescription
         {
             if (TcpHelper.tcpClient.Connected)
             {
-                Program.I().ocgcore.returnServant = Program.I().selectServer;
                 TcpHelper.tcpClient.Client.Shutdown(0);
                 TcpHelper.tcpClient.Close();
             }
             TcpHelper.tcpClient = null;
         }
+        Program.I().aiRoom.killServerProcess();
         returnTo();
     }
 

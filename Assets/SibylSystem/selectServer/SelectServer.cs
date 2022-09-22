@@ -76,6 +76,7 @@ public class SelectServer : WindowServantSP
         Program.I().room.RMSshow_clear();
         printFile(true);
         Program.charge();
+        Program.I().ocgcore.returnServant = Program.I().selectServer;
     }
 
     public override void preFrameFunction()

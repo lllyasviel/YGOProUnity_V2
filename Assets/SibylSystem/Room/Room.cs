@@ -76,7 +76,6 @@ public class Room : WindowServantSP
             Menu.deleteShell();
         }
         base.show();
-        Program.I().ocgcore.returnServant = Program.I().selectServer;
         Program.I().ocgcore.handler = handler;
         UIHelper.registEvent(toolBar, "input_", onChat);
         Program.charge();
@@ -311,8 +310,6 @@ public class Room : WindowServantSP
 
     public void StocMessage_DuelStart(BinaryReader r)
     {
-
-        Program.I().ocgcore.returnServant = Program.I().selectServer;
         needSide = false;
         joinWithReconnect = true;
         if (Program.I().deckManager.isShowed)

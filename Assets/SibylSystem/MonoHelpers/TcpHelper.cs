@@ -182,7 +182,6 @@ public static class TcpHelper
         if (onDisConnected == true)
         {
             onDisConnected = false;
-            Program.I().ocgcore.returnServant = Program.I().selectServer;
             if (TcpHelper.tcpClient != null)
             {
                 if (TcpHelper.tcpClient.Connected)
@@ -197,7 +196,10 @@ public static class TcpHelper
             {
                 if (Program.I().menu.isShowed == false) 
                 {
-                    Program.I().shiftToServant(Program.I().selectServer);
+                    if (Program.I().ocgcore.returnServant != null)
+                        Program.I().shiftToServant(Program.I().ocgcore.returnServant);
+                    else
+                        Program.I().shiftToServant(Program.I().selectServer);
                 }
                 Program.I().cardDescription.RMSshow_none(InterString.Get("连接被断开。"));
                 packagesInRecord.Clear();

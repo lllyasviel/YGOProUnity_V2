@@ -26,6 +26,22 @@ public class UIselectableList : MonoBehaviour {
             }
         }
     }
+
+    public int selectedIndex
+    {
+        get
+        {
+            for (int i = 0; i < selections.Count; i++)
+            {
+                if (selections[i].str == selectedString)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
     public Action selectedAction;
     UIScrollView uIScrollView;
     float heightOfEach=20;
