@@ -1132,29 +1132,6 @@ int32 scriptlib::duel_check_timing(lua_State *L) {
 	lua_pushboolean(L, (pduel->game_field->core.hint_timing[0]&tm) || (pduel->game_field->core.hint_timing[1]&tm));
 	return 1;
 }
-int32 scriptlib::duel_get_environment(lua_State *L) {
-	duel* pduel = interpreter::get_duel_info(L);
-	effect_set eset;
-	card* pcard = pduel->game_field->player[0].list_szone[5];
-	int32 code = 0;
-	int32 p = 2;
-	if(pcard == 0 || pcard->is_position(POS_FACEDOWN) || !pcard->get_status(STATUS_EFFECT_ENABLED))
-		pcard = pduel->game_field->player[1].list_szone[5];
-	if(pcard == 0 || pcard->is_position(POS_FACEDOWN) || !pcard->get_status(STATUS_EFFECT_ENABLED)) {
-		pduel->game_field->filter_field_effect(EFFECT_CHANGE_ENVIRONMENT, &eset);
-		if(eset.size()) {
-			effect* peffect = eset.get_last();
-			code = peffect->get_value();
-			p = peffect->get_handler_player();
-		}
-	} else {
-		code = pcard->get_code();
-		p = pcard->current.controler;
-	}
-	lua_pushinteger(L, code);
-	lua_pushinteger(L, p);
-	return 2;
-}
 int32 scriptlib::duel_is_environment(lua_State *L) {
 	check_param_count(L, 1);
 	uint32 code = (uint32)lua_tointeger(L, 1);
@@ -2225,6 +2202,20 @@ int32 scriptlib::duel_get_first_target(lua_State *L) {
 	for(auto& pcard : ch->target_cards->container)
 		interpreter::card2value(L, pcard);
 	return (int32)ch->target_cards->container.size();
+}
+int32 scriptlib::duel_get_targets_relate_to_chain(lua_State* L) {
+	duel* pduel = interpreter::get_duel_info(L);
+	group* pgroup = pduel->new_group();
+	chain* ch = pduel->game_field->get_chain(0);
+	if(ch && ch->target_cards && ch->target_cards->container.size() > 0) {
+		for(auto& pcard : ch->target_cards->container) {
+			if(pcard->is_has_relation(*ch)) {
+				pgroup->container.insert(pcard);
+			}
+		}
+	}
+	interpreter::group2value(L, pgroup);
+	return 1;
 }
 int32 scriptlib::duel_get_current_phase(lua_State *L) {
 	duel* pduel = interpreter::get_duel_info(L);
@@ -3678,7 +3669,16 @@ int32 scriptlib::duel_select_field(lua_State* L) {
 	uint32 location1 = (uint32)lua_tointeger(L, 3);
 	uint32 location2 = (uint32)lua_tointeger(L, 4);
 	uint32 filter = (uint32)lua_tointeger(L, 5);
+	uint16 type = PROCESSOR_SELECT_DISFIELD;
 	duel* pduel = interpreter::get_duel_info(L);
+	if(lua_gettop(L) >= 6) {
+		type = PROCESSOR_SELECT_PLACE;
+		uint32 code = (uint32)lua_tointeger(L, 6);
+		pduel->write_buffer8(MSG_HINT);
+		pduel->write_buffer8(HINT_SELECTMSG);
+		pduel->write_buffer8(playerid);
+		pduel->write_buffer32(code);
+	}
 	uint32 flag = 0xffffffff;
 	if(location1 & LOCATION_MZONE) {
 		flag &= 0xffffffe0;
@@ -3696,7 +3696,7 @@ int32 scriptlib::duel_select_field(lua_State* L) {
 		flag &= 0xffffff9f;
 	}
 	flag |= filter | 0x00800080;
-	pduel->game_field->add_process(PROCESSOR_SELECT_DISFIELD, 0, 0, 0, playerid, flag, count);
+	pduel->game_field->add_process(type, 0, 0, 0, playerid, flag, count);
 	return lua_yieldk(L, 0, (lua_KContext)pduel, [](lua_State* L, int32 status, lua_KContext ctx) {
 		duel* pduel = (duel*)ctx;
 		int32 playerid = (int32)lua_tointeger(L, 1);
@@ -4625,7 +4625,6 @@ static const struct luaL_Reg duellib[] = {
 	{ "RaiseEvent", scriptlib::duel_raise_event },
 	{ "RaiseSingleEvent", scriptlib::duel_raise_single_event },
 	{ "CheckTiming", scriptlib::duel_check_timing },
-	{ "GetEnvironment", scriptlib::duel_get_environment },
 	{ "IsEnvironment", scriptlib::duel_is_environment },
 	{ "Win", scriptlib::duel_win },
 	{ "Draw", scriptlib::duel_draw },
@@ -4675,6 +4674,7 @@ static const struct luaL_Reg duellib[] = {
 	{ "GetChainInfo", scriptlib::duel_get_chain_info },
 	{ "GetChainEvent", scriptlib::duel_get_chain_event },
 	{ "GetFirstTarget", scriptlib::duel_get_first_target },
+	{ "GetTargetsRelateToChain", scriptlib::duel_get_targets_relate_to_chain },
 	{ "GetCurrentPhase", scriptlib::duel_get_current_phase },
 	{ "SkipPhase", scriptlib::duel_skip_phase },
 	{ "IsDamageCalculated", scriptlib::duel_is_damage_calculated },
