@@ -73,6 +73,7 @@ public class CardDescription : Servant
     void onb()
     {
         description.textLabel.fontSize += 1;
+        description.scrollValue = 0;
         description.Rebuild();
         Config.Set("fontSize", description.textLabel.fontSize.ToString());
     }
@@ -80,6 +81,7 @@ public class CardDescription : Servant
     void ons()
     {
         description.textLabel.fontSize -= 1;
+        description.scrollValue = 0;
         description.Rebuild();
         Config.Set("fontSize", description.textLabel.fontSize.ToString());
     }
@@ -194,11 +196,13 @@ public class CardDescription : Servant
         if (tail == "")
         {
             description.Clear();
+            description.scrollValue = 0;
             description.Add(smallstr + card.Desc);
         }
         else
         {
             description.Clear();
+            description.scrollValue = 0;
             description.Add(smallstr + "[FFD700]" + tail + "[-]" + card.Desc);
         }
         picLoader.code = card.Id;
