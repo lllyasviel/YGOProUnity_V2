@@ -363,7 +363,7 @@ public class Program : MonoBehaviour
                     }
                     if (file.Name.ToLower().EndsWith(".cdb"))
                     {
-                        YGOSharp.CardsManager.initialize("diy/" + file.Name);
+                        YGOSharp.CardsManager.initialize("diy/" + file.Name, true);
                     }
                 }
             }
@@ -398,7 +398,7 @@ public class Program : MonoBehaviour
                         ZipEntry e = zip[file];
                         string tempfile = Path.Combine(Path.GetTempPath(), file);
                         e.Extract(Path.GetTempPath(), ExtractExistingFileAction.OverwriteSilently);
-                        YGOSharp.CardsManager.initialize(tempfile);
+                        YGOSharp.CardsManager.initialize(tempfile, true);
                         File.Delete(tempfile);
                     }
                 }

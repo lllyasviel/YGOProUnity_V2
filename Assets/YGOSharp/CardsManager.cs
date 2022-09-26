@@ -16,7 +16,7 @@ namespace YGOSharp
 
         public static string nullString = "";
 
-        internal static void initialize(string databaseFullPath)
+        internal static void initialize(string databaseFullPath, bool replace = false)
         {
             nullName = InterString.Get("未知卡片");
             nullString = "";
@@ -37,7 +37,7 @@ namespace YGOSharp
                     {
                         while (reader.Read())
                         {
-                            LoadCard(reader);
+                            LoadCard(reader, replace);
                         }
                     }
                 }
@@ -79,11 +79,16 @@ namespace YGOSharp
             return returnValue;
         }
 
-        private static void LoadCard(IDataRecord reader)
+        private static void LoadCard(IDataRecord reader, bool replace)
         {
             Card card = new Card(reader);
             if (!_cards.ContainsKey(card.Id))
             {
+                _cards.Add(card.Id, card);
+            }
+            else if (replace)
+            {
+                _cards.Remove(card.Id);
                 _cards.Add(card.Id, card);
             }
         }
