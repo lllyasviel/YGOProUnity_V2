@@ -1157,6 +1157,7 @@ public class Program : MonoBehaviour
         {
             zip.Dispose();
         }
+        aiRoom.killServerProcess();
     }
 
     public void quit()

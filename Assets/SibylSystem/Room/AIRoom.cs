@@ -178,6 +178,9 @@ public class AIRoom : WindowServantSP
         botProcess.Start();
         botProcess.StandardOutput.ReadLine();
 
+        ChildProcessTracker.AddProcess(serverProcess);
+        ChildProcessTracker.AddProcess(botProcess);
+
         string name = Config.Get("name", "一秒一咕机会");
         Program.I().ocgcore.returnServant = Program.I().aiRoom;
         (new Thread(() => { Thread.Sleep(500); TcpHelper.join("127.0.0.1", name, port, "", ""); })).Start();
