@@ -8161,6 +8161,7 @@ public class Ocgcore : ServantWithCardDescription
     void returnFromDeckEdit()
     {
         TcpHelper.CtosMessage_UpdateDeck(((DeckManager)Program.I().deckManager).getRealDeck());
+        returnServant = Program.I().selectServer;
     }
 
     public GameField gameField;
