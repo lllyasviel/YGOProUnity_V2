@@ -5244,7 +5244,7 @@ public class Ocgcore : ServantWithCardDescription
                 ES_min = r.ReadByte();
                 available = r.ReadUInt32();
                 values = new List<messageSystemValue>();
-                for (int i = 0; i < 25; i++)
+                for (int i = 0; i < 26; i++)
                 {
                     if ((available & (1 << i)) > 0)
                     {

@@ -63,7 +63,7 @@ public class GameStringHelper
     {
         string r = "";
         bool passFirst = false;
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 26; i++)
         {
             if ((a & (1 << i)) > 0)
             {
