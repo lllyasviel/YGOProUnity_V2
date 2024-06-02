@@ -2163,6 +2163,7 @@ public class Ocgcore : ServantWithCardDescription
                         data = (data >> 16) | (data << 16);
                     printDuelLog(InterString.Get("区域选择：[?]", GameStringHelper.zone(data)));
                 }
+                ES_selectCardFromFieldFirstFlag = (type == 3 && data == 575);
                 break;
             case GameMessage.MissedEffect:
                 r.ReadInt32();
@@ -3454,6 +3455,14 @@ public class Ocgcore : ServantWithCardDescription
                         card.selectPtr = i;
                         allCardsInSelectMessage.Add(card);
                     }
+                }
+                if(ES_selectCardFromFieldFirstFlag && cancalable)
+                {
+                    ES_selectCardFromFieldFirstFlag = false;
+                    binaryMaster = new BinaryMaster();
+                    binaryMaster.writer.Write(-1);
+                    sendReturn(binaryMaster.get());
+                    break;
                 }
                 if (cancalable)
                 {
@@ -8147,6 +8156,8 @@ public class Ocgcore : ServantWithCardDescription
     string ES_phaseString = "";
 
     string ES_selectUnselectHint = "";
+
+    bool ES_selectCardFromFieldFirstFlag = false;
 
     void toDefaultHint()
     {
