@@ -166,6 +166,9 @@ public static class TcpHelper
                             case StocMessage.HsWatchChange:
                                 Program.I().room.StocMessage_HsWatchChange(r);
                                 break;
+                            case StocMessage.TeammateSurrender:
+                                Program.I().room.StocMessage_TeammateSurrender(r);
+                                break;
                             default:
                                 break;
                         }

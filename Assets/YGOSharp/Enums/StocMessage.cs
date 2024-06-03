@@ -22,6 +22,7 @@
         Chat = 0x19,
         HsPlayerEnter = 0x20,
         HsPlayerChange = 0x21,
-        HsWatchChange = 0x22
+        HsWatchChange = 0x22,
+        TeammateSurrender = 0x23
     }
 }

@@ -388,6 +388,14 @@ public class Room : WindowServantSP
         RMSshow_none(InterString.Get("请耐心等待双方玩家更换副卡组。"));
     }
 
+    public void StocMessage_TeammateSurrender(BinaryReader r)
+    {
+        if(Program.I().ocgcore.surrended)
+            RMSshow_none(InterString.Get("已申请投降，请等待队友同意。"));
+        else
+            RMSshow_none(InterString.Get("队友申请投降。若您同意，请点击投降按钮。"));
+    }
+
     public bool needSide = false;
 
     public bool joinWithReconnect = false;
