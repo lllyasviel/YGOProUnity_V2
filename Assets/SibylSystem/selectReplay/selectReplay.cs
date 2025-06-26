@@ -192,8 +192,8 @@ public class selectReplay : WindowServantSP
                 returnValue.StartLp = reader.ReadInt32();
                 returnValue.StartHand = reader.ReadInt32();
                 returnValue.DrawCount = reader.ReadInt32();
-                returnValue.opt = reader.ReadInt32();
-                Program.I().ocgcore.MasterRule = returnValue.opt >> 16;
+                returnValue.opt = reader.ReadUInt32();
+                Program.I().ocgcore.MasterRule = (int)(returnValue.opt >> 16);
                 for (int i = 0; i < 4; i++)
                 {
                     int count = reader.ReadInt32();
@@ -217,8 +217,8 @@ public class selectReplay : WindowServantSP
                 returnValue.StartLp = reader.ReadInt32();
                 returnValue.StartHand = reader.ReadInt32();
                 returnValue.DrawCount = reader.ReadInt32();
-                returnValue.opt = reader.ReadInt32();
-                Program.I().ocgcore.MasterRule = returnValue.opt >> 16;
+                returnValue.opt = reader.ReadUInt32();
+                Program.I().ocgcore.MasterRule = (int)(returnValue.opt >> 16);
                 for (int i = 0; i < 2; i++)
                 {
                     int count = reader.ReadInt32();

@@ -280,7 +280,9 @@ namespace Percy
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr create_duel(UInt32 seed);
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void start_duel(IntPtr pduel, Int32 options);
+        public static extern IntPtr create_duel_v2(UInt32[] seeds);
+        [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void start_duel(IntPtr pduel, UInt32 options);
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern Int32 get_ai_going_first_second(IntPtr pduel, IntPtr deckname);
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
@@ -314,7 +316,7 @@ namespace Percy
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
         public static extern Int32 query_field_info(IntPtr pduel, IntPtr buf);
         [DllImport("ocgcore", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
-        public static extern Int32 preload_script(IntPtr pduel, IntPtr script, Int32 len);
+        public static extern Int32 preload_script(IntPtr pduel, IntPtr script);
     }
     #endregion
     public class smallYgopro
@@ -359,22 +361,11 @@ namespace Percy
         {
             godMode = true;
             isFirst = true;
-           dll.set_player_info(duel, 0, 8000, 5, 1);
-           dll.set_player_info(duel, 1, 8000, 5, 1);
-            var reult = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                reult =dll.preload_script(duel, getPtrString(path), 0);
-                if (reult > 0)
-                {
-                    break;
-                }
-            }
-            if (reult == 0)
-            {
-                return false;
-            }
-           dll.start_duel(duel, 0);
+            dll.set_player_info(duel, 0, 8000, 5, 1);
+            dll.set_player_info(duel, 1, 8000, 5, 1);
+            dll.preload_script(duel, getPtrString(path));
+
+            dll.start_duel(duel, 0);
             Refresh();
             (new Thread(Process)).Start();
             return true;
@@ -384,25 +375,14 @@ namespace Percy
         {
             godMode = god;
             isFirst = playerGoFirst;
-           dll.set_player_info(duel, 0, life, 5, 1);
-           dll.set_player_info(duel, 1, life, 5, 1);
-            var reult = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                reult =dll.preload_script(duel, getPtrString(aiScript), 0);
-                if (reult > 0)
-                {
-                    break;
-                }
-            }
-            if (reult == 0)
-            {
-                return false;
-            }
+            dll.set_player_info(duel, 0, life, 5, 1);
+            dll.set_player_info(duel, 1, life, 5, 1);
+            dll.preload_script(duel, getPtrString(aiScript));
+
             addDeck(playerDek, (playerGoFirst ? 0 : 1), !unrand);
             addDeck(aiDeck, (playerGoFirst ? 1 : 0), true);
-           dll.set_ai_id(duel, playerGoFirst ? 1 : 0);
-            int opt = 0;
+            dll.set_ai_id(duel, playerGoFirst ? 1 : 0);
+            UInt32 opt = 0;
             opt |= 0x80;
             if (unrand)
             {
@@ -418,7 +398,7 @@ namespace Percy
             master.writer.Write((UInt16)dll.query_field_count(duel, 1, 0x1));
             master.writer.Write((UInt16)dll.query_field_count(duel, 1, 0x40));
             sendToPlayer(master.get());
-            dll.start_duel(duel, (opt | (mr << 16)));
+            dll.start_duel(duel, opt | (UInt32)(mr << 16));
             Refresh();
             (new Thread(Process)).Start();
             return true;
@@ -1421,7 +1401,7 @@ namespace Percy
         public int StartLp = 0;
         public int StartHand = 0;
         public int DrawCount = 0;
-        public int opt = 0;
+        public uint opt = 0;
 
         public class PlayerData
         {
