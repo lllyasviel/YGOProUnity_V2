@@ -3986,6 +3986,11 @@ public class Ocgcore : ServantWithCardDescription
                         card.selectPtr = i;
                         card.levelForSelect_1 = para & 0xffff;
                         card.levelForSelect_2 = para >> 16;
+                        if ((para & 0x80000000) > 0)
+                        {
+                            card.levelForSelect_1 = para & 0x7fffffff;
+                            card.levelForSelect_2 = card.levelForSelect_1;
+                        }
                         if (card.levelForSelect_2 == 0)
                         {
                             card.levelForSelect_2 = card.levelForSelect_1;
@@ -4009,6 +4014,11 @@ public class Ocgcore : ServantWithCardDescription
                         card.selectPtr = i;
                         card.levelForSelect_1 = para & 0xffff;
                         card.levelForSelect_2 = para >> 16;
+                        if ((para & 0x80000000) > 0)
+                        {
+                            card.levelForSelect_1 = para & 0x7fffffff;
+                            card.levelForSelect_2 = card.levelForSelect_1;
+                        }
                         if (card.levelForSelect_2 == 0)
                         {
                             card.levelForSelect_2 = card.levelForSelect_1;
