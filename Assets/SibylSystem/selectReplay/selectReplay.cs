@@ -168,6 +168,17 @@ public class selectReplay : WindowServantSP
             returnValue.DataSize = reader.ReadInt32();
             returnValue.Hash = reader.ReadInt32();
             returnValue.Props= reader.ReadBytes(8);
+            if (returnValue.ID == 0x32707279) // REPLAY_ID_YRP2
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    returnValue.SeedsV2[i] = reader.ReadUInt32();
+                }
+                for (int i = 0; i < 4; i++) // other flags, unused for now
+                {
+                    reader.ReadUInt32();
+                }
+            }
             byte[] raw = reader.ReadToEnd();
             if ((returnValue.Flag & 0x1) > 0)
             {

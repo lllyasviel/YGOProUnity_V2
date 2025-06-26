@@ -544,8 +544,15 @@ namespace Percy
             yrp3dbuilder = new BinaryWriter(stream);
             sendToPlayer(yrp.getNamePacket());
             dll.end_duel(duel);
-            Meisui.Random.MersenneTwister mtrnd = new Meisui.Random.MersenneTwister(yrp.Seed);
-            duel = dll.create_duel(mtrnd.genrand_Int32());
+            if (yrp.ID == 0x32707279) // REPLAY_ID_YRP2
+            {
+                duel = dll.create_duel_v2(yrp.SeedsV2);
+            }
+            else
+            {
+                Meisui.Random.MersenneTwister mtrnd = new Meisui.Random.MersenneTwister(yrp.Seed);
+                duel = dll.create_duel(mtrnd.genrand_Int32());
+            }
             godMode = true;
             isFirst = true;
             dll.set_player_info(duel, 0, yrp.StartLp, yrp.StartHand, yrp.DrawCount);
@@ -1395,6 +1402,7 @@ namespace Percy
         public int Version = 0;
         public int Flag = 0;
         public uint Seed = 0;
+        public uint[] SeedsV2 = new uint[8];
         public long DataSize = 0;
         public int Hash = 0;
         public byte[] Props = new byte[8];
