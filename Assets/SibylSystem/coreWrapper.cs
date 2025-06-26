@@ -1058,11 +1058,11 @@ namespace Percy
                     move(1);
                     count = move(1);
                     move(1);
-                    move(1);
                     move(4);
                     move(4);
                     for (int i = 0; i < count; i++)
                     {
+                        move(1);
                         move(1);
                         move(4);
                         move(4);

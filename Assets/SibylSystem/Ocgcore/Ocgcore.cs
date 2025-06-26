@@ -1135,11 +1135,20 @@ public class Ocgcore : ServantWithCardDescription
                 r.ReadChar();
                 int count = r.ReadByte();
                 int spcount = r.ReadByte();
-                int forced = r.ReadByte();
                 int hint0 = r.ReadInt32();
                 int hint1 = r.ReadInt32();
                 bool ignore = false;
-                if (forced == 0)    
+                bool forced = false;
+                for (int i = 0; i < count; i++)
+                {
+                    r.ReadByte(); // flag
+                    int f = r.ReadByte(); // forced
+                    if (f == 1) forced = true;
+                    r.ReadInt32(); // card id
+                    r.ReadGPS();
+                    r.ReadInt32(); // desc
+                }
+                if (!forced)
                 {
                     var condition = gameInfo.get_condition();
                     if (condition == gameInfo.chainCondition.no)
@@ -3556,17 +3565,14 @@ public class Ocgcore : ServantWithCardDescription
                 player = localPlayer(r.ReadChar());
                 count = r.ReadByte();
                 int spcount = r.ReadByte();
-                int forced = r.ReadByte();
                 int hint0 = r.ReadInt32();
                 int hint1 = r.ReadInt32();
                 List<gameCard> chainCards = new List<gameCard>();
+                int forced = 0;
                 for (int i = 0; i < count; i++)
                 {
-                    int flag = 0;
-                    if (length_of_message % 12 != 0)
-                    {
-                        flag = r.ReadChar();
-                    }
+                    int flag = r.ReadChar();
+                    forced += r.ReadByte();
                     code = r.ReadInt32() % 1000000000;
                     gps = r.ReadGPS();
                     desc = GameStringManager.get(r.ReadInt32());
@@ -3585,7 +3591,7 @@ public class Ocgcore : ServantWithCardDescription
                 }
                 var chain_condition = gameInfo.get_condition(); 
                 int handle_flag = 0;
-                if (forced == 0)
+                if (forced == 0) // TODO: 按每张卡的forced处理
                 {
                     //无强制发动的卡
                     if (spcount == 0)
