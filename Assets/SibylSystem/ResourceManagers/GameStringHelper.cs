@@ -540,7 +540,7 @@ public class GameStringHelper
         return re;
     }
 
-    public static string getSetName(long Setcode)
+    public static string getSetName(ulong Setcode)
     {
         var setcodes = new int[4];
         for(var j = 0; j < 4; j++)

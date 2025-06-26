@@ -9,7 +9,7 @@ namespace YGOSharp
         public int Id;
         public int Ot;
         public int Alias;
-        public long Setcode;
+        public ulong Setcode;
         public int Type;
 
         public int Level;
@@ -118,7 +118,7 @@ namespace YGOSharp
             this.Id = (int)reader.GetInt64(0);
             this.Ot = reader.GetInt32(1);
             this.Alias = (int)reader.GetInt64(2);
-            this.Setcode = reader.GetInt64(3);
+            this.Setcode = (ulong)reader.GetInt64(3);
             this.Type = (int)reader.GetInt64(4);
             this.Attack = reader.GetInt32(5);
             this.Defense = reader.GetInt32(6);

@@ -203,7 +203,10 @@ namespace Percy
     {
         public int Code;
         public int Alias;
-        public long Setcode;
+        public UInt64 Setcode;
+        public UInt64 _Setcode1;
+        public UInt64 _Setcode2;
+        public UInt64 _Setcode3;
         public int Type;
         public int Level;
         public int Attribute;
