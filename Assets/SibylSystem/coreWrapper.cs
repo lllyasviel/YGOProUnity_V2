@@ -1099,6 +1099,7 @@ namespace Percy
                     break;
                 case GameMessage.ConfirmCards:
                     move(1);
+                    move(1);
                     move(move(1) * 7);
                     break;
                 case GameMessage.RefreshDeck:

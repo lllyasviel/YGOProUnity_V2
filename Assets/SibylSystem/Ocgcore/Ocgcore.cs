@@ -2283,6 +2283,7 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             case GameMessage.ConfirmCards:
                 player = localPlayer(r.ReadByte());
+                bool skip_panel = r.ReadByte() == 1;
                 count = r.ReadByte();
                 for (int i = 0; i < count; i++)
                 {
@@ -4266,6 +4267,7 @@ public class Ocgcore : ServantWithCardDescription
                 break;
             case GameMessage.ConfirmCards:
                 player = localPlayer(r.ReadByte());
+                bool skip_panel = r.ReadByte() == 1;
                 count = r.ReadByte();
                 int t2 = 0;
                 int t3 = 0;
@@ -4361,6 +4363,12 @@ public class Ocgcore : ServantWithCardDescription
                     gameField.setHint(InterString.Get("请确认[?]张卡片。", t3.ToString()));
                     if (inIgnoranceReplay()||inTheWorld())
                     {
+                        t2 = 0;
+                        clearResponse();
+                    }
+                    else if (skip_panel)
+                    {
+                        Sleep(t2);
                         t2 = 0;
                         clearResponse();
                     }
