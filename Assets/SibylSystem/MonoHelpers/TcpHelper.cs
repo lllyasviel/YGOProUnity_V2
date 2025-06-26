@@ -29,6 +29,7 @@ public static class TcpHelper
                     networkStream = tcpClient.GetStream();
                     Thread t = new Thread(receiver);
                     t.Start();
+                    CtosMessage_ExternalAddress(ipString);
                     CtosMessage_PlayerInfo(name);
                     CtosMessage_JoinGame(pswString, version);
                 }
@@ -309,6 +310,15 @@ public static class TcpHelper
         {
             message.Data.writer.Write((byte)0);
         }
+        Send(message);
+    }
+
+    public static void CtosMessage_ExternalAddress(string hostname)
+    {
+        Package message = new Package();
+        message.Fuction = (int)CtosMessage.ExternalAddress;
+        message.Data.writer.Write((UInt32)0);
+        message.Data.writer.WriteUnicode(hostname, hostname.Length + 1);
         Send(message);
     }
 
