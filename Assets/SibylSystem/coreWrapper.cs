@@ -449,6 +449,7 @@ namespace Percy
             byte[] s = System.Text.Encoding.UTF8.GetBytes(path);
             IntPtr ptrFileName = Marshal.AllocHGlobal(s.Length + 1);
             Marshal.Copy(s, 0, ptrFileName, s.Length);
+            Marshal.WriteByte(ptrFileName, s.Length, 0);
             return ptrFileName;
         }
 
