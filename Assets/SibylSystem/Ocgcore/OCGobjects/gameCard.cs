@@ -20,11 +20,12 @@ public struct GPS
     public int position;
 }
 
-public class Effect    
+public class Effect
 {
     public int ptr;
     public string desc;
     public int flag;
+    public bool forced = false;
 }
 
 public class gameCard : OCGobject

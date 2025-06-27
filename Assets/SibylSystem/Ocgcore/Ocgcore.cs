@@ -1230,6 +1230,7 @@ public class Ocgcore : ServantWithCardDescription
         autoHandleAll,manDoAll,afterClickManDo
     }
     autoForceChainHandlerType autoForceChainHandler = autoForceChainHandlerType.manDoAll;
+    List<gameCard> chainCards = new List<gameCard>();
     bool deckReserved = false;
     public bool cantCheckGrave = false;
     public int turns = 0;
@@ -3568,12 +3569,13 @@ public class Ocgcore : ServantWithCardDescription
                 int spcount = r.ReadByte();
                 int hint0 = r.ReadInt32();
                 int hint1 = r.ReadInt32();
-                List<gameCard> chainCards = new List<gameCard>();
-                int forced = 0;
+                chainCards = new List<gameCard>();
+                int forceCount = 0;
                 for (int i = 0; i < count; i++)
                 {
                     int flag = r.ReadChar();
-                    forced += r.ReadByte();
+                    int forced = r.ReadByte();
+                    forceCount += forced;
                     code = r.ReadInt32() % 1000000000;
                     gps = r.ReadGPS();
                     desc = GameStringManager.get(r.ReadInt32());
@@ -3587,12 +3589,13 @@ public class Ocgcore : ServantWithCardDescription
                         eff.flag = flag;
                         eff.ptr = i;
                         eff.desc = desc;
+                        eff.forced = forced > 0;
                         card.effects.Add(eff);
                     }
                 }
                 var chain_condition = gameInfo.get_condition(); 
                 int handle_flag = 0;
-                if (forced == 0) // TODO: 按每张卡的forced处理
+                if (forceCount == 0)
                 {
                     //无强制发动的卡
                     if (spcount == 0)
@@ -3779,8 +3782,21 @@ public class Ocgcore : ServantWithCardDescription
                 if (handle_flag == 4)
                 {
                     //有一张强制发动的卡 回应--
+                    int answer = -1;
+                    foreach (var ccard in chainCards)
+                    {
+                        foreach (var effect in ccard.effects)
+                        {
+                            if (effect.forced)
+                            {
+                                answer = effect.ptr;
+                                break;
+                            }
+                        }
+                        if (answer >= 0) break;
+                    }
                     binaryMaster = new BinaryMaster();
-                    binaryMaster.writer.Write((Int32)(chainCards[0].effects[0].ptr));
+                    binaryMaster.writer.Write(answer >= 0 ? answer : 0);
                     sendReturn(binaryMaster.get());
                 }
                 break;
@@ -8817,8 +8833,21 @@ public class Ocgcore : ServantWithCardDescription
                         autoForceChainHandler = autoForceChainHandlerType.autoHandleAll;
                         try
                         {
+                            int answer = -1;
+                            foreach (var card in chainCards)
+                            {
+                                foreach (var effect in card.effects)
+                                {
+                                    if (effect.forced)
+                                    {
+                                        answer = effect.ptr;
+                                        break;
+                                    }
+                                }
+                                if (answer >= 0) break;
+                            }
                             binaryMaster = new BinaryMaster();
-                            binaryMaster.writer.Write(0);
+                            binaryMaster.writer.Write(answer >= 0 ? answer : 0);
                             sendReturn(binaryMaster.get());
                         }
                         catch (System.Exception e)
