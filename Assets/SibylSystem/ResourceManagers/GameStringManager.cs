@@ -128,6 +128,8 @@ public static class GameStringManager
                 Program.DEBUGLOG(e);
             }
         }
+        if (a == "")
+            a = "???";
         return a;
     }
 
